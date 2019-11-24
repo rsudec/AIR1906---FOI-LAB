@@ -44,3 +44,47 @@ h1{
     text-align: center;
 }
 
+body.prijavabgc{
+    background-color: #E5E9F2;
+    ;
+}
+h2{
+    text-align: center;
+    color: #4E5766;
+}
+
+div.prijavafrm{
+
+    margin: auto;
+    width: 50%;
+    border: white;
+    background-color: white;
+    padding: 50px;
+    text-align: center;
+
+}
+form{
+    padding: 50px;
+
+}
+input.inputprijava{
+
+    margin: 0 auto;
+   width: 50%;
+    padding: 10px;
+    border: 2px solid #8090A7;
+    border-radius: 4px;
+
+}
+
+#gumbprijava{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    color: white;
+
+}
+
+::placeholder{
+    color: #8090A7;
+}
