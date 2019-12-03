@@ -13,7 +13,7 @@ class Baza
        $connectionInfo=array("UID"=>self::korisnik, "PWD"=>self::lozinka,
            "Database"=>self::baza);
        $conn = sqlsrv_connect(self::server, $connectionInfo);
-       if($conn->sqlsrv_errors){
+       if(!$conn){
            echo 'Greška prilikom spajanja na bazu';
            exit();
        }
