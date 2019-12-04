@@ -46,7 +46,6 @@ h1{
 
 body.prijavabgc{
     background-color: #E5E9F2;
-    ;
 }
 h2{
     text-align: center;
@@ -70,7 +69,7 @@ form{
 input.inputprijava{
 
     margin: 0 auto;
-   width: 50%;
+    width: 50%;
     padding: 10px;
     border: 2px solid #8090A7;
     border-radius: 4px;
@@ -88,3 +87,41 @@ input.inputprijava{
 ::placeholder{
     color: #8090A7;
 }
+
+.registracija{
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0px;
+    padding: 10px;
+}
+.reg{
+    border: 1px solid black;
+    width: 30%;
+    margin-left: 35%;
+    background-color: #D3D1D4;
+    border: none;
+    border-radius: 4px;
+}
+#titleKorisnik{
+    text-align: center;
+    font-weight: bold;
+    color: #4E5766;
+    margin-bottom: 5px;
+}
+
+#gumbregistracija{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    color: white;
+    font-size: 18px;
+}
+#gumbregistracija:hover{
+    background-color: #A4A1A6;
+    color: black;
+}
+.noviKorisnik{
+    width: 80%;
+}
+
+
