@@ -12,9 +12,14 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          backgroundColor: Colors.white,
         ),
+        debugShowCheckedModeBanner: false,
+        
+
         home: LoginScreen(),
         routes: {
+          LoginScreen.routeName: (ctx) => LoginScreen(),
           MainScreen.routeName: (ctx)  => MainScreen(),
         },
     );

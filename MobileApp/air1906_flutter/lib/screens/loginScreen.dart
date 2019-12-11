@@ -1,13 +1,16 @@
+
 import 'package:flutter/material.dart';
 import '../viewModel/LoginViewModel.dart';
 import './mainScreen.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = "/login";
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   final _loginVM = LoginViewModel();
 
   @override

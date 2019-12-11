@@ -1,4 +1,5 @@
 import 'package:air1906_flutter/models/ResourceType.dart';
+import 'dart:async';
 
 import '../models/Resource.dart';
 import '../models/APIResponse.dart';
@@ -42,6 +43,7 @@ class ResourceService {
 
   Future<APIResponse<List<Resource>>> getResourceList() async {
     List<Resource> listResource = [];
+    await Future.delayed(Duration(seconds: 3));
     for(var item in _resources){
       
       String id = item["id"];
