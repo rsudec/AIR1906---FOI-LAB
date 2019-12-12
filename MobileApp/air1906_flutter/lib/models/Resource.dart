@@ -1,5 +1,3 @@
-import './ResourceType.dart';
-
 class Resource {
   String id;
   String naziv;
@@ -12,7 +10,6 @@ class Resource {
 
   @override
   String toString() {
-    // TODO: implement toString
     return "ID: $id Naziv: $naziv"; 
     }
 }

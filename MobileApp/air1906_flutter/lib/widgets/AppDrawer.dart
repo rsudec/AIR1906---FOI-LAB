@@ -61,13 +61,13 @@ class AppDrawer extends StatelessWidget {
     //  Current State of InnerDrawerState
     final GlobalKey<InnerDrawerState> _innerDrawerKey = GlobalKey<InnerDrawerState>();    
 
-    void _toggle()
-    {
-       _innerDrawerKey.currentState.toggle(
-       // direction is optional 
-       // if not set, the last direction will be used
-       //InnerDrawerDirection.start OR InnerDrawerDirection.end                        
-        direction: InnerDrawerDirection.end 
-       );
-    }
+    // void _toggle()
+    // {
+    //    _innerDrawerKey.currentState.toggle(
+    //    // direction is optional 
+    //    // if not set, the last direction will be used
+    //    //InnerDrawerDirection.start OR InnerDrawerDirection.end                        
+    //     direction: InnerDrawerDirection.end 
+    //    );
+    // }
 }

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import './screens/mainScreen.dart';
 import './screens/loginScreen.dart';
+import './screens/CategoryResourceScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.routeName: (ctx) => LoginScreen(),
           MainScreen.routeName: (ctx)  => MainScreen(),
+          CategoryResourceScreen.routeName: (ctx) => CategoryResourceScreen(null),
         },
     );
   }

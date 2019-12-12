@@ -40,5 +40,6 @@ class LoginService {
     if(user == null){
       return APIResponse(null, true, "Nepostojeći korisnik");
     }
+    return null;
   }
 }

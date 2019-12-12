@@ -26,11 +26,12 @@ class AppDrawerMenu extends StatelessWidget {
                         Text(
                           "Korisnik",
                           style: TextStyle(
+                              fontFamily: 'Montserrat',
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2),
                         ),
-                        Text("email@adresa.com")
+                        Text("email@adresa.com", style: TextStyle(fontFamily: 'Montserrat',),)
                       ],
                     ),
                   ],
@@ -49,21 +50,21 @@ class AppDrawerMenu extends StatelessWidget {
                             size: 35,
                           ),
                           selected: true,
-                          title: Text("Početna"),
+                          title: Text("Početna", style: TextStyle(fontFamily: 'Montserrat',),),
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.search,
                             size: 35,
                           ),
-                          title: Text("Pretraga"),
+                          title: Text("Pretraga", style: TextStyle(fontFamily: 'Montserrat',),),
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.settings,
                             size: 35,
                           ),
-                          title: Text("Postavke"),
+                          title: Text("Postavke", style: TextStyle(fontFamily: 'Montserrat',),),
                         ),
                       ],
                     ),
@@ -74,14 +75,14 @@ class AppDrawerMenu extends StatelessWidget {
                             Icons.info,
                             size: 35,
                           ),
-                          title: Text("O aplikaciji"),
+                          title: Text("O aplikaciji", style: TextStyle(fontFamily: 'Montserrat',),),
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.arrow_back,
                             size: 35,
                           ),
-                          title: Text("Odjava"),
+                          title: Text("Odjava", style: TextStyle(fontFamily: 'Montserrat',),),
                         ),
                       ],
                     ),
