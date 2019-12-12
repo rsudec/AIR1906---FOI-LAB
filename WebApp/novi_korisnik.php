@@ -15,6 +15,8 @@ include_once 'izbornik.php';
             <input type=\'text\' class="noviKorisnik" id=\'ime\' name=\'ime\' required /><br />
             <label for="prezime">Prezime</label><br>
             <input type=\'text\' class="noviKorisnik" id=\'prezime\' name=\'prezime\' required /><br />
+            <label for="datum">Datum rođenja</label><br>
+            <input type="date" class="noviKorisnik" id=\'datum\' name=\'datum\'  required /><br />
             <label for="telefon">Telefon</label><br>
             <input type=\'text\' class="noviKorisnik" id=\'telefon\' name=\'telefon\'  required /><br />
             <label for="adresa">Adresa</label><br>
