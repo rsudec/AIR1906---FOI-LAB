@@ -67,7 +67,7 @@ class CategoryResourceScreen extends StatelessWidget {
                       builder: (context, streamsnapshot) {
                         return ListView.builder(
                           itemCount: 10,
-                          itemBuilder: (ctx, i) => ResourceItem(Resource("2", "Test", 5, "https://images.idgesg.net/images/article/2019/10/aceraspire1-100815704-large.jpg", Duration(days: 2))),
+                          itemBuilder: (ctx, i) => ResourceItem(Resource(i.toString(), "Test $i",0, "https://images.idgesg.net/images/article/2019/10/aceraspire1-100815704-large.jpg", Duration(days: 2))),
                         );
                       },
                     ),
