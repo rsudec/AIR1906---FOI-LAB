@@ -2,6 +2,7 @@ import '../service/LoginService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import '../helpers/Auth.dart';
 
 class LoginViewModel {
   LoginService loginService = LoginService();
@@ -63,6 +64,7 @@ class LoginViewModel {
     if (response.data != null) {
       final user = response.data;
       if (_validPass == user.password) {
+        loginService.authenticateUser(user);
         return true;
       }else{
         return false;
