@@ -3,23 +3,23 @@
 <br>
 <br>
 <br>
-
+<div class="prijavafrm">
 <h2>Prijava</h2>
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method='POST' id='prijava'>
+        <form  id='prijava' action="prijava.php" method="post">
 
             <input type='text' class="inputprijava" id='korime' name='korime' placeholder="Korisničko ime" required autofocus /><br />
 <br>
             <input type='password' class="inputprijava" id='lozinka' name='lozinka' placeholder="Lozinka" required /><br />
 <br>
-            <input class="inputprijava" id="gumbprijava" type='submit'name="prijava_gumb" value='Prijava' />
+            <input class="inputprijava" id="gumbprijava" type='submit' name="prijava_gumb" value='Prijava' />
         </form>
-
+</div>
+<div id="test"></div>
 </body>
 </html>
 <?php
 include_once 'header.php';
 include_once 'sesija.php';
-include_once 'baza.php';
 
 //provjera sigurne https veze
 $uri = $_SERVER["REQUEST_URI"];
@@ -32,7 +32,6 @@ if (!isset($_SERVER["HTTPS"]) || strtolower($_SERVER["HTTPS"]) != "on") {
     exit();
 }
 
-//provjera je li već prijavljen korisnik
 $prijava = dohvatiLogKorId();
 
 # REDIREKCIJA AKO JE VEC PRIJAVLJEN
@@ -40,45 +39,32 @@ if ($prijava != null) {
     header("Location: index.php");
 }
 
+
 if (isset($_POST['prijava_gumb'])) {
 
     $korime = $_POST["korime"];
     $lozinka = $_POST["lozinka"];
 
-    echo "$korime, $lozinka";
-    $baza = new Baza();
-    $conn=$baza->SpojiDB();
-
-    $upit = "select * FROM korisnik where korime = '$korime' and lozinka='$lozinka'";
-    $rezultat = sqlsrv_query( $conn, $upit );
-
-    if (sqlsrv_has_rows( $rezultat )) { # POSTOJI AKTIVIRAN KORISNIK
-        $upit2="select id from korisnik where korime = '$korime' and lozinka='$lozinka' and tip_korisnika='4'";
-        $rez = sqlsrv_query( $conn, $upit2 );
-        if(!sqlsrv_has_rows( $rez )){
+    $url = "https://air-api.azurewebsites.net/Prijava/$korime/$lozinka";
+    $data = file_get_contents($url);
+    $korisnik = json_decode($data);
+    if ($korisnik==null){
+        echo '<script language="javascript">';
+        echo 'alert("Pogrešno korisničko ime ili lozinka!")';
+        echo '</script>';
+    }else {
+        $kljuc = $korisnik[0]->fk_uloga;
+        $id = $korisnik[0]->id_korisnik;
+        if ($kljuc == 1) {
+            $_SESSION["korisnik"] = $id;
+            setcookie("korisnik", $id, time() + (60*60*1));
+            header("Location: index.php");
+        } else {
             echo '<script language="javascript">';
             echo 'alert("Niste administrator sustava!")';
             echo '</script>';
         }
-        else{
-            $upit2="select id from korisnik where korime = '$korime' and lozinka='$lozinka' and tip_korisnika='4'";
-            $rez = sqlsrv_query( $conn, $upit2 );
-            $row = sqlsrv_fetch_array( $rez, SQLSRV_FETCH_ASSOC) ;
-            $id=$row["id"];
-            $_SESSION["korisnik"] = $id;
-            header("Location: index.php");
-        }
-
-        }
-    else{
-        echo '<script language="javascript">';
-        echo 'alert("Neispravno korisničko ime ili lozinka!")';
-        echo '</script>';
     }
-
-
-
-
 
 
 }

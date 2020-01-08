@@ -5,6 +5,7 @@
 <body class="novi_korisnik">
 <?php
 include_once 'izbornik.php';
+include_once 'header.php';
 ?>
     <br>
 <div class="reg">
@@ -33,5 +34,5 @@ include_once 'izbornik.php';
             <br>
     </form>
 </div>
-</body>';
+</body>
 </html>
