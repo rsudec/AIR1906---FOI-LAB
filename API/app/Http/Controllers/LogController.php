@@ -22,4 +22,14 @@ class LogController extends Controller
         return $log;
    
     }
+
+    public function IspisObavijesti(){
+        $obavijest = DB::select('select * from log where fk_tip_loga = 5 order by datum desc');
+        return $obavijest;
+    }
+
+    public function IspisNeprocitanih(){
+        $obavijest = DB::select('select * from log where fk_tip_loga = 5 and procitano = 0 order by datum desc');
+        return $obavijest;
+    }
 }

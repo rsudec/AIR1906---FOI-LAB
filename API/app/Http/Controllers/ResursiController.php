@@ -18,4 +18,11 @@ class ResursiController extends Controller
         return $resurs;
 
     }
+
+    public function DodajResurs($naziv,$kolicina,$slika,$posudba,$tip){
+        DB::insert("insert into resurs values ('$naziv',$kolicina,'$slika',$posudba,$tip)");
+
+    }
+
+    
 }
