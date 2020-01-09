@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../viewModel/LoginViewModel.dart';
 import './mainScreen.dart';
-import '../service/LoginService.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/login";
@@ -11,7 +10,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _loginVM = LoginViewModel();
-  //final loginService = LoginService();
   @override
   void initState() {
     super.initState();
@@ -23,12 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginVM.dispose();
   }
 
-  //bool logged = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //body: Center(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -108,8 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         : null
                     : null,
-
-                //Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
               );
             },
           ),

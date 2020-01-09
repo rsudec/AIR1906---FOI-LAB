@@ -13,7 +13,7 @@ class CategoryService {
     var response = await http.get(url);
     var categoriesApi = jsonDecode(response.body);
     for (var item in categoriesApi) {
-      print(item);
+      //print(item);
       listCategory
           .add(Category(item["id_tip_resursa"], item["naziv"], item["opis"]));
     }

@@ -152,7 +152,7 @@ class _MainScreenState extends State<MainScreen> {
                           } else if(snapshot.hasError){
                             return Center(child: Text("Nema dostupnih kategorija"));
                           }else if (snapshot.hasData) {
-                            print(snapshot.data);
+                            //print(snapshot.data);
                             return GridView(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
