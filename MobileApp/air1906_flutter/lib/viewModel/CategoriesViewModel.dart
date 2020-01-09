@@ -18,7 +18,13 @@ class CategoriesViewModel {
 
   void getCategories() async {
     final response =  await categoryService.getCategoryList();
-    _categoryList.add(response.data);
+    if (response.data.length > 0){
+      _categoryList.add(response.data);
+    }
+    else {
+      _categoryList.addError(false);
+    }
+    
   }
   void dispose() {
     _categoryList.close();
