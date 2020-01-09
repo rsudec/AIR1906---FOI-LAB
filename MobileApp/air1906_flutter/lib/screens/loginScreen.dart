@@ -11,7 +11,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _loginVM = LoginViewModel();
-  final loginService = LoginService();
+  //final loginService = LoginService();
   @override
   void initState() {
     super.initState();
@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginVM.dispose();
   }
 
-  bool logged = true;
+  //bool logged = true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: <Widget>[
                         StreamBuilder(
-                            stream: _loginVM.errorObservableEmail,
+                            stream: _loginVM.errorObservableUsername,
                             builder: (ctx, snapshot) {
                               return TextFormField(
-                                onChanged: _loginVM.onChangeEmailText,
+                                onChanged: _loginVM.onChangeUsernameText,
                                 decoration: InputDecoration(
-                                    labelText: 'E-mail',
+                                    labelText: 'Korisničko ime',
                                     errorText: snapshot.error),
                                 keyboardType: TextInputType.emailAddress,
                               );

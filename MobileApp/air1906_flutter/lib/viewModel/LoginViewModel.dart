@@ -2,44 +2,43 @@ import '../service/LoginService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
-import '../helpers/Auth.dart';
 
 class LoginViewModel {
   LoginService loginService = LoginService();
 
-  String _validEmail;
+  String _validUsername;
   String _validPass;
 
   //var initalEnabledButton = false;
-  BehaviorSubject<String> _errorMessageEmail;
+  BehaviorSubject<String> _errorMessageUsername;
   BehaviorSubject<String> _errorMessagePass;
   BehaviorSubject<bool> _enabledButtonLogin;
 
   LoginViewModel() {
-    _errorMessageEmail = BehaviorSubject<String>();
+    _errorMessageUsername = BehaviorSubject<String>();
     _errorMessagePass = BehaviorSubject<String>();
     _enabledButtonLogin = BehaviorSubject<bool>();
     _enabledButtonLogin.add(false);
   }
-  Observable<String> get errorObservableEmail => _errorMessageEmail.stream;
+  Observable<String> get errorObservableUsername =>
+      _errorMessageUsername.stream;
   Observable<String> get errorObservablePass => _errorMessagePass.stream;
   Observable<bool> get isLoginEnabled => _enabledButtonLogin;
 
-  void onChangeEmailText(String text) {
-    _validEmail = "";
-    final pattern = RegExp(r'^.+@[^\.].*\.[a-z]{2,}$');
-    if (!pattern.hasMatch(text)) {
-      _errorMessageEmail.addError('Neispravan email');
+  void onChangeUsernameText(String text) {
+    _validUsername = "";
+    if (text.length < 5) {
+      _errorMessageUsername.addError('Neispravno korisničko ime');
     } else {
-      _validEmail = text;
-      _errorMessageEmail.add(""); //refresh stream
+      _validUsername = text;
+      _errorMessageUsername.add(""); //refresh stream
     }
     _checkLoginButton();
   }
 
   void onChangePasswordText(String text) {
     _validPass = "";
-    if (text.length < 6) {
+    if (text.length < 5) {
       _errorMessagePass.addError('Neispravna lozinka');
     } else {
       _validPass = text;
@@ -49,9 +48,9 @@ class LoginViewModel {
   }
 
   void _checkLoginButton() {
-    print("email: $_validEmail password : $_validPass");
+    print("korime: $_validUsername password : $_validPass");
 
-    if (_validEmail.isNotEmpty && _validPass.isNotEmpty) {
+    if (_validUsername.isNotEmpty && _validPass.isNotEmpty) {
       print("notempty");
       _enabledButtonLogin.add(true);
     } else {
@@ -60,21 +59,18 @@ class LoginViewModel {
   }
 
   Future<bool> tryLogin(BuildContext ctx) async {
-    final response = await loginService.getUserByEmail(_validEmail);
+    final response =
+        await loginService.getUserByUsername(_validUsername, _validPass);
     if (response.data != null) {
       final user = response.data;
-      if (_validPass == user.password) {
-        loginService.authenticateUser(user);
-        return true;
-      }else{
-        return false;
-      }
+      loginService.authenticateUser(user);
+      return true;
     }
     return false;
   }
 
   void dispose() {
-    _errorMessageEmail.close();
+    _errorMessageUsername.close();
     _errorMessagePass.close();
   }
 }
