@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import '../models/Category.dart';
 import '../widgets/ResourceItem.dart';
 import '../models/Resource.dart';
-import '../viewModel/CategoriesViewModel.dart';
+import '../viewModel/CategoryResourcesViewModel.dart';
 
 class CategoryResourceScreen extends StatelessWidget {
   static const routeName = "/category-resources";
-  final CategoriesViewModel _categoriesViewModel = CategoriesViewModel();
-  final Category _currentCategory;
-  CategoryResourceScreen(this._currentCategory);
+  CategoryResourceViewModel _categoryResourceViewModel;
+  Category _currentCategory;
+  CategoryResourceScreen(Category current) {
+    _currentCategory = current;
+    _categoryResourceViewModel = CategoryResourceViewModel(_currentCategory);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class CategoryResourceScreen extends StatelessWidget {
               children: <Widget>[
                 Container(color: Colors.white),
                 Container(
-                  height: MediaQuery.of(context).size.height -85,
+                  height: MediaQuery.of(context).size.height - 85,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -63,11 +66,24 @@ class CategoryResourceScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: StreamBuilder(
-                      stream: _categoriesViewModel.observableCategoryList,
-                      builder: (context, streamsnapshot) {
-                        return ListView.builder(
-                          itemCount: 10,
-                          itemBuilder: (ctx, i) => ResourceItem(Resource(i.toString(), "Test $i",0, "https://images.idgesg.net/images/article/2019/10/aceraspire1-100815704-large.jpg", Duration(days: 2))),
+                      stream: _categoryResourceViewModel.observableResourceList,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text("Nema dostupnih resursa"));
+                        } else if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: (snapshot.data as List<Resource>).length,
+                            itemBuilder: (ctx, i) =>
+                                ResourceItem(snapshot.data[i]),
+                          );
+                        }
+                        return Center(
+                          child: Text("Error"),
                         );
                       },
                     ),

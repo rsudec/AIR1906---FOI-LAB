@@ -27,9 +27,17 @@ class User {
     this.uloga,
     this.poslovnica,
   });
+
+  bool isAdmin() {
+    if (int.parse(uloga.id) == 1){
+      return true;
+    } 
+    else {
+      return false;
+    }
+  }
   @override
   String toString() {
-    // TODO: implement toString
-    return "Robert s pravi $ime";
+    return "Korisnik: $ime";
   }
 }
