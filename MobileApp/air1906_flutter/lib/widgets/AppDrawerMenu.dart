@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import '../service/LoginService.dart';
+import '../screens/loginScreen.dart';
 
 class AppDrawerMenu extends StatelessWidget {
+  final loginService = LoginService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +35,20 @@ class AppDrawerMenu extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2),
                         ),
-                        Text("email@adresa.com", style: TextStyle(fontFamily: 'Montserrat',),)
+                        Text(
+                          "email@adresa.com",
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                          ),
+                        )
                       ],
                     ),
                   ],
                 ),
-                Divider(color: Theme.of(context).disabledColor,thickness: 2,),
+                Divider(
+                  color: Theme.of(context).disabledColor,
+                  thickness: 2,
+                ),
                 SizedBox(
                   height: 50,
                 ),
@@ -50,21 +62,36 @@ class AppDrawerMenu extends StatelessWidget {
                             size: 35,
                           ),
                           selected: true,
-                          title: Text("Početna", style: TextStyle(fontFamily: 'Montserrat',),),
+                          title: Text(
+                            "Početna",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.search,
                             size: 35,
                           ),
-                          title: Text("Pretraga", style: TextStyle(fontFamily: 'Montserrat',),),
+                          title: Text(
+                            "Pretraga",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
                         ListTile(
                           leading: Icon(
                             Icons.settings,
                             size: 35,
                           ),
-                          title: Text("Postavke", style: TextStyle(fontFamily: 'Montserrat',),),
+                          title: Text(
+                            "Postavke",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -75,14 +102,28 @@ class AppDrawerMenu extends StatelessWidget {
                             Icons.info,
                             size: 35,
                           ),
-                          title: Text("O aplikaciji", style: TextStyle(fontFamily: 'Montserrat',),),
+                          title: Text(
+                            "O aplikaciji",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
                         ListTile(
+                          onTap: () {
+                            loginService.logout();
+                            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                          },
                           leading: Icon(
                             Icons.arrow_back,
                             size: 35,
                           ),
-                          title: Text("Odjava", style: TextStyle(fontFamily: 'Montserrat',),),
+                          title: Text(
+                            "Odjava",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
                       ],
                     ),
