@@ -106,8 +106,6 @@ class LoginService {
         return false;
       }
       await getUserByUsername(username, password).then((response) async {
-        Future.delayed(Duration(seconds: 2));
-        print("asadqw");
         await authenticateUser(response.data);
       });
       return true;
