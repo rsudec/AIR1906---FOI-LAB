@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../viewModel/LoginViewModel.dart';
 import './mainScreen.dart';
@@ -10,9 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   final _loginVM = LoginViewModel();
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //body: Center(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -49,12 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: <Widget>[
                         StreamBuilder(
-                            stream: _loginVM.errorObservableEmail,
+                            stream: _loginVM.errorObservableUsername,
                             builder: (ctx, snapshot) {
                               return TextFormField(
-                                onChanged: _loginVM.onChangeEmailText,
+                                onChanged: _loginVM.onChangeUsernameText,
                                 decoration: InputDecoration(
-                                    labelText: 'E-mail',
+                                    labelText: 'Korisničko ime',
                                     errorText: snapshot.error),
                                 keyboardType: TextInputType.emailAddress,
                               );
@@ -107,8 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         : null
                     : null,
-
-                //Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
               );
             },
           ),

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import '../models/Category.dart';
+import '../models/ResourceType.dart';
+
 import '../models/Resource.dart';
 import '../models/APIResponse.dart';
 import 'package:http/http.dart' as http;
@@ -56,8 +59,28 @@ class ResourceService {
       String imgUrl = item["imgUrl"];
       Duration maxVrijemePosudbe =
           Duration(days: int.parse(item["maxVrijemePosudbe"]));
-      listResource
-          .add(Resource(id, naziv, kolicina, imgUrl, maxVrijemePosudbe));
+      listResource.add(Resource(
+          id, naziv, kolicina, imgUrl, maxVrijemePosudbe, ResourceType('id1')));
+    }
+    return APIResponse<List<Resource>>(listResource);
+  }
+
+  Future<APIResponse<List<Resource>>> getResourceListByCategory(
+      Category category) async {
+    List<Resource> listResource = [];
+    //print("pozivam resurse");
+    var url = "https://air-api.azurewebsites.net/TraziPoVrsti/${category.id}";
+    var response = await http.get(url);
+    var resourceApi = jsonDecode(response.body);
+    for (var item in resourceApi) {
+      listResource.add(Resource(
+        item["id_resurs"],
+        item["naziv"],
+        int.parse(item["kolicina"]),
+        item["slika"],
+        Duration(days: int.parse(item["max_posudba"])),
+        ResourceType(item["fk_tip_resursa"]),
+      ));
     }
     return APIResponse<List<Resource>>(listResource);
   }
@@ -78,9 +101,12 @@ class ResourceService {
     //     ResourceType(item["fk_tip_resursa"]),
     //   ));
     // }
-    listResource.add(Resource('a', 'aa', 1, 'aaa', Duration(hours: 1)));
-    listResource.add(Resource('b', 'bb', 2, 'bbb', Duration(hours: 2)));
-    listResource.add(Resource('c', 'cc', 3, 'ccc', Duration(hours: 3)));
+    listResource.add(
+        Resource('a', 'aa', 1, 'aaa', Duration(hours: 1), ResourceType('id1')));
+    listResource.add(
+        Resource('b', 'bb', 2, 'bbb', Duration(hours: 2), ResourceType('id2')));
+    listResource.add(
+        Resource('c', 'cc', 3, 'ccc', Duration(hours: 3), ResourceType('id2')));
     return APIResponse<List<Resource>>(listResource);
   }
 }

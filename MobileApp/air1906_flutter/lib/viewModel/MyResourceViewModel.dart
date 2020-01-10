@@ -1,3 +1,6 @@
+import '../models/Shop.dart';
+import '../models/UserRole.dart';
+
 import '../models/User.dart';
 
 import 'package:air1906_flutter/service/ResourceService.dart';
@@ -12,7 +15,18 @@ class MyResourceViewModel {
 
   MyResourceViewModel() {
     _resourceList = BehaviorSubject<List<Resource>>();
-    getResourcesByUser(User('a', 'bbb', 'bbb'));
+    getResourcesByUser(User(
+        id: "id_korisnik",
+        ime: "ime",
+        prezime: "prezime",
+        telefon: "telefon",
+        adresa: "adresa",
+        email: "email",
+        oib: "oib",
+        username: "kor_ime",
+        password: "lozinka",
+        uloga: UserRole("fk_uloga"),
+        poslovnica: Shop("fk_poslovnica")));
   }
 
   Observable<List<Resource>> get observableResourceList => _resourceList.stream;

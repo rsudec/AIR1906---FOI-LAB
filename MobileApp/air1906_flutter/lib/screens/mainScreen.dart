@@ -149,7 +149,10 @@ class _MainScreenState extends State<MainScreen> {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
-                          } else if (snapshot.hasData) {
+                          } else if(snapshot.hasError){
+                            return Center(child: Text("Nema dostupnih kategorija"));
+                          }else if (snapshot.hasData) {
+                            //print(snapshot.data);
                             return GridView(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(

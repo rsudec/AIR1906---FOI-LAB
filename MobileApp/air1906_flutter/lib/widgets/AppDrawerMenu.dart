@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import '../screens/myResourcesScreen.dart';
+import '../service/LoginService.dart';
+import '../screens/loginScreen.dart';
+import '../helpers/Auth.dart';
 
 class AppDrawerMenu extends StatelessWidget {
+  final loginService = LoginService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +29,19 @@ class AppDrawerMenu extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                            "${Auth.currentUser.ime}",
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 2),
+                          ),
+                        ),
                         Text(
-                          "Korisnik",
+                          "${Auth.currentUser.email}",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 28,
@@ -124,6 +140,11 @@ class AppDrawerMenu extends StatelessWidget {
                           ),
                         ),
                         ListTile(
+                          onTap: () {
+                            loginService.logout();
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.routeName);
+                          },
                           leading: Icon(
                             Icons.arrow_back,
                             size: 35,
@@ -135,6 +156,23 @@ class AppDrawerMenu extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Auth.currentUser != null
+                            ? Auth.currentUser.isAdmin()
+                                ? ListTile(
+                                    onTap: () {},
+                                    leading: Icon(
+                                      Icons.nfc,
+                                      size: 35,
+                                    ),
+                                    title: Text(
+                                      "Zapiši NFC",
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                      ),
+                                    ),
+                                  )
+                                : null
+                            : null,
                       ],
                     ),
                   ],
