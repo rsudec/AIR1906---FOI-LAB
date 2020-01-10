@@ -130,7 +130,7 @@ class AppDrawerMenu extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Auth.currentUser.isAdmin() ?
+                        Auth.currentUser != null ? Auth.currentUser.isAdmin() ?
                         ListTile(
                           onTap: () {
                             
@@ -145,7 +145,7 @@ class AppDrawerMenu extends StatelessWidget {
                               fontFamily: 'Montserrat',
                             ),
                           ),
-                        ) : null
+                        ) : null : null,
                       ],
                     ),
                   ],

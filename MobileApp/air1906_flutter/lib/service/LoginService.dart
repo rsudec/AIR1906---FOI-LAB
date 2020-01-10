@@ -97,19 +97,23 @@ class LoginService {
     if (prefs.containsKey("username")) {
       print("postoji user zapisan");
       var username = prefs.getString("username");
+      print(username);
       var password = prefs.getString("password");
       var expiryTimestamp = prefs.getString("expiryTimestamp");
-      if(DateTime.now().isAfter(DateTime.parse(expiryTimestamp))){
+      print(expiryTimestamp);
+      if (DateTime.now().isAfter(DateTime.parse(expiryTimestamp))) {
         logout();
         return false;
-        
       }
-      User user = (await getUserByUsername(username, password)).data;
-      authenticateUser(user);
-      print(user);
+      await getUserByUsername(username, password).then((response) async {
+        Future.delayed(Duration(seconds: 2));
+        print("asadqw");
+        await authenticateUser(response.data);
+      });
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   Future<void> logout() async {
