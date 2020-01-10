@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
 import '../models/Resource.dart';
-import '../viewModel/CategoriesViewModel.dart';
+import '../viewModel/MyResourceViewModel.dart';
 
 class MyResourcesScreen extends StatelessWidget {
   static const routeName = "/myResources";
-  final CategoriesViewModel _categoriesViewModel = CategoriesViewModel();
+  final MyResourceViewModel _myResourceViewModel = MyResourceViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +60,24 @@ class MyResourcesScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10),
                     child: StreamBuilder(
-                      stream: _categoriesViewModel.observableCategoryList,
-                      builder: (context, streamsnapshot) {
-                        return ListView.builder(
-                          itemCount: 10,
-                          itemBuilder: (ctx, i) => MyResourceItem(Resource(
-                              i.toString(),
-                              "Test $i",
-                              0,
-                              "https://images.idgesg.net/images/article/2019/10/aceraspire1-100815704-large.jpg",
-                              Duration(days: 2))),
+                      stream: _myResourceViewModel.observableResourceList,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text("Nema dostupnih resursa"));
+                        } else if (snapshot.hasData) {
+                          return ListView.builder(
+                            itemCount: (snapshot.data as List<Resource>).length,
+                            itemBuilder: (ctx, i) =>
+                                MyResourceItem(snapshot.data[i]),
+                          );
+                        }
+                        return Center(
+                          child: Text("Error"),
                         );
                       },
                     ),
