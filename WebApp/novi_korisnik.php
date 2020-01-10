@@ -33,6 +33,20 @@ if ($prijava == null) {
             <input type='text' class="noviKorisnik" id='email' name='email' required /><div id="greska1"></div><br />
             <label for="oib">OIB</label><br>
             <input type='text' class="noviKorisnik" id='oib' name='oib' required /><br />
+        <label for="poslovnica">Poslovnica</label><br>
+        <select name="poslovnica" id="poslovnica" class="noviKorisnik">
+            <?php
+            $url = "https://air-api.azurewebsites.net/SvePoslovnice";
+            $data = file_get_contents($url);
+            $podaci = json_decode($data);
+
+            foreach ($podaci as $podatak){
+                echo "<option value=$podatak->id_poslovnica>" .$podatak->naziv . "</option>";
+                }
+
+            ?>
+        </select><br>
+
             <label for="korime">Korisničko ime</label><br>
             <input type='text' class="noviKorisnik" id='korime' name='korime' required /><div id="greska2"></div><br />
             <label for="lozinka">Lozinka</label><br>
@@ -62,6 +76,7 @@ if (isset($_POST['registracija_gumb'])) {
     $oib = $_POST["oib"];
     $korime = $_POST["korime"];
     $lozinka = $_POST["lozinka"];
+    $poslovnica=$_POST["poslovnica"];
 
     $url = "https://air-api.azurewebsites.net/SviKorisnici";
     $data = file_get_contents($url);
@@ -94,7 +109,7 @@ if (isset($_POST['registracija_gumb'])) {
             'oib'    => $oib,
             'korime'    => $korime,
             'lozinka'    => $lozinka,
-            'poslovnica'    => 1,
+            'poslovnica'    => $poslovnica,
             '_token'=> '{{csrf_token()}}'
 
         );
@@ -124,7 +139,13 @@ if (isset($_POST['registracija_gumb'])) {
         $korisnik = json_decode($json_odgovor);
 
         if ($korisnik==null){
-            echo 'nije dobro';
+            echo '<script language="javascript">';
+            echo 'alert("Dodavanje korisnika nije uspjelo!")';
+            echo '</script>';
+        }else{
+            echo '<script language="javascript">';
+            echo 'alert("Novi korisnik uspješno dodan!")';
+            echo '</script>';
         }
     }
 }

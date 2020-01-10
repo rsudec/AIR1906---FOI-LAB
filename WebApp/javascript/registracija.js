@@ -1,4 +1,7 @@
 $(document).ready(function($) {
+    $.ajaxSetup ({
+        cache: false
+    });
     $(document).on('input', '#ponovljena_lozinka', function() {
 
         var v = $("#lozinka").val();
