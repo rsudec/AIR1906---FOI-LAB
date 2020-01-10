@@ -1,3 +1,4 @@
+import '../helpers/Auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
 import '../models/Resource.dart';
@@ -6,6 +7,10 @@ import '../viewModel/MyResourceViewModel.dart';
 class MyResourcesScreen extends StatelessWidget {
   static const routeName = "/myResources";
   final MyResourceViewModel _myResourceViewModel = MyResourceViewModel();
+
+  // void _unesiNapomenu(String napomena) {
+  //   _myResourceViewModel.insertCommentByUser(Auth.currentUser, napomena);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +77,8 @@ class MyResourcesScreen extends StatelessWidget {
                         } else if (snapshot.hasData) {
                           return ListView.builder(
                             itemCount: (snapshot.data as List<Resource>).length,
-                            itemBuilder: (ctx, i) =>
-                                MyResourceItem(snapshot.data[i]),
+                            itemBuilder: (ctx, i) => MyResourceItem(
+                                snapshot.data[i], _myResourceViewModel),
                           );
                         }
                         return Center(

@@ -1,41 +1,17 @@
+import '../helpers/Auth.dart';
+
+import '../viewModel/MyResourceViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 import '../models/Resource.dart';
 
 class MyResourceItem extends StatelessWidget {
   final Resource resource;
-  MyResourceItem(this.resource);
+  final MyResourceViewModel myResourceViewModel;
 
-  Widget novaNapomena(BuildContext context) {
-    return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            right: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Napomena'),
-                onSubmitted: (_) {},
-              ),
-              RaisedButton(
-                child: Text('Dodaj napomenu'),
-                color: Colors.black,
-                textColor: Colors.white,
-                onPressed: () {},
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  MyResourceItem(this.resource, this.myResourceViewModel);
+
+  final _napomenaController = TextEditingController();
 
   void _prozorZaNovuNapomenu(BuildContext context) {
     EasyDialog(
@@ -51,6 +27,9 @@ class MyResourceItem extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  onChanged: (text) =>
+                      myResourceViewModel.onChangeCommentText(text),
+                  controller: _napomenaController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -65,16 +44,48 @@ class MyResourceItem extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10.0),
                     bottomRight: Radius.circular(10.0))),
-            child: FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Unesi",
-                style: TextStyle(color: Colors.white),
-                textScaleFactor: 1.3,
-              ),
-            ),
+            child: StreamBuilder<bool>(
+                stream: myResourceViewModel.enabledButtonSubmit,
+                builder: (context, snapshot) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(240, 240, 240, 1.0),
+                          border: Border.all(width: 0),
+                        ),
+                        width: double.infinity,
+                        child: snapshot.hasError
+                            ? Text(
+                                'Poruka je prekratka.',
+                                style: TextStyle(color: Colors.red),
+                                textAlign: TextAlign.center,
+                              )
+                            : Container(),
+                      ),
+                      FlatButton(
+                        onPressed: snapshot.hasData
+                            ? snapshot.data
+                                ? () {
+                                    myResourceViewModel.insertCommentByUser(
+                                        Auth.currentUser,
+                                        _napomenaController.text);
+                                    Navigator.of(context).pop();
+                                  }
+                                : null
+                            : null,
+                        child: (snapshot.connectionState ==
+                                ConnectionState.waiting)
+                            ? CircularProgressIndicator()
+                            : Text(
+                                "Unesi",
+                                style: TextStyle(color: Colors.white),
+                                textScaleFactor: 1.3,
+                              ),
+                      ),
+                    ],
+                  );
+                }),
           ),
         ]).show(context);
   }

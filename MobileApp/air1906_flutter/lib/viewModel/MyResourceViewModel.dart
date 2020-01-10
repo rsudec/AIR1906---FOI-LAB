@@ -10,11 +10,20 @@ import '../service/ResourceService.dart';
 import '../models/Resource.dart';
 
 class MyResourceViewModel {
+  String _validComment;
+
+  BehaviorSubject<bool> _enabledButtonSubmit;
+  BehaviorSubject<String> _errorInvalidComment;
+
   ResourceService resourceService = ResourceService();
   BehaviorSubject<List<Resource>> _resourceList;
 
   MyResourceViewModel() {
     _resourceList = BehaviorSubject<List<Resource>>();
+    _enabledButtonSubmit = BehaviorSubject<bool>();
+
+    _enabledButtonSubmit.add(false);
+
     getResourcesByUser(User(
         id: "id_korisnik",
         ime: "ime",
@@ -30,6 +39,7 @@ class MyResourceViewModel {
   }
 
   Observable<List<Resource>> get observableResourceList => _resourceList.stream;
+  Observable<bool> get enabledButtonSubmit => _enabledButtonSubmit;
 
   void getResourcesByUser(User user) async {
     if (user != null) {
@@ -39,6 +49,19 @@ class MyResourceViewModel {
       } else {
         _resourceList.addError(false);
       }
+    }
+  }
+
+  void insertCommentByUser(User user, String comment) {
+    var reponse = resourceService.insertCommentByUser(user, comment);
+  }
+
+  void onChangeCommentText(String text) {
+    if (text.length >= 10) {
+      _enabledButtonSubmit.add(true);
+    } else {
+      _enabledButtonSubmit.add(false);
+      _enabledButtonSubmit.addError('Napišite 10 znakova');
     }
   }
 

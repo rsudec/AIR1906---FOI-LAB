@@ -32,7 +32,7 @@ class AppDrawerMenu extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                            "${Auth.currentUser.ime}",
+                            "ššš}",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 28,
@@ -41,7 +41,7 @@ class AppDrawerMenu extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${Auth.currentUser.email}",
+                          "{ššš}",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 28,
@@ -171,8 +171,8 @@ class AppDrawerMenu extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : null
-                            : null,
+                                : Container()
+                            : Container(),
                       ],
                     ),
                   ],
