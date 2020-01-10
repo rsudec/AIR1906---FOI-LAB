@@ -24,6 +24,8 @@ Route::get('/TraziInstancu/{naziv}','InstanceController@TraziInstancu');
 Route::get('/VrsteResursa','ResursiController@VrsteResursa');
 Route::get('/TraziPoVrsti/{id}','ResursiController@TraziPoVrsti');
 Route::get('/DodajResurs/{naziv}/{kolicina}/{slika}/{posudba}/{tip}','ResursiController@DodajResurs');
+Route::get('/TraziPoVrsti2/{id}','ResursiController@TraziPoVrsti2');
+Route::get('/MojiResursi/{id}','ResursiController@MojiResursi');
 
 Route::get('/DodajLog/{id_kor}/{id_ins}/{id_vrsta}/{feedback?}','LogController@DodajLog');
 Route::get('/IspisLog/{id_kor?}','LogController@IspisLog');
@@ -33,3 +35,4 @@ Route::get('/IspisNeprocitanih','LogController@IspisNeprocitanih');
 Route::post('/Prijava','KorisnikController@Prijava');
 Route::get('/SviKorisnici','KorisnikController@SviKorisnici');
 Route::post('/DodajKorisnika','KorisnikController@DodajKorisnika');
+Route::get('/SvePoslovnice','KorisnikController@SvePoslovnice');
