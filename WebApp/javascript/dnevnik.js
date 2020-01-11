@@ -38,6 +38,8 @@ $(document).ready(function() {
 
                 prikazDnevnik.html(output);
                 $("table").addClass("table");
+                $("th").css({"background-color": "#f3f3f3", "color":"#4E5766"});
+
                 $('table').DataTable(
                     {
 
