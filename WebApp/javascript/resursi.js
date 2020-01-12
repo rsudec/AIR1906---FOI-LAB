@@ -40,7 +40,12 @@ $(document).ready(function() {
                 output += "</tbody></table>";
 
                 prikazDnevnik.html(output);
-
+                $("table").addClass("table");
+                $("th").css({"background-color": "#f3f3f3", "color":"#4E5766", "text-align": "center",
+                    "vertical-align": "middle"});
+                $("td").css({"text-align": "center",
+                    "vertical-align": "middle"});
+                $("img").css({"width": "50px", "height": "50px"});
                 $('table').DataTable(
                     {
 
