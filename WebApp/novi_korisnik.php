@@ -2,7 +2,7 @@
 <head>
     <title>Novi korisnik</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="javascript/registracija.js"></script>
 </head>
 <body class="novi_korisnik">
@@ -21,18 +21,21 @@ if ($prijava == null) {
     <h2 id="titleKorisnik">Novi korisnik</h2>
     <form action="novi_korisnik.php" method='POST' id='dodaj_korisnika' class="registracija">
             <label for="ime">Ime</label><br>
-            <input type='text' class="noviKorisnik" id='ime' name='ime' required /><br />
+            <input type='text' class="noviKorisnik" id='ime' name='ime' required ><br>
             <label for="prezime">Prezime</label><br>
-            <input type='text' class="noviKorisnik" id='prezime' name='prezime' required /><br />
+            <input type='text' class="noviKorisnik" id='prezime' name='prezime' required><br>
 
             <label for="telefon">Telefon</label><br>
-            <input type='text' class="noviKorisnik" id='telefon' name='telefon'  required /><br />
+            <input type='text' class="noviKorisnik" id='telefon' name='telefon'  required><br>
             <label for="adresa">Adresa</label><br>
-            <input type='text' class="noviKorisnik" id='adresa' name='adresa' required /><br />
+            <input type='text' class="noviKorisnik" id='adresa' name='adresa' required><br>
             <label for="email">Email</label><br>
-            <input type='text' class="noviKorisnik" id='email' name='email' required /><div id="greska1"></div><br />
+            <input type='text' class="noviKorisnik" id='email' name='email' required >
+        <div id="greska_prva"></div>
+
+        <br>
             <label for="oib">OIB</label><br>
-            <input type='text' class="noviKorisnik" id='oib' name='oib' required /><br />
+            <input type='text' class="noviKorisnik" id='oib' name='oib' required><br>
         <label for="poslovnica">Poslovnica</label><br>
         <select name="poslovnica" id="poslovnica" class="noviKorisnik">
             <?php
@@ -48,14 +51,18 @@ if ($prijava == null) {
         </select><br>
 
             <label for="korime">Korisničko ime</label><br>
-            <input type='text' class="noviKorisnik" id='korime' name='korime' required /><div id="greska2"></div><br />
+            <input type='text' class="noviKorisnik" id='korime' name='korime' required >
+
+        <div id="greska_druga"></div>
+
+        <br>
             <label for="lozinka">Lozinka</label><br>
-            <input type='password' class="noviKorisnik" id='lozinka' name='lozinka' required /><br />
+            <input type='password' class="noviKorisnik" id='lozinka' name='lozinka' required><br>
             <label for="ponovljena_lozinka">Ponovljena lozinka</label><br>
-            <input type='password' class="noviKorisnik" id='ponovljena_lozinka' name='ponovljena_lozinka' required /><br />
+            <input type='password' class="noviKorisnik" id='ponovljena_lozinka' name='ponovljena_lozinka' required><br>
         <div id="greska"></div><br>
             <br>
-            <input class="inputKorisnik" id="gumbregistracija" type='submit' name="registracija_gumb" value='Registracija'/>
+            <input class="inputKorisnik" id="gumbregistracija" type='submit' name="registracija_gumb" value='Registracija'>
 
             <input type="hidden" id="_token" value="{{ csrf_token() }}">
             <br>

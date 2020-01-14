@@ -2,6 +2,76 @@ $(document).ready(function($) {
     $.ajaxSetup ({
         cache: false
     });
+
+    $(document).on('keyup', '#email', function() {
+
+        var email = $("#email").val();
+
+        var greska=$("#greska_prva");
+
+        var ispravno=true;
+
+        $.ajax({
+            type: "GET",
+            url: "https://air-api.azurewebsites.net/ShowUsers",
+            success: function (result) {
+
+                for (var i in result) {
+                    if (result[i].email===email){
+                        ispravno=false;
+                    }
+                    else {
+
+                    }
+                }
+                if (ispravno){
+                    greska.text(" ");
+                }
+                else{
+                    greska.text("Već postoji korisnik s unesenom e-mail adresom");
+                    greska.css('color', 'red');
+                }
+
+            }
+        });
+
+
+    });
+
+    $(document).on('input', '#korime', function() {
+
+        var korime = $("#korime").val();
+
+        var greska=$("#greska_druga");
+
+        var ispravno=true;
+
+        $.ajax({
+            type: "GET",
+            url: "https://air-api.azurewebsites.net/ShowUsers",
+            success: function (result) {
+
+                for (var i in result) {
+                    if (result[i].kor_ime===korime){
+                        ispravno=false;
+
+                    }
+                    else if(result[i].kor_ime!==korime){
+
+                    }
+
+                }
+                if (ispravno){
+                    greska.text(" ");
+                }else{
+                   greska.text("Korisničko ime je zauzeto!");
+                   greska.css('color', 'red');
+               }
+
+            }
+        });
+
+    });
     $(document).on('input', '#ponovljena_lozinka', function() {
 
         var v = $("#lozinka").val();
@@ -20,65 +90,5 @@ $(document).ready(function($) {
             $("#gumbregistracija").prop("disabled", true);
         }
     });
-
-    $(document).on('input', '#email', function() {
-
-        var email = $("#email").val();
-
-        var greska=$("#greska1");
-
-
-        $.ajax({
-            type: "GET",
-            url: "https://air-api.azurewebsites.net/ShowUsers",
-            success: function (result) {
-
-                for (var i in result) {
-                    if (result[i].email===email){
-                        greska.text("Već postoji korisnik s unesenom e-mail adresom");
-                        greska.css('color', 'red');
-                        $("#gumbregistracija").prop("disabled", true);
-                    }
-                    else {
-                        greska.text(" ");
-                        $("#gumbregistracija").prop("disabled", false);
-                    }
-
-                }
-
-            }
-        });
-    });
-
-        $(document).on('input', '#korime', function() {
-
-            var korime = $("#korime").val();
-
-            var greska=$("#greska2");
-
-
-            $.ajax({
-                type: "GET",
-                url: "https://air-api.azurewebsites.net/ShowUsers",
-                success: function (result) {
-
-                    for (var i in result) {
-                        if (result[i].kor_ime===korime){
-                            greska.text("Korisničko ime je zauzeto");
-                            greska.css('color', 'red');
-                            $("#gumbregistracija").prop("disabled", true);
-                        }
-                        else {
-                            greska.text(" ");
-                            $("#gumbregistracija").prop("disabled", false);
-                        }
-
-                    }
-
-                }
-            });
-
-    });
-
 
 });
