@@ -123,5 +123,44 @@ input.inputprijava{
 .noviKorisnik{
     width: 80%;
 }
-
-
+.res{
+    border: 1px solid black;
+    width: 30%;
+    margin-left: 35%;
+    background-color: #D3D1D4;
+    border: none;
+    border-radius: 4px;
+}
+.blokovi{
+    border: 1px solid black;
+    background-color: #A8A7A8;
+    padding:10px;
+}
+#gumbresurs{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    margin-left: 42%;
+    color: white;
+    font-size: 18px;
+}
+#gumbresurs:hover{
+    background-color: #A4A1A6;
+    color: black;
+}
+#titleResurs{
+    text-align: center;
+    font-weight: bold;
+    color: #4E5766;
+    margin-bottom: 5px;
+}
+#dodaj_resurs{
+    padding: 25px;
+}
+#gumbQr{
+    margin-left: 40%;
+}
+.noviResurs{
+    width: 90%;
+    margin-left: 5%;
+}
