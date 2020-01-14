@@ -44,7 +44,10 @@ $(document).ready(function() {
                 prikazObavijesti.html(output);
                 $("table").addClass("table");
 
-              
+                $("th").css({"background-color": "#f3f3f3", "color":"#4E5766"});
+
+                $("button").css({"display":"block", "height": "50px", "width": "50px", "border-radius": "50%",
+                    "border": "1px solid #4E5766", "background-color": "#4E5766", "color": "#f3f3f3", "font-weight": "bold" });
 
 
                 $('table').DataTable(
