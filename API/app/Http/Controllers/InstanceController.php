@@ -20,7 +20,7 @@ class InstanceController extends Controller
 
     public function TraziInstancu($naziv){
         $trazi = '%'. $naziv . '%';
-        $instance = DB::select("select resurs.naziv, instanca.slobodno from resurs inner join instanca on resurs.id_resurs = instanca.fk_resurs where resurs.naziv like '" + $trazi + "'");
+        $instance = DB::select("select resurs.nazivr from resurs join instanca on resurs.id_resurs = instanca.fk_resurs where resurs.nazivr like '$trazi'");
         return $instance;
 
     }

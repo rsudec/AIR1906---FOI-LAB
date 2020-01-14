@@ -26,7 +26,6 @@ class ResursiController extends Controller
 
     public function TraziPoVrsti2($id){
         $resurs = DB::select("select * from resurs where resurs.fk_tip_resursa = $id ");
-        var_dump($resurs);
         $tip = DB::select("select * from tip_resursa where id_tip_resursa = $id");
         for($x=0;$x < count($resurs);$x++){
             $resurs[$x]->{'fk_tip_resursa'} = $tip;
@@ -40,5 +39,14 @@ class ResursiController extends Controller
         return $moji;
     }
 
+    public function SviResursi(){
+        $svi = DB::select("select resurs.slika, resurs.id_resurs,resurs.nazivr, tip_resursa.nazivtr, count(id_posudba) as zauzeto,resurs.kolicina, resurs.max_posudba from resurs
+                    left join instanca on resurs.id_resurs = instanca.fk_resurs
+                    left join tip_resursa on resurs.fk_tip_resursa = tip_resursa.id_tip_resursa
+                    left join posudba on instanca.id_instanca = posudba.fk_instanca
+                    group by resurs.id_resurs,resurs.nazivr,tip_resursa.nazivtr,resurs.kolicina,resurs.max_posudba,resurs.slika "
+                );
+        return $svi;
+    }
     
 }
