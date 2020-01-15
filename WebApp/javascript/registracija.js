@@ -30,6 +30,7 @@ $(document).ready(function($) {
                 else{
                     greska.text("Već postoji korisnik s unesenom e-mail adresom");
                     greska.css('color', 'red');
+
                 }
 
             }

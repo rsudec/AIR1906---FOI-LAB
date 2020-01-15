@@ -1,25 +1,90 @@
 <html>
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<body class="prijavabgc">
-<br>
-<br>
-<br>
-<div class="prijavafrm">
-<h2>Prijava</h2>
-        <form  id='prijava' action="prijava.php" method="post">
+<head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-            <input type='text' class="inputprijava" id='korime' name='korime' placeholder="Korisničko ime" required autofocus /><br />
-<br>
-            <input type='password' class="inputprijava" id='lozinka' name='lozinka' placeholder="Lozinka" required /><br />
-<br>
-            <input class="inputprijava" id="gumbprijava" type='submit' name="prijava_gumb" value='Prijava' />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <input type="hidden" id="_token" value="{{ csrf_token() }}">
-        </form>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Toastr -->
+    <script src="plugins/toastr/toastr.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+
+</head>
+
+<body class="hold-transition login-page">
+<div class="login-box">
+
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Sign in to start your session</p>
+
+            <form action="prijava.php" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="korime" class="form-control" placeholder="Username">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" name="lozinka" class="form-control" placeholder="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                        <button type="submit" name="prijava_gumb" class="btn btn-primary btn-block">Sign In</button>
+
+
+                <input type="hidden" id="_token" value="{{ csrf_token() }}">
+            </form>
+
+
+
+        </div>
+        <!-- /.login-card-body -->
+    </div>
 </div>
-<div id="test"></div>
+
+
 </body>
 </html>
+
 <?php
 include_once 'header.php';
 include_once 'sesija.php';
@@ -88,6 +153,7 @@ if (isset($_POST['prijava_gumb'])) {
 
     if ($korisnik==null){
         echo '<script language="javascript">';
+
         echo 'alert("Pogrešno korisničko ime ili lozinka!")';
         echo '</script>';
     }else {

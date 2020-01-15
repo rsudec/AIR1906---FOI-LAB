@@ -1,75 +1,118 @@
-<html>
-<head>
-    <title>Novi korisnik</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="javascript/registracija.js"></script>
-</head>
-<body class="novi_korisnik">
 <?php
 include_once 'izbornik.php';
-include_once 'header.php';
+
 /*$prijava = dohvatiLogKorId();
 
 if ($prijava == null) {
     header("Location: prijava.php");
 }*/
 ?>
-    <br>
+
+<html>
+<head>
+    <title>New user</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="javascript/registracija.js"></script>
+</head>
+<div class="content-wrapper">
+
 <div class="reg">
-    <br>
-    <h2 id="titleKorisnik">Novi korisnik</h2>
-    <form action="novi_korisnik.php" method='POST' id='dodaj_korisnika' class="registracija">
-            <label for="ime">Ime</label><br>
-            <input type='text' class="noviKorisnik" id='ime' name='ime' required ><br>
-            <label for="prezime">Prezime</label><br>
-            <input type='text' class="noviKorisnik" id='prezime' name='prezime' required><br>
+    <section class="content">
+        <div class="container-fluid">
 
-            <label for="telefon">Telefon</label><br>
-            <input type='text' class="noviKorisnik" id='telefon' name='telefon'  required><br>
-            <label for="adresa">Adresa</label><br>
-            <input type='text' class="noviKorisnik" id='adresa' name='adresa' required><br>
-            <label for="email">Email</label><br>
-            <input type='text' class="noviKorisnik" id='email' name='email' required >
-        <div id="greska_prva"></div>
 
-        <br>
-            <label for="oib">OIB</label><br>
-            <input type='text' class="noviKorisnik" id='oib' name='oib' required><br>
-        <label for="poslovnica">Poslovnica</label><br>
-        <select name="poslovnica" id="poslovnica" class="noviKorisnik">
-            <?php
-            $url = "https://air-api.azurewebsites.net/SvePoslovnice";
-            $data = file_get_contents($url);
-            $podaci = json_decode($data);
+                <div class="col-md-6">
+                    <!-- general form elements -->
+                    <br>
+                    <div class="card card-primary">
 
-            foreach ($podaci as $podatak){
-                echo "<option value=$podatak->id_poslovnica>" .$podatak->naziv . "</option>";
-                }
+                        <div class="card-header">
+                            <h3 class="card-title">New user</h3>
+                        </div>
 
-            ?>
-        </select><br>
+                        <!-- form start -->
+                        <form role="form" action="novi_korisnik.php" method='POST' id='dodaj_korisnika'>
+                            <div class="card-body">
+                                <div class="form-group">
+                                     <label for="ime">Ime</label>
+                                     <input type='text' class="form-control" id='ime' name='ime' required >
+                                </div>
+                                <div class="form-group">
+                                    <label for="prezime">Prezime</label>
+                                    <input type='text' class="form-control" id='prezime' name='prezime' required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefon">Telefon</label>
+                                    <input type='text' class="form-control" id='telefon' name='telefon'  required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="adresa">Adresa</label>
+                                    <input type='text' class="form-control" id='adresa' name='adresa' required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    </div>
+                                    <input type='text' class="form-control" id='email' name='email' required >
+                                    </div>
+                                </div>
+                                <div id="greska_prva"></div>
+                                <div class="form-group">
+                                    <label for="oib">OIB</label>
+                                    <input type='text' class="form-control" id='oib' name='oib' required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="poslovnica">Poslovnica</label>
+                                    <select name="poslovnica" id="poslovnica" class="form-control">
+                                        <?php
+                                        $url = "https://air-api.azurewebsites.net/SvePoslovnice";
+                                        $data = file_get_contents($url);
+                                        $podaci = json_decode($data);
 
-            <label for="korime">Korisničko ime</label><br>
-            <input type='text' class="noviKorisnik" id='korime' name='korime' required >
+                                        foreach ($podaci as $podatak){
+                                            echo "<option value=$podatak->id_poslovnica>" .$podatak->naziv . "</option>";
+                                        }
 
-        <div id="greska_druga"></div>
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="korime">Korisničko ime</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">@</span>
+                                        </div>
+                                        <input type='text' class="form-control" id='korime' name='korime' required >
+                                    </div>
 
-        <br>
-            <label for="lozinka">Lozinka</label><br>
-            <input type='password' class="noviKorisnik" id='lozinka' name='lozinka' required><br>
-            <label for="ponovljena_lozinka">Ponovljena lozinka</label><br>
-            <input type='password' class="noviKorisnik" id='ponovljena_lozinka' name='ponovljena_lozinka' required><br>
-        <div id="greska"></div><br>
-            <br>
-            <input class="inputKorisnik" id="gumbregistracija" type='submit' name="registracija_gumb" value='Registracija'>
+                                </div>
+                                <div id="greska_druga"></div>
+                                <div class="form-group">
+                                    <label for="lozinka">Lozinka</label>
+                                    <input type='password' class="form-control" id='lozinka' name='lozinka' required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ponovljena_lozinka">Ponovljena lozinka</label>
+                                    <input type='password' class="form-control" id='ponovljena_lozinka' name='ponovljena_lozinka' required>
+                                </div>
+                                <div id="greska"></div>
+                            </div>
+                                <div class="card-footer">
+    <input class="btn btn-primary" id="gumbregistracija" type='submit' name="registracija_gumb" value='Submit'>
 
-            <input type="hidden" id="_token" value="{{ csrf_token() }}">
-            <br>
-            <br>
-    </form>
+    <input type="hidden" id="_token" value="{{ csrf_token() }}">
 </div>
-</body>
+    </form>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+
+
 </html>
 <?php
 if (isset($_POST['registracija_gumb'])) {

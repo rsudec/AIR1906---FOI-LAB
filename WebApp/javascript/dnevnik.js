@@ -37,13 +37,16 @@ $(document).ready(function() {
                 output += "</tbody></table>";
 
                 prikazDnevnik.html(output);
-                $("table").addClass("table");
-                $("th").css({"background-color": "#f3f3f3", "color":"#4E5766"});
+                $("table").addClass("table table-bordered table-hover");
 
-                $('table').DataTable(
-                    {
-
-                    });
+                $('#tablica').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
                 setTimeout(dohvatiPodatke, 10000);
             }
         });

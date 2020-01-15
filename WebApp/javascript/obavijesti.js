@@ -15,8 +15,8 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/IspisNeprocitanih",
             success: function (result) {
                 var output =
-                    "<table id='tablica'><thead><tr><th>Vrsta</th><th>Korisnik</th><th>E-mail</th><th>Resurs</th><th>Datum i vrijeme</th>" +
-                    "<th>Napomena</th><th>Označi kao pročitano</th></thead><tbody>";
+                    "<table id='tablica' ><thead><tr><th>Vrsta</th><th>Korisnik</th><th>E-mail</th><th>Resurs</th><th>Datum i vrijeme</th>" +
+                    "<th>Napomena</th><th>Označi kao <br> pročitano</th></thead><tbody>";
 
                 for (var i in result) {
                    tid =result[i].id_log;
@@ -42,18 +42,17 @@ $(document).ready(function() {
                 output += "</tbody></table>";
 
                 prikazObavijesti.html(output);
-                $("table").addClass("table");
+                $("table").addClass("table table-bordered table-hover");
+                $("button").addClass("btn btn-block btn-primary btn-sm");
+                $('#tablica').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                });
 
-                $("th").css({"background-color": "#f3f3f3", "color":"#4E5766"});
-
-                $("button").css({"display":"block", "height": "50px", "width": "50px", "border-radius": "50%",
-                    "border": "1px solid #4E5766", "background-color": "#4E5766", "color": "#f3f3f3", "font-weight": "bold" });
-
-
-                $('table').DataTable(
-                    {
-
-                    });
                 setTimeout(dohvatiPodatke, 10000);
             }
         });
