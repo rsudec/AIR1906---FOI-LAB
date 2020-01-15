@@ -34,8 +34,6 @@ class ResourceService {
 
   Future<APIResponse<bool>> borrowResource(String resourceId) async {
     var url = "https://air-api.azurewebsites.net/Posudi";
-    print(Auth.currentUser.id);
-    print(resourceId);
     try {
       var response = await http.post(
         url,
@@ -55,6 +53,8 @@ class ResourceService {
 
   Future<APIResponse<bool>> returnResource(String resourceId) async {
     var url = "https://air-api.azurewebsites.net/Vrati";
+
+    print("user -- resid");
     print(Auth.currentUser.id);
     print(resourceId);
     try {

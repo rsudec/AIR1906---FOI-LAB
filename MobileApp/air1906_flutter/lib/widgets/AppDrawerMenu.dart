@@ -3,9 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../screens/myResourcesScreen.dart';
 import '../service/LoginService.dart';
+import '../screens/BorrowScreen.dart';
 import '../screens/loginScreen.dart';
 import '../helpers/Auth.dart';
-import '../widgets/NFC.dart';
+import '../nfc/NFCLoader.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 class AppDrawerMenu extends StatelessWidget {
@@ -116,12 +117,39 @@ class AppDrawerMenu extends StatelessWidget {
                           ),
                         ),
                         ListTile(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                BorrowScreen.routeName,
+                                arguments: NFCType.borrowResource);
+                          }
+                          // openNFCRead(
+                          //   context,
+                          //   NFCType.borrowResource,
+                          // ),
+                          ,
                           leading: Icon(
-                            Icons.settings,
+                            Icons.nfc,
                             size: 35,
                           ),
                           title: Text(
-                            "Postavke",
+                            "Posudi",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                BorrowScreen.routeName,
+                                arguments: NFCType.returnResource);
+                          },
+                          leading: Icon(
+                            Icons.nfc,
+                            size: 35,
+                          ),
+                          title: Text(
+                            "Vrati",
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                             ),
@@ -160,57 +188,24 @@ class AppDrawerMenu extends StatelessWidget {
                             ),
                           ),
                         ),
-                        ListTile(
-                          onTap: () => openNFCRead(
-                            context,
-                            NFCType.borrowResource,
-                          ),
-                          leading: Icon(
-                            Icons.nfc,
-                            size: 35,
-                          ),
-                          title: Text(
-                            "Posudi",
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          onTap: () => openNFCRead(
-                            context,
-                            NFCType.returnResource,
-                          ),
-                          leading: Icon(
-                            Icons.nfc,
-                            size: 35,
-                          ),
-                          title: Text(
-                            "Vrati",
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
-                        ),
-                        Auth.currentUser != null
-                            ? Auth.currentUser.isAdmin()
-                                ? ListTile(
-                                    onTap: () async {
-                                      
-                                    },
-                                    leading: Icon(
-                                      Icons.nfc,
-                                      size: 35,
-                                    ),
-                                    title: Text(
-                                      "Zapiši NFC",
-                                      style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                      ),
-                                    ),
-                                  )
-                                : Container()
-                            : Container(),
+                        
+                        // Auth.currentUser != null
+                        //     ? Auth.currentUser.isAdmin()
+                        //         ? ListTile(
+                        //             onTap: () async {},
+                        //             leading: Icon(
+                        //               Icons.nfc,
+                        //               size: 35,
+                        //             ),
+                        //             title: Text(
+                        //               "Zapiši NFC",
+                        //               style: TextStyle(
+                        //                 fontFamily: 'Montserrat',
+                        //               ),
+                        //             ),
+                        //           )
+                        //         : Container()
+                        //     : Container(),
                       ],
                     ),
                   ],
@@ -223,13 +218,13 @@ class AppDrawerMenu extends StatelessWidget {
     );
   }
 
-  void openNFCRead(BuildContext context, NFCType type) {
-    showDialog(
-      context: context,
-      builder: (context) => Dialog(
-        elevation: 10,
-        child: NFC(type),
-      ),
-    );
-  }
+  // void openNFCRead(BuildContext context, NFCType type) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => Dialog(
+  //       elevation: 10,
+  //       child: NFC(type),
+  //     ),
+  //   );
+  // }
 }
