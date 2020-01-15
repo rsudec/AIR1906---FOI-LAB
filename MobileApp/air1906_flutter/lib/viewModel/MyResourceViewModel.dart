@@ -1,3 +1,7 @@
+import 'package:air1906_flutter/helpers/Auth.dart';
+
+import '../models/ResourceInstance.dart';
+
 import '../models/Shop.dart';
 import '../models/UserRole.dart';
 
@@ -14,32 +18,25 @@ class MyResourceViewModel {
 
   BehaviorSubject<bool> _enabledButtonSubmit;
   BehaviorSubject<String> _errorInvalidComment;
+  BehaviorSubject<String> _expiredDate;
 
   ResourceService resourceService = ResourceService();
-  BehaviorSubject<List<Resource>> _resourceList;
+  BehaviorSubject<List<ResourceInstance>> _resourceList;
 
   MyResourceViewModel() {
-    _resourceList = BehaviorSubject<List<Resource>>();
+    _resourceList = BehaviorSubject<List<ResourceInstance>>();
     _enabledButtonSubmit = BehaviorSubject<bool>();
+    _expiredDate = BehaviorSubject<String>();
 
     _enabledButtonSubmit.add(false);
 
-    getResourcesByUser(User(
-        id: "id_korisnik",
-        ime: "ime",
-        prezime: "prezime",
-        telefon: "telefon",
-        adresa: "adresa",
-        email: "email",
-        oib: "oib",
-        username: "kor_ime",
-        password: "lozinka",
-        uloga: UserRole("fk_uloga"),
-        poslovnica: Shop("fk_poslovnica")));
+    getResourcesByUser(Auth.currentUser);
   }
 
-  Observable<List<Resource>> get observableResourceList => _resourceList.stream;
+  Observable<List<ResourceInstance>> get observableResourceList =>
+      _resourceList.stream;
   Observable<bool> get enabledButtonSubmit => _enabledButtonSubmit;
+  Observable<String> get expiredDate => _expiredDate;
 
   void getResourcesByUser(User user) async {
     if (user != null) {
@@ -52,8 +49,10 @@ class MyResourceViewModel {
     }
   }
 
-  void insertCommentByUser(User user, String comment) {
-    var reponse = resourceService.insertCommentByUser(user, comment);
+  void insertCommentByUser(
+      User user, String comment, ResourceInstance instance) {
+    var reponse = resourceService.insertCommentByUser(
+        user, comment.replaceAll("\n", " "), instance);
   }
 
   void onChangeCommentText(String text) {
@@ -63,6 +62,28 @@ class MyResourceViewModel {
       _enabledButtonSubmit.add(false);
       _enabledButtonSubmit.addError('Napišite 10 znakova');
     }
+  }
+
+  void makeExpiredDate(ResourceInstance instance) {
+    DateTime _timeNow = DateTime.now();
+    DateTime _timeBorrow = instance.datumPosudbe;
+    Duration _hoursToExpire = instance.resource.maxVrijemePosudbe;
+    String type = "";
+
+    int difference =
+        _timeNow.difference(_timeBorrow).inHours + _hoursToExpire.inHours;
+
+    print(difference);
+    if (difference > 24) {
+      difference = Duration(hours: difference).inDays;
+      type = "Posudba istjeće za $difference dana";
+    } else if (difference < 0) {
+      type = "Kasnite, molim Vas vratite resurs!";
+    } else {
+      type = "Posudba istjeće za $difference sati";
+    }
+
+    _expiredDate.add("$type");
   }
 
   void dispose() {

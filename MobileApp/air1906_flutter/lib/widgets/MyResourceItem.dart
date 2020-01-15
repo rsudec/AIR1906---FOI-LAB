@@ -3,13 +3,13 @@ import '../helpers/Auth.dart';
 import '../viewModel/MyResourceViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_dialog/easy_dialog.dart';
-import '../models/Resource.dart';
+import '../models/ResourceInstance.dart';
 
 class MyResourceItem extends StatelessWidget {
-  final Resource resource;
+  final ResourceInstance resourceInstance;
   final MyResourceViewModel myResourceViewModel;
 
-  MyResourceItem(this.resource, this.myResourceViewModel);
+  MyResourceItem(this.resourceInstance, this.myResourceViewModel);
 
   final _napomenaController = TextEditingController();
 
@@ -19,8 +19,9 @@ class MyResourceItem extends StatelessWidget {
         fogOpacity: 0.1,
         width: 280,
         height: 180,
-        contentPadding:
-            EdgeInsets.only(top: 12.0), // Needed for the button design
+        contentPadding: EdgeInsets.only(
+          top: 12.0,
+        ), // Needed for the button design
         contentList: [
           Expanded(
               flex: 3,
@@ -69,7 +70,8 @@ class MyResourceItem extends StatelessWidget {
                                 ? () {
                                     myResourceViewModel.insertCommentByUser(
                                         Auth.currentUser,
-                                        _napomenaController.text);
+                                        _napomenaController.text,
+                                        resourceInstance);
                                     Navigator.of(context).pop();
                                   }
                                 : null
@@ -92,12 +94,17 @@ class MyResourceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    myResourceViewModel.makeExpiredDate(resourceInstance);
     return Card(
       child: ListTile(
-        title: Text(resource.naziv),
-        leading: CircleAvatar(backgroundImage: NetworkImage(resource.imgUrl)),
-        subtitle:
-            Text("Posudba istiće ${resource.maxVrijemePosudbe.inDays} dana"),
+        title: Text(resourceInstance.resource.naziv),
+        leading: CircleAvatar(
+            backgroundImage: NetworkImage(resourceInstance.resource.imgUrl)),
+        subtitle: StreamBuilder(
+            stream: myResourceViewModel.expiredDate,
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            }),
         trailing: Container(
           width: 50,
           child: IconButton(

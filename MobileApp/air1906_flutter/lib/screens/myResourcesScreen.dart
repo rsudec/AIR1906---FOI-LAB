@@ -1,3 +1,5 @@
+import '../models/ResourceInstance.dart';
+
 import '../helpers/Auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
@@ -76,7 +78,8 @@ class MyResourcesScreen extends StatelessWidget {
                           return Center(child: Text("Nema dostupnih resursa"));
                         } else if (snapshot.hasData) {
                           return ListView.builder(
-                            itemCount: (snapshot.data as List<Resource>).length,
+                            itemCount: (snapshot.data as List<ResourceInstance>)
+                                .length,
                             itemBuilder: (ctx, i) => MyResourceItem(
                                 snapshot.data[i], _myResourceViewModel),
                           );
