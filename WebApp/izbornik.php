@@ -166,7 +166,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="novi_korisnik.php" class="nav-link">
+                                <a href="korisnici.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>New User</p>
                                 </a>

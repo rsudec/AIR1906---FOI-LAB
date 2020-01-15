@@ -55,7 +55,7 @@ include_once 'sesija.php';
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="novi_korisnik.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="korisnici.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
