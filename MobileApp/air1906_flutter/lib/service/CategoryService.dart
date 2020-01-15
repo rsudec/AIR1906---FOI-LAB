@@ -15,7 +15,7 @@ class CategoryService {
     for (var item in categoriesApi) {
       //print(item);
       listCategory
-          .add(Category(item["id_tip_resursa"], item["naziv"], item["opis"]));
+          .add(Category(item["id_tip_resursa"], item["nazivtr"], item["opis"]));
     }
     return APIResponse<List<Category>>(listCategory);
   }

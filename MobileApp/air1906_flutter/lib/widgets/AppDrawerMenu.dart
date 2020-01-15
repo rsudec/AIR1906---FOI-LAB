@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import '../service/LoginService.dart';
 import '../screens/loginScreen.dart';
 import '../helpers/Auth.dart';
+import '../widgets/NFC.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 class AppDrawerMenu extends StatelessWidget {
   final loginService = LoginService();
@@ -130,22 +134,57 @@ class AppDrawerMenu extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Auth.currentUser != null ? Auth.currentUser.isAdmin() ?
                         ListTile(
-                          onTap: () {
-                            
-                          },
+                          onTap: () => openNFCRead(
+                            context,
+                            NFCType.borrowResource,
+                          ),
                           leading: Icon(
                             Icons.nfc,
                             size: 35,
                           ),
                           title: Text(
-                            "Zapiši NFC",
+                            "Posudi",
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                             ),
                           ),
-                        ) : null : null,
+                        ),
+                        ListTile(
+                          onTap: () => openNFCRead(
+                            context,
+                            NFCType.returnResource,
+                          ),
+                          leading: Icon(
+                            Icons.nfc,
+                            size: 35,
+                          ),
+                          title: Text(
+                            "Vrati",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ),
+                        Auth.currentUser != null
+                            ? Auth.currentUser.isAdmin()
+                                ? ListTile(
+                                    onTap: () async {
+                                      
+                                    },
+                                    leading: Icon(
+                                      Icons.nfc,
+                                      size: 35,
+                                    ),
+                                    title: Text(
+                                      "Zapiši NFC",
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                      ),
+                                    ),
+                                  )
+                                : null
+                            : null,
                       ],
                     ),
                   ],
@@ -154,6 +193,16 @@ class AppDrawerMenu extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void openNFCRead(BuildContext context, NFCType type) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        elevation: 10,
+        child: NFC(type),
       ),
     );
   }
