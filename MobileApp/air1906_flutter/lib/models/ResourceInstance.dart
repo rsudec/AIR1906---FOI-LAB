@@ -1,10 +1,10 @@
 import './Resource.dart';
 
-class ResourceInstance{
+class ResourceInstance {
   String id;
   int kolicina;
-  Resource resursId;
-  int kolicinaSlobodno;
-  String barCode;
-  String qrCode;
+  Resource resource;
+  DateTime datumPosudbe;
+
+  ResourceInstance(this.id, this.kolicina, this.resource, this.datumPosudbe);
 }

@@ -1,4 +1,5 @@
 import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
+import 'package:air1906_flutter/screens/myResourcesScreen.dart';
 import 'package:flutter/material.dart';
 import './screens/mainScreen.dart';
 import './screens/loginScreen.dart';
@@ -24,24 +25,26 @@ class MyApp extends StatelessWidget {
           : FutureBuilder(
               future: loginService.tryAutoLogin(),
               builder: (ctx, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return Center(child: CircularProgressIndicator(),);
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                if (snapshot.data == true){
+                if (snapshot.data == true) {
                   return MainScreen();
                 }
                 return LoginScreen();
-
               }
-                  // snapshot.connectionState == ConnectionState.waiting
-                  //     ? Center(child: CircularProgressIndicator())
-                  //     : LoginScreen(),
-            ),
+              // snapshot.connectionState == ConnectionState.waiting
+              //     ? Center(child: CircularProgressIndicator())
+              //     : LoginScreen(),
+              ),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         MainScreen.routeName: (ctx) => MainScreen(),
         CategoryResourceScreen.routeName: (ctx) => CategoryResourceScreen(null),
         ResourceDetailScreen.routeName: (ctx) => ResourceDetailScreen(),
+        MyResourcesScreen.routeName: (ctx) => MyResourcesScreen(),
       },
     );
   }

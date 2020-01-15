@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import '../screens/myResourcesScreen.dart';
 import '../service/LoginService.dart';
 import '../screens/loginScreen.dart';
 import '../helpers/Auth.dart';
@@ -35,7 +36,7 @@ class AppDrawerMenu extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                            "${Auth.currentUser.ime}",
+                            "ššš}",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 28,
@@ -44,7 +45,15 @@ class AppDrawerMenu extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${Auth.currentUser.email}",
+                          "{ššš}",
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2),
+                        ),
+                        Text(
+                          "email@adresa.com",
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                           ),
@@ -72,6 +81,23 @@ class AppDrawerMenu extends StatelessWidget {
                           selected: true,
                           title: Text(
                             "Početna",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(MyResourcesScreen.routeName);
+                          },
+                          leading: Icon(
+                            Icons.archive,
+                            size: 35,
+                          ),
+                          selected: false,
+                          title: Text(
+                            "Moji resursi",
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                             ),
@@ -183,8 +209,8 @@ class AppDrawerMenu extends StatelessWidget {
                                       ),
                                     ),
                                   )
-                                : null
-                            : null,
+                                : Container()
+                            : Container(),
                       ],
                     ),
                   ],
