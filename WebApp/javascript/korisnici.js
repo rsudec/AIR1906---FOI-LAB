@@ -41,7 +41,7 @@ $(document).ready(function() {
 
                 prikazKorisnici.html(output);
 
-
+                $("table").addClass("table table-bordered table-hover");
 
                 $('#tablica').DataTable({
                     "paging": true,
