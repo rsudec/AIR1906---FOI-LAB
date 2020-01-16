@@ -3,29 +3,18 @@ import 'package:nfc_manager/nfc_manager.dart';
 import '../interface/IResourceLoader.dart';
 import 'package:flutter/material.dart';
 
-enum NFCType {
-  borrowResource,
-  returnResource,
-}
+// enum NFCType {
+//   borrowResource,
+//   returnResource,
+// }
 
 class NFCLoader implements IResourceLoader {
   BuildContext context;
-  NFCType type;
+  ResourceLoaderType type;
   String title = "NFC";
   NfcTag tag;
   String id;
   Icon icon = Icon(Icons.nfc);
-
-  // @override
-  // void showLoader() {
-  //   listenNFC();
-
-  // }
-  @override
-  Future<String> loadResource1() {
-    // TODO: implement loadResource1
-    return null;
-  }
 
   @override
   Future<String> loadResource() async {
@@ -70,6 +59,7 @@ class NFCLoader implements IResourceLoader {
 
   void showNFCDialog() {
     EasyDialog(
+    
         height: MediaQuery.of(context).size.height / 2,
         cornerRadius: 15,
         cardColor: Colors.white,
@@ -93,29 +83,3 @@ class NFCLoader implements IResourceLoader {
         ]).show(context);
   }
 }
-// ResourceService rs = ResourceService();
-// if (widget.type == NFCType.borrowResource) {
-//   var response = await rs.borrowResource(resourceIdFromNFC).then((val) {
-//     setState(() {
-//       print("res data ${val.data}");
-//       if (val.data) {
-//         success = true;
-//         result = "Uspješno ste posudili $resourceIdFromNFC";
-//       } else {
-//         success = false;
-//       }
-//     });
-//   });
-// } else if (widget.type == NFCType.returnResource) {
-//   var response = await rs.returnResource(resourceIdFromNFC).then((val) {
-//     setState(() {
-//       print("res data ${val.data}");
-//       if (val.data) {
-//         success = true;
-//         result = "Uspješno ste vratili $resourceIdFromNFC";
-//       } else {
-//         success = false;
-//       }
-//     });
-//   });
-// }

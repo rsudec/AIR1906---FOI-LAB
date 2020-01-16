@@ -1,5 +1,3 @@
-import 'package:air1906_flutter/nfc/NFCLoader.dart';
-
 import '../interface/IResourceLoader.dart';
 import '../viewModel/BorrowViewModel.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +5,12 @@ import '../helpers/Modules.dart';
 
 class BorrowScreen extends StatelessWidget {
   static const routeName = "/borrow";
-  NFCType type;
+  ResourceLoaderType type;
   final borrowViewModel = BorrowViewModel();
   BorrowScreen();
   @override
   Widget build(BuildContext context) {
-    type = ModalRoute.of(context).settings.arguments as NFCType;
+    type = ModalRoute.of(context).settings.arguments as ResourceLoaderType;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black,
@@ -32,7 +30,7 @@ class BorrowScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      type == NFCType.borrowResource
+                      type == ResourceLoaderType.borrowResource
                           ? 'Posudi resurs'
                           : 'Vrati resurs',
                       style: TextStyle(color: Colors.white, fontSize: 24),
@@ -146,7 +144,7 @@ class BorrowScreen extends StatelessWidget {
 
 class ResourceLoaderItem extends StatelessWidget {
   final IResourceLoader item;
-  final NFCType type;
+  final ResourceLoaderType type;
   final BorrowViewModel borrowViewModel;
   ResourceLoaderItem(this.item, this.borrowViewModel, this.type);
 
@@ -158,7 +156,8 @@ class ResourceLoaderItem extends StatelessWidget {
           return x;
         });
         print("id $id");
-        type == NFCType.borrowResource
+        
+        type == ResourceLoaderType.borrowResource
             ? borrowViewModel.borrowResource(id)
             : borrowViewModel.returnResource(id);
       },

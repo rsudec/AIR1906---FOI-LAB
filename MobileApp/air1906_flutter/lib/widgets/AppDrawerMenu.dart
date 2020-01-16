@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:air1906_flutter/interface/IResourceLoader.dart';
 import 'package:flutter/material.dart';
 import '../screens/myResourcesScreen.dart';
 import '../service/LoginService.dart';
@@ -18,47 +19,50 @@ class AppDrawerMenu extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top: 60, left: 20),
+          padding: EdgeInsets.only(top: 40, left: 20),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.white,
-                      backgroundImage: NetworkImage(
-                          "https://justice.org.au/wp-content/uploads/2017/08/avatar-icon.png"),
-                    ),
+                    // CircleAvatar(
+                    //   radius: 40,
+                    //   backgroundColor: Colors.white,
+                    //   backgroundImage: NetworkImage(
+                    //       "https://justice.org.au/wp-content/uploads/2017/08/avatar-icon.png"),
+                    // ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                            "ššš}",
+                            Auth.currentUser.ime,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                letterSpacing: 2),
+                                letterSpacing: 1),
                           ),
                         ),
+                        // Text(
+                        //   Auth.currentUser.prezime,
+                        //   style: TextStyle(
+                        //       fontFamily: 'Montserrat',
+                        //       fontSize: 28,
+                        //       fontWeight: FontWeight.bold,
+                        //       letterSpacing: 2),
+                        // ),
                         Text(
-                          "{ššš}",
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 2),
-                        ),
-                        Text(
-                          "email@adresa.com",
+                          Auth.currentUser.email,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                           ),
-                        )
+                        ),
+                        SizedBox(height: 20,)
                       ],
                     ),
                   ],
@@ -68,9 +72,10 @@ class AppDrawerMenu extends StatelessWidget {
                   thickness: 2,
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Column(
                       children: <Widget>[
@@ -120,7 +125,7 @@ class AppDrawerMenu extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pushNamed(
                                 BorrowScreen.routeName,
-                                arguments: NFCType.borrowResource);
+                                arguments: ResourceLoaderType.borrowResource);
                           }
                           // openNFCRead(
                           //   context,
@@ -142,7 +147,7 @@ class AppDrawerMenu extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).pushNamed(
                                 BorrowScreen.routeName,
-                                arguments: NFCType.returnResource);
+                                arguments: ResourceLoaderType.returnResource);
                           },
                           leading: Icon(
                             Icons.nfc,

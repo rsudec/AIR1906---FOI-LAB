@@ -8,7 +8,6 @@ import './screens/loginScreen.dart';
 import './screens/CategoryResourceScreen.dart';
 import './helpers/Auth.dart';
 import './service/LoginService.dart';
-import './nfc/NFCLoader.dart';
 
 void main() => runApp(MyApp());
 
