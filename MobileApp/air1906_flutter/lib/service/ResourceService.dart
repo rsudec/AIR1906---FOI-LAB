@@ -13,6 +13,24 @@ import '../models/User.dart';
 import '../helpers/Auth.dart';
 
 class ResourceService {
+  Future<APIResponse<List<Resource>>> getAllResourceFromDatabase() async {
+    List<Resource> listResource = [];
+    var url = "https://air-api.azurewebsites.net/SviResursi";
+    var response = await http.get(url);
+    var resourceApi = jsonDecode(response.body);
+    for (var item in resourceApi) {
+      listResource.add(Resource(
+        item["id_resurs"],
+        item["nazivr"],
+        int.parse(item["kolicina"]),
+        item["slika"],
+        Duration(days: int.parse(item["max_posudba"])),
+        ResourceType(item["fk_tip_resursa"]),
+      ));
+    }
+    return APIResponse<List<Resource>>(listResource);
+  }
+
   Future<APIResponse<List<Resource>>> getResourceListByCategory(
       Category category) async {
     List<Resource> listResource = [];

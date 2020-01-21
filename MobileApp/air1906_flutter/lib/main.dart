@@ -1,4 +1,5 @@
 import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
+import './screens/SearchResourceScreen.dart';
 import 'package:air1906_flutter/screens/myResourcesScreen.dart';
 import 'package:flutter/material.dart';
 import './screens/mainScreen.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         CategoryResourceScreen.routeName: (ctx) => CategoryResourceScreen(null),
         ResourceDetailScreen.routeName: (ctx) => ResourceDetailScreen(),
         MyResourcesScreen.routeName: (ctx) => MyResourcesScreen(),
+        SearchResourceScreen.routeName: (ctx) => SearchResourceScreen(),
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:air1906_flutter/screens/SearchResourceScreen.dart';
 import 'package:flutter/material.dart';
 import '../screens/myResourcesScreen.dart';
 import '../service/LoginService.dart';
@@ -32,7 +33,7 @@ class AppDrawerMenu extends StatelessWidget {
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                            "ššš}",
+                            "nema fixa",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 28,
@@ -100,6 +101,10 @@ class AppDrawerMenu extends StatelessWidget {
                           ),
                         ),
                         ListTile(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(SearchResourceScreen.routeName);
+                          },
                           leading: Icon(
                             Icons.search,
                             size: 35,
