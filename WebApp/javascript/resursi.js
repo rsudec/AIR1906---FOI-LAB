@@ -1,10 +1,10 @@
 $(document).ready(function() {
 
-    var prikazDnevnik = $("#prikaz_resursi");
+    var $prikazResursi = $("#prikaz_resursi");
 
-    prikazDnevnik.text("Učitavanje podataka...");
+    $prikazResursi.text("Loading data...");
     dohvatiPodatke();
-    $.ajaxSetup ({
+    $.ajaxSetup({
         cache: false
     });
 
@@ -15,11 +15,12 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/SviResursi",
             success: function (result) {
                 var output =
-                    "<table id='tablica'><thead><tr><th>ID resursa</th><th>Naziv</th><th>Tip resursa</th><th>Količina</th><th>Zauzeto</th>" +
-                    "<th>Maksimalno vrijeme<br> posudbe (u danima)</th><th>Slika</th></thead><tbody>";
+                    "<table id='tablica'><thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Quantity</th><th>Borrowed</th>" +
+                    "<th>Maximum loan period<br>(days)</th><th>Picture</th><th></th></thead><tbody>";
 
                 for (var i in result) {
-                    var slika=result[i].slika;
+                    var slika = result[i].slika;
+                    var tid = result[i].id_resurs;
                     output +=
                         "<tr><td>" +
                         result[i].id_resurs +
@@ -28,18 +29,23 @@ $(document).ready(function() {
                         "</td><td>" +
                         result[i].nazivtr +
                         "</td><td>" +
-                        result[i].kolicina+
+                        result[i].kolicina +
                         "</td><td>" +
-                        result[i].zauzeto+
+                        result[i].zauzeto +
                         "</td><td>" +
                         result[i].max_posudba +
                         "</td><td>" +
-                        "<img src='"+slika+"'>"+
+                        "<img src='" + slika + "'>" +
+                        "</td><td>" +
+                        '<button data-toggle="modal" data-target="#modal-default" id="' + tid + '" >Details</button>' +
                         "</td></tr>";
                 }
                 output += "</tbody></table>";
 
-                prikazDnevnik.html(output);
+                $prikazResursi.html(output);
+                $("button").addClass("btn btn-block btn-primary btn-sm");
+
+                $("img").css({"width": "50px", "height": "50px"});
 
                 $("table").addClass("table table-bordered table-hover");
 
@@ -51,7 +57,7 @@ $(document).ready(function() {
                     "info": true,
                     "autoWidth": false,
                 });
-                $("img").css({"width": "50px", "height": "50px"});
+
 
                 setTimeout(dohvatiPodatke, 10000);
             }
@@ -59,4 +65,36 @@ $(document).ready(function() {
     }
 
 
+    $(document.body).on('click', 'button', function (event) {
+        var resurs_id = event.target.id;
+        var ispis_p=$("#ispis");
+        var ispis="";
+
+        $.ajax({
+            type: "GET",
+            url: "https://air-api.azurewebsites.net/InstancePoResursu/"+resurs_id,
+            success: function (result) {
+                if(result===null){
+                    ispis="Nije posuđena niti jedna instanca";
+                }
+                else{
+                    for (var i in result) {
+                        if(result[i].kor_ime!=null){
+                            ispis+="Instance "+result[i].id_instanca+" is borrowed by user: " +result[i].kor_ime+
+                                ", e-mail "+result[i].email+" on "+result[i].datum+'\n';
+                        }
+                        else{
+                            ispis+="Instance "+result[i].id_instanca+" is free."+"\n";
+
+                        }
+
+                    }
+                }
+                ispis_p.text(ispis);
+
+
+            }
+        });
+
+    });
 });

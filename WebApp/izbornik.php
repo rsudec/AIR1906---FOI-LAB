@@ -160,15 +160,15 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="korisnici.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>All Users</p>
+                                    <p>All users</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="korisnici.php" class="nav-link">
+                                <a href="novi_korisnik.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>New User</p>
+                                    <p>New user</p>
                                 </a>
                             </li>
                         </ul>
@@ -177,7 +177,7 @@
                         <a href="dnevnik.php" class="nav-link">
                             <i class="nav-icon fas fa-chart-line"></i>
                             <p>
-                                Users activity
+                                Activity Log
                             </p>
                         </a>
                     </li>
@@ -185,7 +185,7 @@
                         <a href="odjava.php" class="nav-link">
                             <i class="nav-icon fas fa-sign-out-alt"></i>
                             <p>
-                                Logout
+                                Log out
                             </p>
                         </a>
                     </li>

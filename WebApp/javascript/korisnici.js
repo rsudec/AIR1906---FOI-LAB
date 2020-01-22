@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var prikazKorisnici = $("#prikaz_korisnici");
 
-    prikazKorisnici.text("Učitavanje podataka...");
+    prikazKorisnici.text("Loading data...");
     dohvatiPodatke();
     $.ajaxSetup ({
         cache: false
@@ -15,7 +15,7 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/SviKorisnici",
             success: function (result) {
                 var output =
-                    "<table id='tablica'><thead><tr><th>Name</th><th>Lastname</th><th>Telephone number</th><th>Address</th><th>E-mail</th>" +
+                    "<table id='tablica'><thead><tr><th>Name</th><th>Surname</th><th>Telephone number</th><th>Address</th><th>E-mail</th>" +
                     "<th>OIB</th><th>Username</th></thead><tbody>";
 
                 for (var i in result) {

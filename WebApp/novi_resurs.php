@@ -31,10 +31,10 @@ if ($prijava == null) {
                         <div role="form" action="novi_resurs.php" method='POST' id='dodaj_resurs'>
                             <div class="card-body">
                                  <div class="form-group">
-                                    <label for="naziv">Naziv resursa: </label><input type="text" class="form-control" id="naziv" name="naziv" required="required">
+                                    <label for="naziv">Name: </label><input type="text" class="form-control" id="naziv" name="naziv" required="required">
                                  </div>
                                 <div class="form-group">
-                                    <label for="tip_resursa">Tip resursa:</label>
+                                    <label for="tip_resursa">Type:</label>
                                     <select name="tip_resursa" id="tip_resursa" class="form-control">
                                         <option value="1">Resurs 1</option>
                                         <option value="2">Resurs 2</option>
@@ -43,7 +43,8 @@ if ($prijava == null) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="skladiste">Lokacija skladišta:</label>
+                                    <label for="skladiste">
+                                        Warehouse:</label>
                                     <select name="skladiste" id="skladiste" class="form-control">
                                         <option value="1">Skladiste 1</option>
                                         <option value="2">Skladiste 2</option>
@@ -52,7 +53,7 @@ if ($prijava == null) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="pozicija">Slobodno mjesto:</label>
+                                    <label for="pozicija">Free place:</label>
                                     <select name="pozicija" id="pozicija" class="form-control">
                                         <option value="1">Mjesto 1</option>
                                         <option value="2">Mjesto 2</option>
@@ -61,17 +62,17 @@ if ($prijava == null) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="kolicina">Količina: </label>
+                                    <label for="kolicina">Quantity: </label>
                                     <input type="number" id="kolicina" name="kolicina" min="0" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <label>Kreiranje QR koda</label>
-                                    <input class="btn btn-primary" id="gumbQr" type='button' name="gumb_Qr" value='Kreiraj'/>
+                                    <label>QR code</label>
+                                    <input class="btn btn-primary" id="gumbQr" type='button' name="gumb_Qr" value='Create'/>
                                 </div>
                                 <div class="form-group">
-                                    <label>Dodaj sliku resursa</label>
+                                    <label>Upload picture of resource: </label>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="30000">
-                                    <label for="predaj">Datoteka: </label>
+                                    <label for="predaj">File: </label>
                                     <input id="predaj" name="userfile" type="file"><br>
                                 </div>
                             </div>

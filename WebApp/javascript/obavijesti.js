@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var prikazObavijesti = $("#prikaz_obavijesti");
 
-    prikazObavijesti.text("Učitavanje podataka...");
+    prikazObavijesti.text("Loading data...");
     dohvatiPodatke();
     $.ajaxSetup ({
         cache: false
@@ -15,8 +15,8 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/IspisNeprocitanih",
             success: function (result) {
                 var output =
-                    "<table id='tablica' ><thead><tr><th>Vrsta</th><th>Korisnik</th><th>E-mail</th><th>Resurs</th><th>Datum i vrijeme</th>" +
-                    "<th>Napomena</th><th>Označi kao <br> pročitano</th></thead><tbody>";
+                    "<table id='tablica' ><thead><tr><th>Type</th><th>User</th><th>E-mail</th><th>Resource</th><th>Date and time</th>" +
+                    "<th>Feedback</th><th>Mark as <br> read</th></thead><tbody>";
 
                 for (var i in result) {
                    tid =result[i].id_log;

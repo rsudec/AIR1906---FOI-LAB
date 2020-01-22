@@ -28,7 +28,7 @@ $(document).ready(function($) {
                     greska.text(" ");
                 }
                 else{
-                    greska.text("Već postoji korisnik s unesenom e-mail adresom");
+                    greska.text("There is already a user with this e-mail address!");
                     greska.css('color', 'red');
 
                 }
@@ -65,7 +65,7 @@ $(document).ready(function($) {
                 if (ispravno){
                     greska.text(" ");
                 }else{
-                   greska.text("Korisničko ime je zauzeto!");
+                   greska.text("This username is already taken!");
                    greska.css('color', 'red');
                }
 
@@ -86,7 +86,7 @@ $(document).ready(function($) {
 
         } else {
 
-            greska.text("Lozinka i ponovljena lozinka nisu jednake");
+            greska.text("Your password and confirmation password do not match!");
             greska.css('color', 'red');
             $("#gumbregistracija").prop("disabled", true);
         }

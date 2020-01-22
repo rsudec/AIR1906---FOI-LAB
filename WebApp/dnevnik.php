@@ -4,7 +4,7 @@ include_once 'izbornik.php';
 
 <html>
 <head>
-    <title>Users activity</title>
+    <title>Activity Log</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- DataTables -->

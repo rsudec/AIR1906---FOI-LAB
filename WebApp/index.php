@@ -50,7 +50,7 @@ include_once 'sesija.php';
                         <div class="inner">
                             <h3 id="korisnici">0</h3>
 
-                            <p>User Registrations</p>
+                            <p>User registrations</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>

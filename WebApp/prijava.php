@@ -1,6 +1,20 @@
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> Log in</title>
@@ -68,7 +82,7 @@
 
 
 
-                        <button type="submit" name="prijava_gumb" class="btn btn-primary btn-block">Sign In</button>
+                        <button type="submit" id="prijava" name="prijava_gumb" class="btn btn-primary btn-block">Sign In</button>
 
 
                 <input type="hidden" id="_token" value="{{ csrf_token() }}">
@@ -84,7 +98,21 @@
 
 </body>
 </html>
+<script type="text/javascript">
+    $(function() {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
 
+
+
+
+    });
+
+</script>
 <?php
 include_once 'header.php';
 include_once 'sesija.php';
@@ -152,21 +180,20 @@ if (isset($_POST['prijava_gumb'])) {
 
 
     if ($korisnik==null){
-        echo '<script language="javascript">';
 
-        echo 'alert("Pogrešno korisničko ime ili lozinka!")';
-        echo '</script>';
+        echo'<script type="text/javascript"> toastr.error("Username and/or password is incorrect!")</script>';
+
     }else {
         $kljuc = $korisnik[0]->fk_uloga;
         $id = $korisnik[0]->id_korisnik;
         if ($kljuc == 1) {
+
             $_SESSION["korisnik"] = $id;
             setcookie("korisnik", $id, time() + (60*60*1));
-            header("Location: index.php");
+            echo "<script> location.href='https://testapp1906.azurewebsites.net/index.php'; </script>";
         } else {
-            echo '<script language="javascript">';
-            echo 'alert("Niste administrator sustava!")';
-            echo '</script>';
+            echo'<script type="text/javascript"> toastr.error("You are not administrator!")</script>';
+
         }
     }
 

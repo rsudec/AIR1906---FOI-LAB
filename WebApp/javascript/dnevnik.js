@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var prikazDnevnik = $("#prikaz_dnevnik");
 
-    prikazDnevnik.text("Učitavanje podataka...");
+    prikazDnevnik.text("Loading data...");
     dohvatiPodatke();
     $.ajaxSetup ({
         cache: false
@@ -15,8 +15,8 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/IspisLog",
             success: function (result) {
                 var output =
-                    "<table id='tablica'><thead><tr><th>Vrsta</th><th>Korisnik</th><th>E-mail</th><th>Resurs</th><th>Datum i vrijeme</th>" +
-                    "<th>Napomena</th></thead><tbody>";
+                    "<table id='tablica'><thead><tr><th>Type</th><th>User</th><th>E-mail</th><th>Resource</th><th>Date and time</th>" +
+                    "<th>Feedback</th></thead><tbody>";
 
                 for (var i in result) {
                     output +=
