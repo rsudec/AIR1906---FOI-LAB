@@ -1,20 +1,40 @@
+import 'package:air1906_flutter/models/Category.dart';
+import 'package:air1906_flutter/viewModel/CategoryResourcesViewModel.dart';
+import 'package:air1906_flutter/widgets/CategoryItem.dart';
 import 'package:air1906_flutter/widgets/ResourceItem.dart';
-import 'package:air1906_flutter/widgets/SearchResourceItem.dart';
+
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
 import '../viewModel/SearchResourceViewModel.dart';
 import '../models/Resource.dart';
+
+import '../viewModel/CategoriesViewModel.dart';
 
 class SearchResourceScreen extends StatelessWidget {
   static const routeName = "/searchResource";
   final SearchResourceViewModel _searchResourceViewModel =
       SearchResourceViewModel();
 
-  final test = [
-    "1",
-    "2",
-    "3",
-  ];
+  final CategoriesViewModel _categoriesViewModel = CategoriesViewModel();
+
+  List<String> categoriesList;
+
+  List<DropdownMenuItem<String>> dropDownBuilder(
+      AsyncSnapshot<dynamic> snapshot) {
+    List<DropdownMenuItem<String>> listCategoriesName;
+    listCategoriesName =
+        (snapshot.data['categoryList'] as List<Category>).map((Category value) {
+      return new DropdownMenuItem<String>(
+        value: value.naziv,
+        child: new Text(value.naziv),
+      );
+    }).toList();
+    listCategoriesName.add(DropdownMenuItem<String>(
+      value: 'Sve',
+      child: new Text('Sve'),
+    ));
+    return listCategoriesName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +93,7 @@ class SearchResourceScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -111,7 +131,7 @@ class SearchResourceScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: 120,
+                          width: 122,
                           height: 40,
                           decoration: new BoxDecoration(
                             borderRadius: new BorderRadius.circular(30.0),
@@ -123,33 +143,35 @@ class SearchResourceScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: DropdownButtonHideUnderline(
-                              child: new DropdownButton<String>(
-                                iconEnabledColor: Colors.black,
-                                hint: Text(
-                                  'Kategorija',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                items: <String>['A', 'B', 'C', 'D']
-                                    .map((String value) {
-                                  return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {},
-                              ),
+                              child: StreamBuilder(
+                                  stream: _categoriesViewModel
+                                      .observableCategoryMap,
+                                  builder: (context, snapshot) {
+                                    return new DropdownButton<String>(
+                                      iconEnabledColor: Colors.black,
+                                      hint: Text(
+                                        snapshot.data['categoryName'] as String,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      items: dropDownBuilder(snapshot),
+                                      onChanged: (value) {
+                                        _categoriesViewModel
+                                            .onChangedDropDownMenu(value);
+                                        _searchResourceViewModel
+                                            .getAllResourceByCategory(value);
+                                      },
+                                    );
+                                  }),
                             ),
                           ),
                         )
                       ]),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(top: 50),
-                      height: 200,
-                      width: 100,
+                      padding: EdgeInsets.only(top: 30),
                       child: StreamBuilder(
                         stream: _searchResourceViewModel.observableResourceList,
                         builder: (context, snapshot) {
@@ -166,7 +188,7 @@ class SearchResourceScreen extends StatelessWidget {
                               itemCount:
                                   (snapshot.data as List<Resource>).length,
                               itemBuilder: (ctx, i) =>
-                                  SearchResourceItem(snapshot.data[i]),
+                                  ResourceItem(snapshot.data[i]),
                             );
                           }
                           return Center(

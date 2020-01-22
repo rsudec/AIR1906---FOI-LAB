@@ -18,6 +18,7 @@ class ResourceService {
     var url = "https://air-api.azurewebsites.net/SviResursi";
     var response = await http.get(url);
     var resourceApi = jsonDecode(response.body);
+    print(resourceApi);
     for (var item in resourceApi) {
       listResource.add(Resource(
         item["id_resurs"],

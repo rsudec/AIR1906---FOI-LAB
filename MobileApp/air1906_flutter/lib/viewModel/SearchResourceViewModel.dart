@@ -1,4 +1,6 @@
 import 'package:air1906_flutter/helpers/Auth.dart';
+import 'package:air1906_flutter/models/Category.dart';
+import 'package:air1906_flutter/service/CategoryService.dart';
 
 import '../models/ResourceInstance.dart';
 
@@ -16,12 +18,14 @@ class SearchResourceViewModel {
   BehaviorSubject<bool> _enabledButtonSlobodno;
 
   ResourceService resourceService = ResourceService();
+  CategoryService categoryService = CategoryService();
+
   BehaviorSubject<List<Resource>> _resourceList;
 
   SearchResourceViewModel() {
     _resourceList = BehaviorSubject<List<Resource>>();
     _enabledButtonSlobodno = BehaviorSubject<bool>();
-
+    getAllResource();
     _enabledButtonSlobodno.add(false);
   }
 
@@ -31,9 +35,27 @@ class SearchResourceViewModel {
   void getAllResource() async {
     final response = await resourceService.getAllResourceFromDatabase();
     _resourceList.add(response.data);
+    print(response.data);
   }
 
-  void onChangeSearchText(String text) {}
+  void getAllResourceByCategory(String valueNaziv) async {
+    Category itemCategory;
+    if (valueNaziv == 'Sve') {
+      getAllResource();
+      return;
+    }
+    final response = await categoryService.getCategoryList();
+    response.data.forEach((value) {
+      if (valueNaziv == value.naziv) {
+        itemCategory = value;
+        return;
+      }
+    });
+
+    final reponse2 =
+        await resourceService.getResourceListByCategory(itemCategory);
+    _resourceList.add(reponse2.data);
+  }
 
   void dispose() {
     _resourceList.close();
