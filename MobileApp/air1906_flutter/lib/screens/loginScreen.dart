@@ -88,6 +88,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: snapshot.hasData
                     ? snapshot.data
                         ? () async {
+                            _loginVM.disableLoginButton();
+                            Scaffold.of(ctx).showSnackBar(
+                            
+                              SnackBar(
+                                duration: Duration(seconds: 1),
+                                backgroundColor: Color.fromRGBO(0, 0, 0, 0.1),
+                                content: Container(height: 50,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                              ),
+                            );
                             bool result = await _loginVM.tryLogin(context);
                             result
                                 ? Navigator.of(ctx)
@@ -100,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                   );
+                            _loginVM.enableLoginButton();
                           }
                         : null
                     : null,

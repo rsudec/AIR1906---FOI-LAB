@@ -2,16 +2,12 @@ import 'package:air1906_flutter/helpers/Auth.dart';
 
 import '../models/ResourceInstance.dart';
 
-import '../models/Shop.dart';
-import '../models/UserRole.dart';
-
 import '../models/User.dart';
 
 import 'package:air1906_flutter/service/ResourceService.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../service/ResourceService.dart';
-import '../models/Resource.dart';
 
 class MyResourceViewModel {
   String _validComment;

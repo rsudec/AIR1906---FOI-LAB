@@ -11,13 +11,14 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginService {
+  
   Future<APIResponse<User>> getUserByUsername(
       String username, String password) async {
     User user;
     var url = "https://air-api.azurewebsites.net/Prijava";
     var response =
         await http.post(url, body: {"korime": username, "lozinka": password});
-    if (response.body.length > 0) {
+    if (response.body.length > 2) {
       print(response.body);
       var userRes = jsonDecode(response.body)[0];
       print(userRes);
@@ -40,7 +41,7 @@ class LoginService {
     }
   }
 
-  Future<void> authenticateUser(User user) async {
+  Future<bool> authenticateUser(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("username", user.username);
     await prefs.setString("password", user.password);
@@ -50,6 +51,7 @@ class LoginService {
             .add(Duration(hours: Config.hoursToPersistLogin))
             .toString());
     Auth.currentUser = user;
+    return true;
   }
 
   Future<bool> tryAutoLogin() async {

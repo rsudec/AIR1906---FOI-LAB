@@ -57,15 +57,22 @@ class LoginViewModel {
       _enabledButtonLogin.add(false);
     }
   }
-
+  void disableLoginButton(){
+    _enabledButtonLogin.add(false);
+  }
+  void enableLoginButton(){
+    _enabledButtonLogin.add(true);
+  }
   Future<bool> tryLogin(BuildContext ctx) async {
+
     final response =
         await loginService.getUserByUsername(_validUsername, _validPass);
     if (response.data != null) {
-      final user = response.data;
+      var user = response.data;
       loginService.authenticateUser(user);
       return true;
     }
+    print("nema");
     return false;
   }
 

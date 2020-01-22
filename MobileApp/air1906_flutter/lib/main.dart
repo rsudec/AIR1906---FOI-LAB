@@ -1,6 +1,8 @@
-import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
-import 'package:air1906_flutter/screens/myResourcesScreen.dart';
+
 import 'package:flutter/material.dart';
+import './screens/BorrowScreen.dart';
+import './screens/ResourceDetailScreen.dart';
+import './screens/myResourcesScreen.dart';
 import './screens/mainScreen.dart';
 import './screens/loginScreen.dart';
 import './screens/CategoryResourceScreen.dart';
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
         CategoryResourceScreen.routeName: (ctx) => CategoryResourceScreen(null),
         ResourceDetailScreen.routeName: (ctx) => ResourceDetailScreen(),
         MyResourcesScreen.routeName: (ctx) => MyResourcesScreen(),
+        BorrowScreen.routeName: (ctx) => BorrowScreen(),
       },
     );
   }
