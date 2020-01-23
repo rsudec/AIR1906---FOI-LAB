@@ -16,7 +16,7 @@ $(document).ready(function() {
             success: function (result) {
                 var output =
                     "<table id='tablica'><thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Quantity</th><th>Borrowed</th>" +
-                    "<th>Maximum loan period<br>(days)</th><th>Picture</th><th></th></thead><tbody>";
+                    "<th>Maximum loan <br> period (days)</th><th>Picture</th><th></th></thead><tbody>";
 
                 for (var i in result) {
                     var slika = result[i].slika;
@@ -35,10 +35,12 @@ $(document).ready(function() {
                         "</td><td>" +
                         result[i].max_posudba +
                         "</td><td>" +
-                        "<img src='" + slika + "'>" +
+                        '<img src="/img/'+slika+'"> '+
                         "</td><td>" +
-                        '<button data-toggle="modal" data-target="#modal-default" id="' + tid + '" >Details</button>' +
+                        '<button class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-default" id="' + tid + '" >Details</button>' +
+                        '<button class="btn btn-block btn-warning btn-sm " id='+tid+'>Edit</button>'+
                         "</td></tr>";
+
                 }
                 output += "</tbody></table>";
 
@@ -65,7 +67,7 @@ $(document).ready(function() {
     }
 
 
-    $(document.body).on('click', 'button', function (event) {
+    $(document.body).on('click', '.btn-primary', function (event) {
         var resurs_id = event.target.id;
         var ispis_p=$("#ispis");
         var ispis="";
@@ -96,5 +98,9 @@ $(document).ready(function() {
             }
         });
 
+    });
+    $(document.body).on('click', '.btn-warning', function (event)  {
+        var resurs_id=event.target.id;
+        location.href='https://testapp1906.azurewebsites.net/edit_resurs.php?id='+resurs_id;
     });
 });
