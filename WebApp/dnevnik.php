@@ -1,4 +1,12 @@
 <?php
+session_start();
+include_once 'sesija.php';
+
+if(dohvatiLogKorId()===null){
+    echo "<script> location.href='https://testapp1906.azurewebsites.net/prijava.php'; </script>";
+}
+
+
 include_once 'izbornik.php';
 ?>
 
@@ -27,7 +35,7 @@ include_once 'izbornik.php';
                     <br>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Users activity</h3>
+                            <h3 class="card-title">Activity Log</h3>
                         </div>
 
                         <div class="card-body">

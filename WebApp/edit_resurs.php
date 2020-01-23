@@ -1,4 +1,12 @@
 <?php
+session_start();
+include_once 'sesija.php';
+
+if(dohvatiLogKorId()===null){
+    echo "<script> location.href='https://testapp1906.azurewebsites.net/prijava.php'; </script>";
+}
+
+
 include_once 'izbornik.php';
 $id=$_GET["id"];
 

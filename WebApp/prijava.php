@@ -1,3 +1,8 @@
+<?php
+session_start();
+include_once 'sesija.php';
+
+?>
 <html>
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -115,7 +120,7 @@
 </script>
 <?php
 include_once 'header.php';
-include_once 'sesija.php';
+
 
 //provjera sigurne https veze
 $uri = $_SERVER["REQUEST_URI"];
@@ -189,7 +194,8 @@ if (isset($_POST['prijava_gumb'])) {
         if ($kljuc == 1) {
 
             $_SESSION["korisnik"] = $id;
-            setcookie("korisnik", $id, time() + (60*60*1));
+
+            setcookie("korisnik",$id, time() + (60*60));
             echo "<script> location.href='https://testapp1906.azurewebsites.net/index.php'; </script>";
         } else {
             echo'<script type="text/javascript"> toastr.error("You are not administrator!")</script>';

@@ -1,8 +1,13 @@
 <?php
-include_once 'izbornik.php';
+
 
 include_once 'sesija.php';
+include_once 'izbornik.php';
+session_start();
 
+if(dohvatiLogKorId()===null){
+    echo "<script> location.href='https://testapp1906.azurewebsites.net/prijava.php'; </script>";
+}
 ?>
 <html>
 <head>
