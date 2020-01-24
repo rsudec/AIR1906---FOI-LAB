@@ -5,9 +5,8 @@ include_once 'sesija.php';
 if(dohvatiLogKorId()===null){
     echo "<script> location.href='https://testapp1906.azurewebsites.net/prijava.php'; </script>";
 }
+
 include_once 'izbornik.php';
-
-
 ?>
 
 <html>
@@ -44,6 +43,7 @@ include_once 'izbornik.php';
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="javascript/novi_resurs.js"></script>
+
 </head>
 <div class="content-wrapper">
 
@@ -58,12 +58,14 @@ include_once 'izbornik.php';
                             <h3 class="card-title">New resource</h3>
                         </div>
 
-                        <div role="form" action="novi_resurs.php" method='POST' id='dodaj_resurs'>
+                        <form role="form" action="novi_resurs.php" enctype="multipart/form-data" method='POST' id='dodaj_resurs'>
                             <div class="card-body">
                                  <div class="form-group">
-                                    <label for="naziv">Name: </label><input type="text" class="form-control" id="naziv" name="naziv" required="required">
+                                     <label for="naziv">Name: </label>
+                                     <input type="text" class="form-control" id="naziv" name="naziv" required="required">
                                  </div>
-                                <div class="form-group">
+                                 <div id="greska_prva"></div>
+                                 <div class="form-group">
                                     <label for="tip_resursa">Type:</label>
                                     <select name="tip_resursa" id="tip_resursa" class="form-control">
                                         <?php
@@ -77,24 +79,24 @@ include_once 'izbornik.php';
 
                                         ?>
                                     </select>
-                                </div>
-                                <div class="form-group">
+                                 </div>
+                                 <div class="form-group">
                                     <label for="trajanje">Maximum loan period: </label>
                                     <input type="number" id="trajanje" name="trajanje" min="1" placeholder="days" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Upload picture of resource: </label>
-                                    <input type="file" name="file">
-                                </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="predaj">Upload picture of resource: </label>
+                                    <input type="file" name="userfile" id="predaj">
+                                 </div>
                             </div>
                             <div class="card-footer">
 
-                                    <input class="btn btn-primary" id="gumbresurs" type='submit' name="resurs_gumb" value='Submit'/>
+                                    <input class="btn btn-primary" id="gumb_resurs" type='submit' name="resurs_gumb" value='Submit'/>
 
                             </div>
                             <input type="hidden" id="_token" value="{{ csrf_token() }}">
-                        </div>
-    </form>
+                        </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -102,3 +104,36 @@ include_once 'izbornik.php';
     </div>
 </div>
 </html>
+    <script type="text/javascript">
+        $(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+        });
+
+    </script>
+<?php
+
+if (isset($_POST['resurs_gumb'])) {
+    $currentDir = getcwd();
+    $uploadDirectory = "img/";
+
+    $errors = []; // Store all foreseen and unforseen errors here
+
+    $fileExtensions = ['jpeg','jpg','png']; // Get all the file extensions
+
+    $fileName = $_FILES['userfile']['name'];
+    $fileSize = $_FILES['userfile']['size'];
+    $fileTmpName  = $_FILES['userfile']['tmp_name'];
+    $fileType = $_FILES['userfile']['type'];
+    $fileExtension = strtolower(end(explode('.',$fileName)));
+
+    $uploadPath = $currentDir . $uploadDirectory . basename($fileName);
+    $text=$fileName;
+    echo '<script type="text/javascript">alert("'.$text.'")</script>';
+}
+?>
