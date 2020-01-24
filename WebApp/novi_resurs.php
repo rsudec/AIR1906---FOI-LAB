@@ -14,8 +14,36 @@ include_once 'izbornik.php';
 <head>
     <title>New resource</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+
+
+    <!-- SweetAlert2 -->
+    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Toastr -->
+    <script src="plugins/toastr/toastr.min.js"></script>
+
+
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <script src="javascript/resursi.js"></script>
+
+
+    <!-- DataTables -->
+    <script src="plugins/datatables/jquery.dataTables.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="javascript/registracija.js"></script>
+    <script src="javascript/novi_resurs.js"></script>
 </head>
 <div class="content-wrapper">
 
@@ -38,44 +66,25 @@ include_once 'izbornik.php';
                                 <div class="form-group">
                                     <label for="tip_resursa">Type:</label>
                                     <select name="tip_resursa" id="tip_resursa" class="form-control">
-                                        <option value="1">Resurs 1</option>
-                                        <option value="2">Resurs 2</option>
-                                        <option value="3">Resurs 3</option>
-                                        <option value="4">Resurs 4</option>
+                                        <?php
+                                        $url = "https://air-api.azurewebsites.net/VrsteResursa";
+                                        $data = file_get_contents($url);
+                                        $podaci = json_decode($data);
+
+                                        foreach ($podaci as $podatak){
+                                            echo "<option value=$podatak->id_tip_resursa>" .$podatak->nazivtr . "</option>";
+                                        }
+
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="skladiste">
-                                        Warehouse:</label>
-                                    <select name="skladiste" id="skladiste" class="form-control">
-                                        <option value="1">Skladiste 1</option>
-                                        <option value="2">Skladiste 2</option>
-                                        <option value="3">Skladiste 3</option>
-                                        <option value="4">Skladiste 4</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="pozicija">Free place:</label>
-                                    <select name="pozicija" id="pozicija" class="form-control">
-                                        <option value="1">Mjesto 1</option>
-                                        <option value="2">Mjesto 2</option>
-                                        <option value="3">Mjesto 3</option>
-                                        <option value="4">Mjesto 4</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kolicina">Quantity: </label>
-                                    <input type="number" id="kolicina" name="kolicina" min="0" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>QR code</label>
-                                    <input class="btn btn-primary" id="gumbQr" type='button' name="gumb_Qr" value='Create'/>
+                                    <label for="trajanje">Maximum loan period: </label>
+                                    <input type="number" id="trajanje" name="trajanje" min="1" placeholder="days" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Upload picture of resource: </label>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="30000">
-                                    <label for="predaj">File: </label>
-                                    <input id="predaj" name="userfile" type="file"><br>
+                                    <input type="file" name="file">
                                 </div>
                             </div>
                             <div class="card-footer">
