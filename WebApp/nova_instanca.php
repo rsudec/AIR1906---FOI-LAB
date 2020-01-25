@@ -7,6 +7,74 @@ if(dohvatiLogKorId()===null){
 }
 include_once 'izbornik.php';
 
+include('libs/phpqrcode/qrlib.php');
+
+if (isset($_POST['instanca_gumb'])) {
+
+    $id_res=$_POST["resurs"];
+    $kolicina=1;
+    $mjesto=$_POST["pozicija"];
+
+    $data = array(
+        'idres'      => $id_res,
+        'idkon'    => $mjesto,
+        'kolicina'  =>$kolicina,
+        '_token'=> '{{csrf_token()}}'
+
+    );
+
+    $url = "https://air-api.azurewebsites.net/DodajInstancu";
+    $content = json_encode($data);
+
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+    $json_odgovor = curl_exec($curl);
+
+    $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    if ( $status != 200 ) {
+        die("Error: call to URL $url failed with status $status, response $json_odgovor, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+    }
+
+    curl_close($curl);
+
+    $instance = json_decode($json_odgovor);
+
+    if ($instance==null){
+        echo'<script type="text/javascript"> toastr.error("Error with adding new instance!")</script>';
+    }else{
+        echo'<script type="text/javascript">  toastr.success("New instance successfully added!")</script>';
+    }
+
+    $tempDir = 'img/';
+
+    $url = "https://air-api.azurewebsites.net/Qr/" . $id_res . "/" . $mjesto . "";
+    $data = file_get_contents($url);
+    $podaci = json_decode($data);
+
+    foreach ($podaci as $podatak) {
+        $id = $podatak->id_instanca;
+    }
+    $tempDir = 'img/';
+    $url = "https://air-api.azurewebsites.net/Qr/$id_res/$mjesto";
+    $data = file_get_contents($url);
+    $podaci = json_decode($data);
+
+    foreach ($podaci as $podatak) {
+        $id = $podatak->id_instanca;
+    }
+
+    $filename = $id;
+    $codeContents = $filename;
+    QRcode::png($codeContents, $tempDir . '' . $filename . '.png', QR_ECLEVEL_L, 5);
+
+}
 
 ?>
 
@@ -41,9 +109,6 @@ include_once 'izbornik.php';
     <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="javascript/nova_instanca.js"></script>
 </head>
 <div class="content-wrapper">
 
@@ -58,11 +123,11 @@ include_once 'izbornik.php';
                             <h3 class="card-title">New instance</h3>
                         </div>
 
-                        <div role="form" action="nova_instanca.php" method='POST' id='dodaj_instancu'>
+                        <form role="form" action="nova_instanca.php" enctype="multipart/form-data" method='POST' id='dodaj_resurs'>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="tip_resursa">Resurs:</label>
-                                    <select name="tip_resursa" id="tip_resursa" class="form-control">
+                                    <label for="resurs">Resurs:</label>
+                                    <select name="resurs" id="resurs" class="form-control">
                                         <?php
                                         $url = "https://air-api.azurewebsites.net/SviResursi";
                                         $data = file_get_contents($url);
@@ -93,20 +158,42 @@ include_once 'izbornik.php';
                                 <div class="form-group">
                                     <label for="pozicija">Items place:</label>
                                     <select name="pozicija" id="pozicija" class="form-control">
-                                        <option value="1">Mjesto 1</option>
-                                        <option value="2">Mjesto 2</option>
-                                        <option value="3">Mjesto 3</option>
-                                        <option value="4">Mjesto 4</option>
+                                        <?php
+                                        $url = "https://air-api.azurewebsites.net/SlobodniKontejneri";
+                                        $data = file_get_contents($url);
+                                        $podaci = json_decode($data);
+
+                                        foreach ($podaci as $podatak){
+                                            echo "<option value=$podatak->id_kontejner>" .$podatak->naziv . "</option>";
+                                        }
+
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="card-footer">
 
-                                <input class="btn btn-primary" id="gumbresurs" type='submit' name="resurs_gumb" value='Submit'/>
+                                <input class="btn btn-primary" id="gumbinstanca" type='submit' name="instanca_gumb" value='Submit'/>
 
                             </div>
+                            <?php
+                            if(!isset($filename)){
+                                $filename = "author";
+                            }
+                            ?>
+                            <div class="card-footer">
+                                <label for="kod">QR Code: </label>
+                                <div class="qrframe" style="border:2px solid black; width:210px; height:210px;">
+                                    <?php echo '<img src="img/'. @$filename.'.png" style="width:200px; height:200px;"><br>'; ?>
+                                </div>
+
+                                <a class="btn btn-primary" style="width:210px; margin:5px 0;"  href="download.php?file=<?php echo $filename; ?>.png ">Download QR Code</a>
+
+                            </div>
+
+
                             <input type="hidden" id="_token" value="{{ csrf_token() }}">
-                        </div>
+                        </form>
                         </form>
                     </div>
                 </div>
@@ -115,3 +202,15 @@ include_once 'izbornik.php';
     </div>
 </div>
 </html>
+    <script type="text/javascript">
+        $(function() {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
+
+        });
+
+    </script>
