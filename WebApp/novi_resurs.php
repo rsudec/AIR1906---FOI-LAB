@@ -119,21 +119,97 @@ include_once 'izbornik.php';
 <?php
 
 if (isset($_POST['resurs_gumb'])) {
-    $currentDir = getcwd();
-    $uploadDirectory = "img/";
+    $userfile = $_FILES['userfile']['tmp_name'];
+    $userfile_name = $_FILES['userfile']['name'];
+    $userfile_size = $_FILES['userfile']['size'];
+    $userfile_type = $_FILES['userfile']['type'];
+    $userfile_error = $_FILES['userfile']['error'];
 
-    $errors = []; // Store all foreseen and unforseen errors here
+    if ($userfile_error > 0) {
+        echo 'Problem: ';
+        switch ($userfile_error) {
+            case 1: echo 'Size larger than ' . ini_get('upload_max_filesize');
+                break;
+            case 2: echo 'Size larger than ' . $_POST["MAX_FILE_SIZE"] . 'B';
+                break;
+            case 3: echo 'File partially uploaded';
+                break;
+            case 4: echo 'File not uploaded';
+                break;
+        }
+        exit;
+    }
+    $upfile = 'img/'.$userfile_name;
 
-    $fileExtensions = ['jpeg','jpg','png']; // Get all the file extensions
+    if (is_uploaded_file($userfile)) {
+        if (!move_uploaded_file($userfile, $upfile)) {
+            echo 'An issue: it is not possible to upload the file to its destination';
+            exit;
+        }
+    } else {
+        echo 'An issue: Possible transmission attack. File: ' . $userfile_name;
+        exit;
+    }
 
-    $fileName = $_FILES['userfile']['name'];
-    $fileSize = $_FILES['userfile']['size'];
-    $fileTmpName  = $_FILES['userfile']['tmp_name'];
-    $fileType = $_FILES['userfile']['type'];
-    $fileExtension = strtolower(end(explode('.',$fileName)));
+    $naziv=$_POST["naziv"];
+    $tip=$_POST["tip_resursa"];
+    $dostupan=$_POST["trajanje"];
+    $kolicina=0;
+    $slika=$userfile_name;
 
-    $uploadPath = $currentDir . $uploadDirectory . basename($fileName);
-    $text=$fileName;
-    echo '<script type="text/javascript">alert("'.$text.'")</script>';
+    $url = "https://air-api.azurewebsites.net/SviResursi";
+    $data = file_get_contents($url);
+    $podaci = json_decode($data);
+
+    $ispravno=true;
+
+    foreach ($podaci as $podatak){
+        if ($podatak->nazivr==$naziv){
+            echo'<script type="text/javascript"> toastr.error("There is already a resurs with this name!")</script>';
+            $ispravno=false;
+        }
+    }
+
+    if ($ispravno){
+        $data = array(
+            'naziv'      => $naziv,
+            'kolicina'    => $kolicina,
+            'slika'    => $slika,
+            'posudba'    => $dostupan,
+            'tip'    => $tip,
+            '_token'=> '{{csrf_token()}}'
+
+        );
+
+        $url = "https://air-api.azurewebsites.net/DodajResurs";
+        $content = json_encode($data);
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER,
+            array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+        $json_odgovor = curl_exec($curl);
+
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        if ( $status != 200 ) {
+            die("Error: call to URL $url failed with status $status, response $json_odgovor, curl_error " . curl_error($curl) . ", curl_errno " . curl_errno($curl));
+        }
+
+
+        curl_close($curl);
+
+        $resurs = json_decode($json_odgovor);
+
+        if ($resurs==null){
+            echo'<script type="text/javascript"> toastr.error("Error with adding new resurs!")</script>';
+        }else{
+            echo'<script type="text/javascript">  toastr.success("New resurs successfully added!")</script>';
+        }
+    }
 }
 ?>
