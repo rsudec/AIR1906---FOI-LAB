@@ -19,7 +19,7 @@ $(document).ready(function() {
                     "<th>OIB</th><th>Username</th><th></th></thead><tbody>";
 
                 for (var i in result) {
-                    var tid = result[i].id_resurs;
+                    var tid = result[i].id_korisnik;
                     output +=
                         "<tr><td>" +
                         result[i].ime +
@@ -36,8 +36,7 @@ $(document).ready(function() {
                         "</td><td>" +
                         result[i].kor_ime+
                         "</td><td>" +
-                        '<button class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-default" id="' + tid + '" >Edit</button>' +
-                        '<button class="btn btn-block btn-warning btn-sm " id='+tid+'>Delete</button>'+
+                        '<button class="btn btn-block btn-primary btn-sm" id="' + tid + '" >Edit</button>' +
                         "</td></tr>";
                 }
                 output += "</tbody></table>";
@@ -61,6 +60,9 @@ $(document).ready(function() {
             }
         });
     }
-
+    $(document.body).on('click', '.btn-primary', function (event)  {
+        var user_id=event.target.id;
+        location.href='https://testapp1906.azurewebsites.net/edit_users.php?id='+user_id;
+    });
 
 });
