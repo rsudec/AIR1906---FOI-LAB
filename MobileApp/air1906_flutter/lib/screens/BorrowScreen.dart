@@ -1,3 +1,5 @@
+import 'package:easy_dialog/easy_dialog.dart';
+
 import '../interface/IResourceLoader.dart';
 import '../viewModel/BorrowViewModel.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ class BorrowScreen extends StatelessWidget {
   static const routeName = "/borrow";
   ResourceLoaderType type;
   final borrowViewModel = BorrowViewModel();
-  BorrowScreen();
+  //BorrowScreen();
   @override
   Widget build(BuildContext context) {
     type = ModalRoute.of(context).settings.arguments as ResourceLoaderType;
@@ -97,12 +99,12 @@ class BorrowScreen extends StatelessWidget {
                     child: StreamBuilder(
                         stream: borrowViewModel.observableBorrowMessage,
                         builder: (context, snapshot) {
-                          return Align(
-                              alignment: Alignment.center,
-                              child: Card(
-                                elevation: 10,
-                                color: Colors.white,
-                                child: Container(
+                              return Align(
+                                alignment: Alignment.center,
+                                child: Card(
+                                  elevation: 0,
+                                  color: Colors.white,
+                                  child: Container(
                                     width: 300,
                                     child: Row(
                                       mainAxisAlignment:
@@ -110,12 +112,14 @@ class BorrowScreen extends StatelessWidget {
                                       children: <Widget>[
                                         snapshot.hasError
                                             ? FittedBox(
+                                              
                                                 alignment: Alignment.center,
                                                 fit: BoxFit.contain,
                                                 child: Text(
-                                                  snapshot.error,
+                                                  " ${snapshot.error}",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
+
                                                       fontSize: 26,
                                                       color: Colors.red[400]),
                                                 ),
@@ -128,8 +132,10 @@ class BorrowScreen extends StatelessWidget {
                                                     color: Colors.green[400]))
                                             : Container(),
                                       ],
-                                    )),
-                              ));
+                                    ),
+                                  ),
+                                ),
+                              );
                         }),
                   ),
                 ),
@@ -148,6 +154,12 @@ class ResourceLoaderItem extends StatelessWidget {
   final BorrowViewModel borrowViewModel;
   ResourceLoaderItem(this.item, this.borrowViewModel, this.type);
 
+  void _takeAction(String id) {
+    type == ResourceLoaderType.borrowResource
+        ? borrowViewModel.borrowResource(id)
+        : borrowViewModel.returnResource(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -155,11 +167,53 @@ class ResourceLoaderItem extends StatelessWidget {
         String id = await item.loadResource().then((x) {
           return x;
         });
-        print("id $id");
-        
-        type == ResourceLoaderType.borrowResource
-            ? borrowViewModel.borrowResource(id)
-            : borrowViewModel.returnResource(id);
+        if (id != null && id != "-1") {
+          EasyDialog(
+              height: MediaQuery.of(context).size.height / 3,
+              cornerRadius: 15,
+              cardColor: Colors.white,
+              contentList: [
+                SizedBox(
+                  height: 50,
+                ),
+                Text(
+                  type == ResourceLoaderType.borrowResource
+                      ? "Potvrdi posudbu instance $id ?"
+                      : "Potvrdi vraćanje instance $id ?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                Expanded(child: Container()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      color: Colors.green,
+                      child: Text(
+                        "Da",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        _takeAction(id);
+                        print("ocuuu");
+                      },
+                    ),
+                    FlatButton(
+                      color: Colors.red,
+                      child: Text("ne",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        print("nikako");
+                      },
+                    )
+                  ],
+                )
+              ]).show(context);
+        }
       },
       child: Card(
         elevation: 5,

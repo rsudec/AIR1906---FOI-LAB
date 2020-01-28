@@ -24,6 +24,8 @@ class NFCLoader implements IResourceLoader {
       return x;
     });
     return nfcResult;
+    
+    
   }
 
   Future<String> listenNFC() async {
@@ -47,19 +49,17 @@ class NFCLoader implements IResourceLoader {
           String resourceIdFromNFC = String.fromCharCodes(data.payload);
           print("dohvacno $resourceIdFromNFC");
           res = resourceIdFromNFC;
-
           Navigator.of(context).pop();
         },
       );
-    } catch (e) {}
+    } catch (e) {} 
     return await Future.delayed(Duration(seconds: 3)).then((x) {
-      return res;
-    });
+        return res;
+    });    
   }
 
   void showNFCDialog() {
     EasyDialog(
-    
         height: MediaQuery.of(context).size.height / 2,
         cornerRadius: 15,
         cardColor: Colors.white,
