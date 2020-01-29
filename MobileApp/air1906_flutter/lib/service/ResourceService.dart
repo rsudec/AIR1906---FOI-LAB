@@ -69,6 +69,7 @@ class ResourceService {
       return APIResponse<bool>(false);
     }
   }
+
   Future<APIResponse<List<ResourceInstance>>> getResourceListByUser(
       User user) async {
     List<ResourceInstance> listResource = [];
@@ -104,5 +105,49 @@ class ResourceService {
     print(response.statusCode);
     if (response.body.isNotEmpty) return APIResponse<bool>(true);
     return APIResponse<bool>(true);
+  }
+  Future<APIResponse<bool>> updateInstanceNFCStatus(String idInstance) async{
+    var response = await http.get("https://air-api.azurewebsites.net/NfcSpreman/$idInstance");
+    print(response.body);
+    if(response.body == "0"){
+      return APIResponse<bool>(false);
+    }
+    return APIResponse<bool>(true);
+  }
+  Future<APIResponse<List<ResourceInstance>>> getInstancesWithoutTags() async {
+    List<ResourceInstance> listResource = [];
+    print("pozivam resurse");
+    
+    var url = "https://air-api.azurewebsites.net/NfcPriprava";
+    var response = await http.get(url);
+    var resourceApi = jsonDecode(response.body);
+    //print(response.body);
+    //print(resourceApi[0][0]);
+    for (var item in resourceApi) {
+      listResource.add(
+        ResourceInstance(
+          item["id_instanca"],
+          int.parse(item["kolicina"]),
+          Resource(
+            item["fk_resurs"][0]["id_resurs"],
+            item["fk_resurs"][0]["nazivr"],
+            int.parse(
+              item["fk_resurs"][0]["kolicina"],
+            ),
+            item["fk_resurs"][0]["slika"],
+            Duration(
+              days: int.parse(
+                item["fk_resurs"][0]["max_posudba"],
+              ),
+            ),
+            ResourceType(
+              item["fk_resurs"][0]["fk_tip_resursa"],
+            ),
+          ),
+          
+        ),
+      );
+    }
+    return APIResponse<List<ResourceInstance>>(listResource);
   }
 }

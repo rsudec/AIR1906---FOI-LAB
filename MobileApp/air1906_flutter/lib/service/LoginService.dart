@@ -51,6 +51,7 @@ class LoginService {
             .add(Duration(hours: Config.hoursToPersistLogin))
             .toString());
     Auth.currentUser = user;
+    print(Auth.currentUser);
     return true;
   }
 
@@ -69,6 +70,7 @@ class LoginService {
       }
       await getUserByUsername(username, password).then((response) async {
         await authenticateUser(response.data);
+        print("autenticiram");
       });
       return true;
     } else {

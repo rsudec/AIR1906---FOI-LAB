@@ -8,4 +8,5 @@ abstract class Modules {
     NFCLoader(),
     QRLoader(),
   ];
+  
 }

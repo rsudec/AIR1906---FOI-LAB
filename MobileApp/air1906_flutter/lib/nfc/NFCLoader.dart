@@ -3,11 +3,6 @@ import 'package:nfc_manager/nfc_manager.dart';
 import '../interface/IResourceLoader.dart';
 import 'package:flutter/material.dart';
 
-// enum NFCType {
-//   borrowResource,
-//   returnResource,
-// }
-
 class NFCLoader implements IResourceLoader {
   BuildContext context;
   ResourceLoaderType type;
@@ -30,7 +25,6 @@ class NFCLoader implements IResourceLoader {
 
   Future<String> listenNFC() async {
     String res;
-
     try {
       await NfcManager.instance.startTagSession(
         alertMessageIOS: '...',
@@ -42,12 +36,11 @@ class NFCLoader implements IResourceLoader {
         onDiscovered: (NfcTag tag) async {
           Ndef ndef = Ndef.fromTag(tag);
           if (ndef == null) {
-            print("tag is not ndef");
             return null;
           }
           NdefRecord data = ndef.cachedMessage.records.first;
           String resourceIdFromNFC = String.fromCharCodes(data.payload);
-          print("dohvacno $resourceIdFromNFC");
+          //print("dohvacno $resourceIdFromNFC");
           res = resourceIdFromNFC;
           Navigator.of(context).pop();
         },

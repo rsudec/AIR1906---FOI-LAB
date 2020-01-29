@@ -1,4 +1,4 @@
-
+import './screens/InstanceTagsScreen.dart';
 import 'package:flutter/material.dart';
 import './screens/BorrowScreen.dart';
 import './screens/ResourceDetailScreen.dart';
@@ -36,11 +36,8 @@ class MyApp extends StatelessWidget {
                   return MainScreen();
                 }
                 return LoginScreen();
-              }
-              // snapshot.connectionState == ConnectionState.waiting
-              //     ? Center(child: CircularProgressIndicator())
-              //     : LoginScreen(),
-              ),
+              },
+            ),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         MainScreen.routeName: (ctx) => MainScreen(),
@@ -48,6 +45,7 @@ class MyApp extends StatelessWidget {
         ResourceDetailScreen.routeName: (ctx) => ResourceDetailScreen(),
         MyResourcesScreen.routeName: (ctx) => MyResourcesScreen(),
         BorrowScreen.routeName: (ctx) => BorrowScreen(),
+        InstanceTagsScreen.routeName: (ctx) => InstanceTagsScreen(),
       },
     );
   }

@@ -1,14 +1,11 @@
-import 'dart:typed_data';
-
-import 'package:air1906_flutter/interface/IResourceLoader.dart';
 import 'package:flutter/material.dart';
+import '../interface/IResourceLoader.dart';
+import '../screens/InstanceTagsScreen.dart';
 import '../screens/myResourcesScreen.dart';
-import '../service/LoginService.dart';
 import '../screens/BorrowScreen.dart';
 import '../screens/loginScreen.dart';
+import '../service/LoginService.dart';
 import '../helpers/Auth.dart';
-import '../nfc/NFCLoader.dart';
-import 'package:nfc_manager/nfc_manager.dart';
 
 class AppDrawerMenu extends StatelessWidget {
   final loginService = LoginService();
@@ -20,18 +17,13 @@ class AppDrawerMenu extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: 40, left: 20),
-          child: Container(
+          child: SingleChildScrollView(
+            //height: MediaQuery.of(context).size.height,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    // CircleAvatar(
-                    //   radius: 40,
-                    //   backgroundColor: Colors.white,
-                    //   backgroundImage: NetworkImage(
-                    //       "https://justice.org.au/wp-content/uploads/2017/08/avatar-icon.png"),
-                    // ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -48,21 +40,15 @@ class AppDrawerMenu extends StatelessWidget {
                                 letterSpacing: 1),
                           ),
                         ),
-                        // Text(
-                        //   Auth.currentUser.prezime,
-                        //   style: TextStyle(
-                        //       fontFamily: 'Montserrat',
-                        //       fontSize: 28,
-                        //       fontWeight: FontWeight.bold,
-                        //       letterSpacing: 2),
-                        // ),
                         Text(
                           Auth.currentUser.email,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                           ),
                         ),
-                        SizedBox(height: 20,)
+                        SizedBox(
+                          height: 20,
+                        )
                       ],
                     ),
                   ],
@@ -75,7 +61,6 @@ class AppDrawerMenu extends StatelessWidget {
                   height: 30,
                 ),
                 Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Column(
                       children: <Widget>[
@@ -126,12 +111,7 @@ class AppDrawerMenu extends StatelessWidget {
                             Navigator.of(context).pushNamed(
                                 BorrowScreen.routeName,
                                 arguments: ResourceLoaderType.borrowResource);
-                          }
-                          // openNFCRead(
-                          //   context,
-                          //   NFCType.borrowResource,
-                          // ),
-                          ,
+                          },
                           leading: Icon(
                             Icons.nfc,
                             size: 35,
@@ -193,24 +173,25 @@ class AppDrawerMenu extends StatelessWidget {
                             ),
                           ),
                         ),
-                        
-                        // Auth.currentUser != null
-                        //     ? Auth.currentUser.isAdmin()
-                        //         ? ListTile(
-                        //             onTap: () async {},
-                        //             leading: Icon(
-                        //               Icons.nfc,
-                        //               size: 35,
-                        //             ),
-                        //             title: Text(
-                        //               "Zapiši NFC",
-                        //               style: TextStyle(
-                        //                 fontFamily: 'Montserrat',
-                        //               ),
-                        //             ),
-                        //           )
-                        //         : Container()
-                        //     : Container(),
+                        Auth.currentUser != null
+                            ? Auth.currentUser.isAdmin()
+                                ? ListTile(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(InstanceTagsScreen.routeName);
+                                    },
+                                    leading: Icon(
+                                      Icons.nfc,
+                                      size: 35,
+                                    ),
+                                    title: Text(
+                                      "Zapiši NFC",
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                      ),
+                                    ),
+                                  )
+                                : Container()
+                            : Container(),
                       ],
                     ),
                   ],
@@ -222,14 +203,4 @@ class AppDrawerMenu extends StatelessWidget {
       ),
     );
   }
-
-  // void openNFCRead(BuildContext context, NFCType type) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => Dialog(
-  //       elevation: 10,
-  //       child: NFC(type),
-  //     ),
-  //   );
-  // }
 }
