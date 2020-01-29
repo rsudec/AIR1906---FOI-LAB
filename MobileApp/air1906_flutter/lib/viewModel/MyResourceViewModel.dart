@@ -10,10 +10,7 @@ import 'package:rxdart/rxdart.dart';
 import '../service/ResourceService.dart';
 
 class MyResourceViewModel {
-  String _validComment;
-
   BehaviorSubject<bool> _enabledButtonSubmit;
-  BehaviorSubject<String> _errorInvalidComment;
   BehaviorSubject<String> _expiredDate;
 
   ResourceService resourceService = ResourceService();
@@ -47,8 +44,11 @@ class MyResourceViewModel {
 
   void insertCommentByUser(
       User user, String comment, ResourceInstance instance) {
-    var reponse = resourceService.insertCommentByUser(
-        user, comment.replaceAll("\n", " "), instance);
+    resourceService.insertCommentByUser(
+      user,
+      comment.replaceAll("\n", " "),
+      instance,
+    );
   }
 
   void onChangeCommentText(String text) {
@@ -84,5 +84,7 @@ class MyResourceViewModel {
 
   void dispose() {
     _resourceList.close();
+    _enabledButtonSubmit.close();
+    _expiredDate.close();
   }
 }

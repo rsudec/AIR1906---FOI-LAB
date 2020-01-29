@@ -51,7 +51,7 @@ class BorrowViewModel {
       messageTimeout();
       return;
     } else {
-      var response = await resourceService.borrowResource(resId).then((val) {
+      await resourceService.borrowResource(resId).then((val) {
         print("res data ${val.data}");
         if (val.data) {
           _resourceBorrowMessage.add("Posudili ste [$resId]");
@@ -75,7 +75,7 @@ class BorrowViewModel {
       messageTimeout();
       return;
     } else {
-      var response = await resourceService.returnResource(resId).then((val) {
+      await resourceService.returnResource(resId).then((val) {
         print("res data ${val.data}");
         if (val.data) {
           _resourceBorrowMessage.add("Vratili ste [$resId]");

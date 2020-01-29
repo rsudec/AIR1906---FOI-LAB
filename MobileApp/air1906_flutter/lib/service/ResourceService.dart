@@ -99,7 +99,7 @@ class ResourceService {
   Future<APIResponse<bool>> insertCommentByUser(
       User user, String comment, ResourceInstance instance) async {
     var response = await http.get(
-      "https://air-api.azurewebsites.net/DodajLog/${Auth.currentUser.id}/${instance.id}/6/${comment}",
+      "https://air-api.azurewebsites.net/DodajLog/${Auth.currentUser.id}/${instance.id}/6/$comment",
     );
     print(instance.id);
     print(response.statusCode);

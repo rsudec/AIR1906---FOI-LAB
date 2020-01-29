@@ -1,7 +1,5 @@
-import 'package:air1906_flutter/models/Resource.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_dialog/easy_dialog.dart';
-import 'package:nfc_manager/nfc_manager.dart';
 
 import '../models/ResourceInstance.dart';
 import '../viewModel/InstanceTagsViewModel.dart';

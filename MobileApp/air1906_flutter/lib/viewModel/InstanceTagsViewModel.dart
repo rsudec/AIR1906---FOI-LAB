@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:air1906_flutter/models/APIResponse.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import '../models/ResourceInstance.dart';
@@ -35,7 +34,7 @@ class InstanceTagsViewModel {
 
   Future<void> tryWritingTag(String message) async {
     idToWrite = message;
-    bool res;
+    // bool res;
     NfcManager.instance.startTagSession(
       alertMessageIOS: '...',
       pollingOptions: {
@@ -64,7 +63,7 @@ class InstanceTagsViewModel {
           var result = await ndef.write(messageToWrite);
           if(result){
             final response = await resourceService.updateInstanceNFCStatus(message);
-            res = response.data;
+            // res = response.data;
             print(response.data);
             _writtenTag.add(true);
           }
