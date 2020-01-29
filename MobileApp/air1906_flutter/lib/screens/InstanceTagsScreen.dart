@@ -69,7 +69,9 @@ class InstanceTagsScreen extends StatelessWidget {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
-                        } else if ((snapshot.data as List<ResourceInstance>).length == 0) {
+                        } else if ((snapshot.data as List<ResourceInstance>)
+                                .length ==
+                            0) {
                           return Center(
                             child: Text(
                               "Sve instance su zapisane u NFC tagove",
@@ -103,6 +105,7 @@ class InstanceTagsScreen extends StatelessWidget {
 class InstanceItem extends StatelessWidget {
   final ResourceInstance resourceInstance;
   final InstanceTagsViewModel _instanceTagsViewModel = InstanceTagsViewModel();
+  final Key dialogKey = Key("dialog");
   InstanceItem(this.resourceInstance);
   @override
   Widget build(BuildContext context) {
@@ -111,11 +114,12 @@ class InstanceItem extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data) {
-              Future.delayed(Duration(seconds: 1)).then((x) {
-                Navigator.of(context).pop();
-              });
+              // Future.delayed(Duration(seconds: 1)).then((x) {
+              Navigator.of(context).pop();
+              //_instanceTagsViewModel.stopNFCSession();
+              // });
             }
-          } 
+          }
           return Card(
             child: ListTile(
               title: Text(resourceInstance.resource.naziv),
@@ -146,28 +150,32 @@ class InstanceItem extends StatelessWidget {
         });
   }
 
-  void showNFCDialog(BuildContext context) {
-    EasyDialog(
-        height: MediaQuery.of(context).size.height / 2,
-        cornerRadius: 15,
-        cardColor: Colors.white,
-        contentList: [
-          Text(
-            "Zapiši u NFC Tag",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+  Future<void> showNFCDialog(BuildContext context) async {
+    print("pred dialog");
+    await EasyDialog(
+      height: MediaQuery.of(context).size.height / 2,
+      cornerRadius: 15,
+      cardColor: Colors.white,
+      contentList: [
+        Text(
+          "Zapiši u NFC Tag",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          child: Image(
+            image: AssetImage("assets/images/NFCImage.png"),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: Image(
-              image: AssetImage("assets/images/NFCImage.png"),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("Prislonite uređaj na NFC oznaku"),
-        ]).show(context);
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text("Prislonite uređaj na NFC oznaku"),
+      ],
+    ).show(context);
+    print("after dialog");
+    _instanceTagsViewModel.stopNFCSession();
   }
 }

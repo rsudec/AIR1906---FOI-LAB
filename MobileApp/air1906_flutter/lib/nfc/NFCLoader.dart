@@ -18,9 +18,9 @@ class NFCLoader implements IResourceLoader {
     nfcResult = await listenNFC().then((x) {
       return x;
     });
+    NfcManager.instance.stopSession();
     return nfcResult;
-    
-    
+
   }
 
   Future<String> listenNFC() async {
@@ -46,9 +46,12 @@ class NFCLoader implements IResourceLoader {
         },
       );
     } catch (e) {} 
-    return await Future.delayed(Duration(seconds: 3)).then((x) {
-        return res;
-    });    
+    while(res == null){
+      await Future.delayed(Duration(milliseconds: 500));
+    }
+    return res;
+    // return await Future.delayed(Duration(seconds: 3)).then((x) {
+    // });    
   }
 
   void showNFCDialog() {

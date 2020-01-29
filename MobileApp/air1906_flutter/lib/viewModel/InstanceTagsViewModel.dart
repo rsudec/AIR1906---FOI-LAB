@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:air1906_flutter/models/APIResponse.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import '../models/ResourceInstance.dart';
@@ -27,10 +28,14 @@ class InstanceTagsViewModel {
     _resourceList.add(response.data);
   }
 
-  Future<bool> writeTag(NfcTag tag) async {}
+  Future<void> stopNFCSession() async {
+    // Stop session and unregister callback.
+    await NfcManager.instance.stopSession();
+  }
 
   Future<void> tryWritingTag(String message) async {
     idToWrite = message;
+    bool res;
     NfcManager.instance.startTagSession(
       alertMessageIOS: '...',
       pollingOptions: {
@@ -58,8 +63,9 @@ class InstanceTagsViewModel {
         try {
           var result = await ndef.write(messageToWrite);
           if(result){
-            var res = await resourceService.updateInstanceNFCStatus(message);
-            print(res.data);
+            final response = await resourceService.updateInstanceNFCStatus(message);
+            res = response.data;
+            print(response.data);
             _writtenTag.add(true);
           }
         } catch (e) {
@@ -67,11 +73,14 @@ class InstanceTagsViewModel {
         }
       },
     );
-
-    // // Stop session and unregister callback.
-    // await NfcManager.instance.stopSession(
-    //   alertMessageIOS: '...',
-    //   errorMessageIOS: '...',
-    // );
+    // int i = 0;
+    // while(res == null){
+    //   await Future.delayed(Duration(milliseconds: 500));
+    //   i++;
+    //   if(i > 5)
+    //     break;
+    // }
+    // stopNFCSession();
+    
   }
 }

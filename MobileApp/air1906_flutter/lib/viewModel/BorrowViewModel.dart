@@ -94,6 +94,7 @@ class BorrowViewModel {
     });
   }
   void dispose() {
+    _resourceBorrowMessage.close();
     _resourceLoaderList.close();
   }
 }
