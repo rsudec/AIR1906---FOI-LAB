@@ -72,7 +72,7 @@ class InstanceTagsScreen extends StatelessWidget {
                         } else if ((snapshot.data as List<ResourceInstance>).length == 0) {
                           return Center(
                             child: Text(
-                              "Nema dostupnih instanci",
+                              "Sve instance su zapisane u NFC tagove",
                             ),
                           );
                         } else if (snapshot.hasData) {
