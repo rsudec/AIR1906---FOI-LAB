@@ -10,7 +10,7 @@ include_once 'izbornik.php';
 
 <html>
 <head>
-    <title>Obavijesti</title>
+    <title>Notifications</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- DataTables -->

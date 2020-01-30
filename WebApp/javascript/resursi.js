@@ -47,7 +47,7 @@ $(document).ready(function() {
                 $prikazResursi.html(output);
                 $("button").addClass("btn btn-block btn-primary btn-sm");
 
-                $("img").css({"width": "50px", "height": "50px"});
+                $("img").css({"width": "100px", "height": "100px"});
 
                 $("table").addClass("table table-bordered table-hover");
 

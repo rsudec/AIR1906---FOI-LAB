@@ -178,7 +178,7 @@ if (isset($_POST['instanca_gumb'])) {
                             </div>
                             <?php
                             if(!isset($filename)){
-                                $filename = "author";
+                                $filename = "qr";
                             }
                             ?>
                             <div class="card-footer">
@@ -187,7 +187,7 @@ if (isset($_POST['instanca_gumb'])) {
                                     <?php echo '<img src="img/'. @$filename.'.png" style="width:200px; height:200px;"><br>'; ?>
                                 </div>
 
-                                <a class="btn btn-primary" style="width:210px; margin:5px 0;"  href="download.php?file=<?php echo $filename; ?>.png ">Download QR Code</a>
+                                <a class="btn btn-primary" style="width:210px; margin:5px 0;"  id="gumb_qr" disabled="true"  href="download.php?file=<?php echo $filename; ?>.png ">Download QR Code</a>
 
                             </div>
 
