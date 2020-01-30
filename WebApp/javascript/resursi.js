@@ -82,11 +82,12 @@ $(document).ready(function() {
                 else{
                     for (var i in result) {
                         if(result[i].kor_ime!=null){
-                            ispis+="Instance "+result[i].id_instanca+" is borrowed by user: " +result[i].kor_ime+
-                                ", e-mail "+result[i].email+" on "+result[i].datum+'\n';
+                            var email=result[i].email;
+                            ispis+="Instance "+result[i].id_instanca+" is borrowed \nby user: " +result[i].kor_ime+'\n'+
+                                "e-mail: "+email+ ' on ' +result[i].datum+'\n'+'\n';
                         }
                         else{
-                            ispis+="Instance "+result[i].id_instanca+" is free."+"\n";
+                            ispis+="Instance "+result[i].id_instanca+" is free."+"\n"+"\n";
 
                         }
 

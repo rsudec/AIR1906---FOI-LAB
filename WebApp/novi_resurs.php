@@ -165,7 +165,7 @@ if (isset($_POST['resurs_gumb'])) {
 
     foreach ($podaci as $podatak){
         if ($podatak->nazivr==$naziv){
-            echo'<script type="text/javascript"> toastr.error("There is already a resurs with this name!")</script>';
+            echo'<script type="text/javascript"> toastr.error("There is already a resource with this name!")</script>';
             $ispravno=false;
         }
     }
@@ -206,9 +206,9 @@ if (isset($_POST['resurs_gumb'])) {
         $resurs = json_decode($json_odgovor);
 
         if ($resurs==null){
-            echo'<script type="text/javascript"> toastr.error("Error with adding new resurs!")</script>';
+            echo'<script type="text/javascript"> toastr.error("Error with adding new resource!")</script>';
         }else{
-            echo'<script type="text/javascript">  toastr.success("New resurs successfully added!")</script>';
+            echo'<script type="text/javascript">  toastr.success("New resource successfully added!")</script>';
         }
     }
 }

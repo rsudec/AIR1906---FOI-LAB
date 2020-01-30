@@ -126,7 +126,7 @@ if (isset($_POST['instanca_gumb'])) {
                         <form role="form" action="nova_instanca.php" enctype="multipart/form-data" method='POST' id='dodaj_resurs'>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="resurs">Resurs:</label>
+                                    <label for="resurs">Resource:</label>
                                     <select name="resurs" id="resurs" class="form-control">
                                         <?php
                                         $url = "https://air-api.azurewebsites.net/SviResursi";
@@ -156,7 +156,7 @@ if (isset($_POST['instanca_gumb'])) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="pozicija">Items place:</label>
+                                    <label for="pozicija">Place:</label>
                                     <select name="pozicija" id="pozicija" class="form-control">
                                         <?php
                                         $url = "https://air-api.azurewebsites.net/SlobodniKontejneri";

@@ -232,7 +232,12 @@ if (isset($_POST['registracija_gumb'])) {
         if ($korisnik==null){
             echo'<script type="text/javascript"> toastr.error("Error with adding new user!")</script>';
         }else{
+
+
             echo'<script type="text/javascript">  toastr.success("New user successfully added!")</script>';
+            echo '<script> setTimeout(function(){
+            window.location.href = "https://testapp1906.azurewebsites.net/korisnici.php";
+         }, 1000); </script>';
         }
     }
 }

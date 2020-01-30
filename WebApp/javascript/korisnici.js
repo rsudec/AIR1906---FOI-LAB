@@ -36,13 +36,13 @@ $(document).ready(function() {
                         "</td><td>" +
                         result[i].kor_ime+
                         "</td><td>" +
-                        '<button class="btn btn-block btn-primary btn-sm" id="' + tid + '" >Edit</button>' +
+                        '<button class="btn btn-block btn-warning btn-sm" id="' + tid + '" >Edit</button>' +
                         "</td></tr>";
                 }
                 output += "</tbody></table>";
 
                 prikazKorisnici.html(output);
-                $("button").addClass("btn btn-block btn-primary btn-sm");
+
 
                 $("table").addClass("table table-bordered table-hover");
 
@@ -60,7 +60,7 @@ $(document).ready(function() {
             }
         });
     }
-    $(document.body).on('click', '.btn-primary', function (event)  {
+    $(document.body).on('click', '.btn-warning', function (event)  {
         var user_id=event.target.id;
         location.href='https://testapp1906.azurewebsites.net/edit_users.php?id='+user_id;
     });
