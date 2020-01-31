@@ -97,7 +97,7 @@ class MyResourceItem extends StatelessWidget {
     myResourceViewModel.makeExpiredDate(resourceInstance);
     return Card(
       child: ListTile(
-        title: Text(resourceInstance.resource.naziv),
+        title: Text("${resourceInstance.resource.naziv} [ ${resourceInstance.kolicina} ]" ),
         leading: CircleAvatar(
             backgroundImage: NetworkImage(resourceInstance.resource.imgUrl)),
         subtitle: StreamBuilder(

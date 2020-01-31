@@ -32,16 +32,22 @@ class ResourceService {
     return APIResponse<List<Resource>>(listResource);
   }
 
-  Future<APIResponse<bool>> borrowResource(String resourceId) async {
+  Future<APIResponse<bool>> borrowResource(String resourceId,
+      [String kolicina]) async {
+    var body = {
+      "idkor": Auth.currentUser.id,
+      "idins": resourceId,
+    };
+    if (kolicina != null) {
+      body = {
+        "idkor": Auth.currentUser.id,
+        "idins": resourceId,
+        "kolins": kolicina,
+      };
+    }
     var url = "https://air-api.azurewebsites.net/Posudi";
     try {
-      var response = await http.post(
-        url,
-        body: {
-          "idkor": Auth.currentUser.id,
-          "idins": resourceId,
-        },
-      );
+      var response = await http.post(url, body: body);
       if (response.statusCode == 200) {
         return APIResponse<bool>(true);
       }
@@ -51,7 +57,8 @@ class ResourceService {
     }
   }
 
-  Future<APIResponse<bool>> returnResource(String resourceId) async {
+  Future<APIResponse<bool>> returnResource(String resourceId,
+      [int kolicina]) async {
     var url = "https://air-api.azurewebsites.net/Vrati";
 
     print("user -- resid");
@@ -70,6 +77,43 @@ class ResourceService {
     }
   }
 
+  Future<APIResponse<ResourceInstance>> getInstanceById(String id) async {
+    var url = "https://air-api.azurewebsites.net/InstancaId/$id";
+    ResourceInstance instance;
+    try {
+      final response = await http.get(url);
+      final result = jsonDecode(response.body)[0];
+      print(result);
+      instance = ResourceInstance(
+          result["id_instanca"],
+          int.parse(result["kolicina"]),
+          Resource(
+            result["fk_resurs"][0]["id_resurs"],
+            result["fk_resurs"][0]["nazivr"],
+            int.parse(result["fk_resurs"][0]["kolicina"]),
+            result["fk_resurs"][0]["slika"],
+            Duration(days: int.parse(result["fk_resurs"][0]["max_posudba"])),
+            ResourceType(result["fk_resurs"][0]["fk_tip_resursa"]),
+          ));
+    } catch (e) {
+      print(e);
+    }
+    // ResourceInstance test = ResourceInstance(
+    //   "test",
+    //   10,
+    //   Resource(
+    //     "testR",
+    //     "nazivR",
+    //     14,
+    //     "http://xd.com",
+    //     Duration(days: 5),
+    //     ResourceType("2"),
+    //   ),
+    // );
+    print(instance);
+    return APIResponse<ResourceInstance>(instance);
+  }
+
   Future<APIResponse<List<ResourceInstance>>> getResourceListByUser(
       User user) async {
     List<ResourceInstance> listResource = [];
@@ -78,19 +122,19 @@ class ResourceService {
     var response = await http.get(url);
     var resourceApi = jsonDecode(response.body);
     print(response.body);
-    print(resourceApi[0][0]);
+    //print(resourceApi[0][0]);
     for (var item in resourceApi) {
       listResource.add(ResourceInstance(
-        item[0]["id_instanca"],
-        int.parse(item[0]["kolicina"]),
+        item["fk_instanca"][0]["id_instanca"],
+        int.parse(item["kolicina"]),
         Resource(
-            item[0]["fk_resurs"][0]["id_resurs"],
-            item[0]["fk_resurs"][0]["nazivr"],
-            int.parse(item[0]["fk_resurs"][0]["kolicina"]),
-            item[0]["fk_resurs"][0]["slika"],
-            Duration(days: int.parse(item[0]["fk_resurs"][0]["max_posudba"])),
-            ResourceType(item[0]["fk_resurs"][0]["fk_tip_resursa"])),
-        DateTime.parse(item[0]["datum"]),
+            item["resurs"][0]["id_resurs"],
+            item["resurs"][0]["nazivr"],
+            int.parse(item["resurs"][0]["kolicina"]),
+            item["resurs"][0]["slika"],
+            Duration(days: int.parse(item["resurs"][0]["max_posudba"])),
+            ResourceType(item["resurs"][0]["fk_tip_resursa"])),
+        DateTime.parse(item["datum"]),
       ));
     }
     return APIResponse<List<ResourceInstance>>(listResource);
@@ -106,18 +150,21 @@ class ResourceService {
     if (response.body.isNotEmpty) return APIResponse<bool>(true);
     return APIResponse<bool>(true);
   }
-  Future<APIResponse<bool>> updateInstanceNFCStatus(String idInstance) async{
-    var response = await http.get("https://air-api.azurewebsites.net/NfcSpreman/$idInstance");
+
+  Future<APIResponse<bool>> updateInstanceNFCStatus(String idInstance) async {
+    var response = await http
+        .get("https://air-api.azurewebsites.net/NfcSpreman/$idInstance");
     print(response.body);
-    if(response.body == "0"){
+    if (response.body == "0") {
       return APIResponse<bool>(false);
     }
     return APIResponse<bool>(true);
   }
+
   Future<APIResponse<List<ResourceInstance>>> getInstancesWithoutTags() async {
     List<ResourceInstance> listResource = [];
     print("pozivam resurse");
-    
+
     var url = "https://air-api.azurewebsites.net/NfcPriprava";
     var response = await http.get(url);
     var resourceApi = jsonDecode(response.body);
@@ -144,7 +191,6 @@ class ResourceService {
               item["fk_resurs"][0]["fk_tip_resursa"],
             ),
           ),
-          
         ),
       );
     }

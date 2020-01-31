@@ -10,22 +10,61 @@ import 'package:rxdart/rxdart.dart';
 class BorrowViewModel {
   ResourceService resourceService = ResourceService();
   List<ResourceInstance> myResources;
+  String wantedResourceId;
+  String wantedResourceQuantity;
 
   BehaviorSubject<List<IResourceLoader>> _resourceLoaderList;
   BehaviorSubject<String> _resourceBorrowMessage;
+  BehaviorSubject<bool> _resourceIsMultiple;
+  BehaviorSubject<bool> _enableSubmit;
 
   BorrowViewModel() {
     _resourceLoaderList = BehaviorSubject<List<IResourceLoader>>();
     _resourceBorrowMessage = BehaviorSubject<String>();
+    _resourceIsMultiple = BehaviorSubject<bool>();
+    _enableSubmit = BehaviorSubject<bool>();
+
     initialLoad();
   }
 
   Observable<List<IResourceLoader>> get observableLoaderList =>
       _resourceLoaderList.stream;
   Observable<String> get observableBorrowMessage => _resourceBorrowMessage;
+  Observable<bool> get resourceIsMultiple => _resourceIsMultiple;
+  Observable<bool> get enabledSubmit => _enableSubmit;
 
   void initialLoad() {
     _resourceLoaderList.add(Modules.modules);
+  }
+
+  void checkResourceQuantity() async {
+    var wantedResourceResponse =
+        await resourceService.getInstanceById(wantedResourceId);
+    ResourceInstance wantedResource = wantedResourceResponse.data;
+    print(wantedResourceQuantity);
+    print("a");
+    if(wantedResourceQuantity == ""){
+      wantedResourceQuantity = "0" ;
+    }
+    if (wantedResource.kolicina >= int.tryParse(wantedResourceQuantity) && wantedResourceQuantity != "0") {
+      _enableSubmit.add(true);
+    } else {
+      _enableSubmit.add(false);
+    }
+  }
+
+  void checkResourceType(String id) async {
+    wantedResourceId = id;
+    var wantedResourceResponse = await resourceService.getInstanceById(id);
+    ResourceInstance wantedResource = wantedResourceResponse.data;
+    print("traženi ID tip ${wantedResource.resource.tipResursa.id}");
+    if (wantedResource.kolicina > 1) {
+      _enableSubmit.add(false);
+      _resourceIsMultiple.add(true);
+    } else {
+      _enableSubmit.add(null);
+      _resourceIsMultiple.add(false);
+    }
   }
 
   Future<bool> checkResources(String resId) async {
@@ -37,7 +76,9 @@ class BorrowViewModel {
       } else {
         return false;
       }
-    } catch (e) {return false;}
+    } catch (e) {
+      return false;
+    }
   }
 
   void borrowResource(String resId) async {
@@ -51,14 +92,32 @@ class BorrowViewModel {
       messageTimeout();
       return;
     } else {
-      await resourceService.borrowResource(resId).then((val) {
-        print("res data ${val.data}");
-        if (val.data) {
-          _resourceBorrowMessage.add("Posudili ste [$resId]");
-        } else {
-          _resourceBorrowMessage.addError("Posudba odbijena");
-        }
-      });
+      if (wantedResourceQuantity != null) {
+        await resourceService
+            .borrowResource(resId, wantedResourceQuantity)
+            .then(
+          (val) {
+            print("res data ${val.data}");
+            if (val.data) {
+              _resourceBorrowMessage
+                  .add("Posudili ste $wantedResourceQuantity komada [$resId]");
+            } else {
+              _resourceBorrowMessage.addError("Posudba odbijena");
+            }
+          },
+        );
+      } else {
+        await resourceService.borrowResource(resId).then(
+          (val) {
+            print("res data ${val.data}");
+            if (val.data) {
+              _resourceBorrowMessage.add("Posudili ste [$resId]");
+            } else {
+              _resourceBorrowMessage.addError("Posudba odbijena");
+            }
+          },
+        );
+      }
     }
     messageTimeout();
   }
@@ -85,16 +144,19 @@ class BorrowViewModel {
       });
     }
     messageTimeout();
-    
   }
-  void messageTimeout(){
-    Future.delayed(Duration(seconds: 2)).then((x){
+
+  void messageTimeout() {
+    Future.delayed(Duration(seconds: 2)).then((x) {
       _resourceBorrowMessage.add("");
       _resourceBorrowMessage.addError("");
     });
   }
+
   void dispose() {
     _resourceBorrowMessage.close();
     _resourceLoaderList.close();
+    _resourceIsMultiple.close();
+    _enableSubmit.close();
   }
 }

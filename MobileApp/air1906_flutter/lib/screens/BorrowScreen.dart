@@ -97,46 +97,46 @@ class BorrowScreen extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width - 10,
                     child: StreamBuilder(
-                        stream: borrowViewModel.observableBorrowMessage,
-                        builder: (context, snapshot) {
-                              return Align(
-                                alignment: Alignment.center,
-                                child: Card(
-                                  elevation: 0,
-                                  color: Colors.white,
-                                  child: Container(
-                                    width: 300,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        snapshot.hasError
-                                            ? FittedBox(
-                                              
-                                                alignment: Alignment.center,
-                                                fit: BoxFit.contain,
-                                                child: Text(
-                                                  " ${snapshot.error}",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-
-                                                      fontSize: 26,
-                                                      color: Colors.red[400]),
-                                                ),
-                                              )
-                                            : Container(),
-                                        snapshot.hasData
-                                            ? Text(snapshot.data,
-                                                style: TextStyle(
-                                                    fontSize: 26,
-                                                    color: Colors.green[400]))
-                                            : Container(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                        }),
+                      stream: borrowViewModel.observableBorrowMessage,
+                      builder: (context, snapshot) {
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Card(
+                            elevation: 0,
+                            color: Colors.white,
+                            child: Container(
+                              width: 300,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  snapshot.hasError
+                                      ? Flexible(
+                                          fit: FlexFit.loose,
+                                          child: Text(
+                                            " ${snapshot.error}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 26,
+                                                color: Colors.red[400]),
+                                          ),
+                                        )
+                                      : Container(),
+                                  snapshot.hasData
+                                      ? Flexible(
+                                          fit: FlexFit.loose,
+                                          child: Text(snapshot.data,
+                                              style: TextStyle(
+                                                  fontSize: 26,
+                                                  color: Colors.green[400])),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -167,9 +167,10 @@ class ResourceLoaderItem extends StatelessWidget {
         String id = await item.loadResource().then((x) {
           return x;
         });
+        borrowViewModel.checkResourceType(id);
         if (id != null && id != "-1") {
           EasyDialog(
-              height: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery.of(context).size.height / 2,
               cornerRadius: 15,
               cardColor: Colors.white,
               contentList: [
@@ -184,25 +185,83 @@ class ResourceLoaderItem extends StatelessWidget {
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 Expanded(child: Container()),
+                type == ResourceLoaderType.borrowResource
+                    ? StreamBuilder(
+                        stream: borrowViewModel.resourceIsMultiple,
+                        builder: (ctx, snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data as bool == true) {
+                              return Column(
+                                children: <Widget>[
+                                  Text(
+                                    "Odabrali ste resurs koji se posuđuje na količinu. \nMolimo upišite željenu količinu",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Količina',
+                                    ),
+                                    onChanged: (val) {
+                                      borrowViewModel.wantedResourceQuantity =
+                                          val;
+                                      borrowViewModel.checkResourceQuantity();
+                                    },
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ],
+                              );
+                            }
+                            return Container();
+                          }
+                          return Container();
+                        },
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 30,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    FlatButton(
-                      color: Colors.green,
-                      child: Text(
-                        "Da",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _takeAction(id);
-                        print("ocuuu");
-                      },
-                    ),
+                    StreamBuilder(
+                        stream: borrowViewModel.enabledSubmit,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData &&
+                              type == ResourceLoaderType.borrowResource) {
+                            print(snapshot.data);
+                            return FlatButton(
+                              color: Colors.green,
+                              child: Text(
+                                "Da",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: snapshot.data as bool
+                                  ? () {
+                                      Navigator.of(context).pop();
+                                      _takeAction(id);
+                                      print("ocuuu");
+                                    }
+                                  : null,
+                            );
+                          }
+                          return FlatButton(
+                            color: Colors.green,
+                            child: Text(
+                              "Da",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _takeAction(id);
+                              print("ocuuu");
+                            },
+                          );
+                        }),
                     FlatButton(
                       color: Colors.red,
-                      child: Text("ne",
+                      child: Text("Ne",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       onPressed: () {
