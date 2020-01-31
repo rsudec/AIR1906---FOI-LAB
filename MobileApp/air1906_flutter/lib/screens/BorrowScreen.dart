@@ -1,3 +1,4 @@
+import 'package:air1906_flutter/models/ResourceInstance.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 
 import '../interface/IResourceLoader.dart';
@@ -167,34 +168,46 @@ class ResourceLoaderItem extends StatelessWidget {
         String id = await item.loadResource().then((x) {
           return x;
         });
-        borrowViewModel.checkResourceType(id);
         if (id != null && id != "-1") {
+          await borrowViewModel.checkResourceType(id);
           EasyDialog(
               height: MediaQuery.of(context).size.height / 2,
               cornerRadius: 15,
               cardColor: Colors.white,
               contentList: [
                 SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
-                Text(
-                  type == ResourceLoaderType.borrowResource
-                      ? "Potvrdi posudbu instance $id ?"
-                      : "Potvrdi vraćanje instance $id ?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
+                StreamBuilder(
+                    stream: borrowViewModel.instanceName,
+                    builder: (ctx, snapshot) {
+                      if (snapshot.hasData) {
+                        ResourceInstance instance = snapshot.data;
+                        return Text(
+                          type == ResourceLoaderType.borrowResource
+                              ? "Potvrdi posudbu instance ${instance.resource.naziv } ?"
+                              : "Potvrdi vraćanje instance ${instance.resource.naziv} ?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        );
+                      }
+                      else{
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
                 Expanded(child: Container()),
                 type == ResourceLoaderType.borrowResource
                     ? StreamBuilder(
-                        stream: borrowViewModel.resourceIsMultiple,
+                        stream: borrowViewModel.obs,
                         builder: (ctx, snapshot) {
+                          print(snapshot.data);
                           if (snapshot.hasData) {
-                            if (snapshot.data as bool == true) {
+                            if (snapshot.data["multiple"] as bool == true) {
                               return Column(
                                 children: <Widget>[
                                   Text(
-                                    "Odabrali ste resurs koji se posuđuje na količinu. \nMolimo upišite željenu količinu",
+                                    "Odabrali ste resurs koji se posuđuje na količinu. \nMolimo upišite željenu količinu (max ${snapshot.data['maxQ']})",
                                     textAlign: TextAlign.center,
                                   ),
                                   TextFormField(

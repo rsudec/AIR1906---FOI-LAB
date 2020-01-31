@@ -1,4 +1,4 @@
-import 'package:air1906_flutter/models/ResourceInstance.dart';
+import '../models/ResourceInstance.dart';
 
 import '../helpers/Modules.dart';
 import '../helpers/Auth.dart';
@@ -16,13 +16,17 @@ class BorrowViewModel {
   BehaviorSubject<List<IResourceLoader>> _resourceLoaderList;
   BehaviorSubject<String> _resourceBorrowMessage;
   BehaviorSubject<bool> _resourceIsMultiple;
+  BehaviorSubject<String> _resourceMaxQuantity;
   BehaviorSubject<bool> _enableSubmit;
+  BehaviorSubject<ResourceInstance> _instance;
 
   BorrowViewModel() {
     _resourceLoaderList = BehaviorSubject<List<IResourceLoader>>();
     _resourceBorrowMessage = BehaviorSubject<String>();
     _resourceIsMultiple = BehaviorSubject<bool>();
+    _resourceMaxQuantity = BehaviorSubject<String>();
     _enableSubmit = BehaviorSubject<bool>();
+    _instance = BehaviorSubject<ResourceInstance>();
 
     initialLoad();
   }
@@ -30,8 +34,12 @@ class BorrowViewModel {
   Observable<List<IResourceLoader>> get observableLoaderList =>
       _resourceLoaderList.stream;
   Observable<String> get observableBorrowMessage => _resourceBorrowMessage;
-  Observable<bool> get resourceIsMultiple => _resourceIsMultiple;
+  Observable<bool> get resourceIsMultiple => _resourceIsMultiple.stream;
+  Observable<String> get resourceMaxQuantity => _resourceMaxQuantity.stream;
   Observable<bool> get enabledSubmit => _enableSubmit;
+  Observable<ResourceInstance> get instanceName => _instance;
+  Stream get obs => CombineLatestStream.combine2(resourceIsMultiple, resourceMaxQuantity, (resourceIsMultiple, resourceMaxQuantity) => {"multiple" : resourceIsMultiple, "maxQ": resourceMaxQuantity} );
+  
 
   void initialLoad() {
     _resourceLoaderList.add(Modules.modules);
@@ -41,22 +49,24 @@ class BorrowViewModel {
     var wantedResourceResponse =
         await resourceService.getInstanceById(wantedResourceId);
     ResourceInstance wantedResource = wantedResourceResponse.data;
-    print(wantedResourceQuantity);
-    print("a");
-    if(wantedResourceQuantity == ""){
-      wantedResourceQuantity = "0" ;
+    if (wantedResourceQuantity == "") {
+      wantedResourceQuantity = "0";
     }
-    if (wantedResource.kolicina >= int.tryParse(wantedResourceQuantity) && wantedResourceQuantity != "0") {
+    if (wantedResource.kolicina >= int.tryParse(wantedResourceQuantity) &&
+        wantedResourceQuantity != "0") {
       _enableSubmit.add(true);
     } else {
       _enableSubmit.add(false);
     }
   }
 
-  void checkResourceType(String id) async {
+  Future<void> checkResourceType(String id) async {
+    
     wantedResourceId = id;
     var wantedResourceResponse = await resourceService.getInstanceById(id);
     ResourceInstance wantedResource = wantedResourceResponse.data;
+    _instance.add(wantedResource);
+    _resourceMaxQuantity.add(wantedResource.kolicina.toString());
     print("traženi ID tip ${wantedResource.resource.tipResursa.id}");
     if (wantedResource.kolicina > 1) {
       _enableSubmit.add(false);
@@ -83,12 +93,18 @@ class BorrowViewModel {
 
   void borrowResource(String resId) async {
     bool alreadyBorrowed = await checkResources(resId);
+    final response = await resourceService.getInstanceById(resId);
+    ResourceInstance instance = response.data;
     if (resId == null) {
       _resourceBorrowMessage.addError("Greška");
       messageTimeout();
       return;
     } else if (alreadyBorrowed) {
-      _resourceBorrowMessage.addError("Resurs je posuđen");
+      _resourceBorrowMessage.addError("Već ste posudili resurs");
+      messageTimeout();
+      return;
+    } else if (instance.kolicina == 0) {
+      _resourceBorrowMessage.addError("Nema slobodnih instanci");
       messageTimeout();
       return;
     } else {
@@ -99,19 +115,21 @@ class BorrowViewModel {
           (val) {
             print("res data ${val.data}");
             if (val.data) {
-              _resourceBorrowMessage
-                  .add("Posudili ste $wantedResourceQuantity komada [$resId]");
+              _resourceBorrowMessage.add(
+                  "Posudili ste $wantedResourceQuantity komada - ${instance.resource.naziv}");
             } else {
               _resourceBorrowMessage.addError("Posudba odbijena");
             }
           },
         );
+        wantedResourceQuantity = null;
       } else {
         await resourceService.borrowResource(resId).then(
           (val) {
             print("res data ${val.data}");
             if (val.data) {
-              _resourceBorrowMessage.add("Posudili ste [$resId]");
+              _resourceBorrowMessage
+                  .add("Posudili ste [${instance.resource.naziv}]");
             } else {
               _resourceBorrowMessage.addError("Posudba odbijena");
             }
@@ -157,6 +175,8 @@ class BorrowViewModel {
     _resourceBorrowMessage.close();
     _resourceLoaderList.close();
     _resourceIsMultiple.close();
+    _resourceMaxQuantity.close();
     _enableSubmit.close();
+    _instance.close();
   }
 }

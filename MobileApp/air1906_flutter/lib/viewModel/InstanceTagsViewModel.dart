@@ -14,7 +14,7 @@ class InstanceTagsViewModel {
   InstanceTagsViewModel() {
     _resourceList = BehaviorSubject<List<ResourceInstance>>();
     _writtenTag = BehaviorSubject<bool>();
-    _resourceList.add([]);
+    //_resourceList.add([]);
     loadInstancesWithoutTags();
   }
 
