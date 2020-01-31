@@ -18,7 +18,6 @@ class ResourceService {
     var url = "https://air-api.azurewebsites.net/SviResursi";
     var response = await http.get(url);
     var resourceApi = jsonDecode(response.body);
-    print(resourceApi);
     for (var item in resourceApi) {
       listResource.add(Resource(
         item["id_resurs"],
@@ -26,7 +25,11 @@ class ResourceService {
         int.parse(item["kolicina"]),
         item["slika"],
         Duration(days: int.parse(item["max_posudba"])),
-        ResourceType(item["fk_tip_resursa"]),
+        ResourceType(
+          item["fk_tip_resursa"],
+        ),
+        int.parse(item["zauzeto"]),
+        item["nazivtr"],
       ));
     }
     return APIResponse<List<Resource>>(listResource);

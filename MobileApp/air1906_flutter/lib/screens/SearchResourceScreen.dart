@@ -61,13 +61,16 @@ class SearchResourceScreen extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: TextField(
-                        decoration: InputDecoration(
-                            labelText: "Pretraga", fillColor: Colors.white),
-                      ),
+                          decoration: InputDecoration(
+                              hintText: "Pretraga", fillColor: Colors.white),
+                          onChanged: (value) {
+                            _searchResourceViewModel.onSearchTextChange(value);
+                            _searchResourceViewModel.refreshScreen();
+                          }),
                     ),
                   ),
                   IconButton(
-                    color: Colors.white,
+                    color: Colors.black,
                     icon: Icon(Icons.search),
                     onPressed: () {},
                   ),
@@ -101,34 +104,52 @@ class SearchResourceScreen extends StatelessWidget {
                         Container(
                           width: 120,
                           height: 40,
-                          child: OutlineButton(
-                            color: Colors.white,
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0)),
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'Slobodno',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Expanded(
-                                  child: IconButton(
-                                    color: Colors.black,
-                                    icon: Icon(Icons.close),
-                                    iconSize: 20,
-                                    onPressed: () {},
-                                  ),
-                                )
-                              ],
-                            ),
-                            onPressed: () {},
-                          ),
+                          child: StreamBuilder(
+                              stream:
+                                  _searchResourceViewModel.enabledButtonSlobdno,
+                              builder: (context, snapshot) {
+                                return FlatButton(
+                                    color: (snapshot.data as bool)
+                                        ? Colors.black
+                                        : Colors.white,
+                                    shape: new RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Colors.black, width: 2),
+                                        borderRadius:
+                                            new BorderRadius.circular(30.0)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          'Slobodno',
+                                          style: TextStyle(
+                                              color: snapshot.data
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Expanded(
+                                          child: IconButton(
+                                            disabledColor: snapshot.data
+                                                ? Colors.white
+                                                : Colors.black,
+                                            icon: snapshot.data
+                                                ? Icon(Icons.check)
+                                                : Icon(Icons.close),
+                                            iconSize: 20,
+                                            onPressed: null,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      _searchResourceViewModel
+                                          .toggleAvailableButton();
+                                      _searchResourceViewModel.refreshScreen();
+                                    });
+                              }),
                         ),
                         Container(
                           width: 122,
@@ -162,6 +183,8 @@ class SearchResourceScreen extends StatelessWidget {
                                             .onChangedDropDownMenu(value);
                                         _searchResourceViewModel
                                             .getAllResourceByCategory(value);
+                                        _searchResourceViewModel
+                                            .refreshScreen();
                                       },
                                     );
                                   }),
