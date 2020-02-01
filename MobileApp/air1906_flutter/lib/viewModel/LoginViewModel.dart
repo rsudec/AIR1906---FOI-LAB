@@ -13,17 +13,21 @@ class LoginViewModel {
   BehaviorSubject<String> _errorMessageUsername;
   BehaviorSubject<String> _errorMessagePass;
   BehaviorSubject<bool> _enabledButtonLogin;
+  BehaviorSubject<bool> _currentlyLoggingIn;
 
   LoginViewModel() {
     _errorMessageUsername = BehaviorSubject<String>();
     _errorMessagePass = BehaviorSubject<String>();
     _enabledButtonLogin = BehaviorSubject<bool>();
+    _currentlyLoggingIn = BehaviorSubject<bool>();
+    _currentlyLoggingIn.add(false);
     _enabledButtonLogin.add(false);
   }
   Observable<String> get errorObservableUsername =>
       _errorMessageUsername.stream;
   Observable<String> get errorObservablePass => _errorMessagePass.stream;
   Observable<bool> get isLoginEnabled => _enabledButtonLogin;
+  Observable<bool> get currentlyLoggingIn => _currentlyLoggingIn;
 
   void onChangeUsernameText(String text) {
     _validUsername = "";
@@ -57,20 +61,34 @@ class LoginViewModel {
       _enabledButtonLogin.add(false);
     }
   }
-
+  void disableLoginButton(){
+    _enabledButtonLogin.add(false);
+  }
+  void enableLoginButton(){
+    _enabledButtonLogin.add(true);
+  }
   Future<bool> tryLogin(BuildContext ctx) async {
+    _enabledButtonLogin.add(false);
+    _currentlyLoggingIn.add(true);
     final response =
         await loginService.getUserByUsername(_validUsername, _validPass);
     if (response.data != null) {
-      final user = response.data;
-      loginService.authenticateUser(user);
+      var user = response.data;
+      await loginService.authenticateUser(user);
+      _currentlyLoggingIn.add(false);
+      _enabledButtonLogin.add(true);
       return true;
     }
+    print("nema");
+    _currentlyLoggingIn.add(false);
+    _currentlyLoggingIn.addError(true);
+    _enabledButtonLogin.add(true);
     return false;
   }
 
   void dispose() {
     _errorMessageUsername.close();
     _errorMessagePass.close();
+    _enabledButtonLogin.close();
   }
 }

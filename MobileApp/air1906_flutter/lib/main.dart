@@ -1,7 +1,11 @@
 import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
 import './screens/SearchResourceScreen.dart';
 import 'package:air1906_flutter/screens/myResourcesScreen.dart';
+import './screens/InstanceTagsScreen.dart';
 import 'package:flutter/material.dart';
+import './screens/BorrowScreen.dart';
+import './screens/ResourceDetailScreen.dart';
+import './screens/myResourcesScreen.dart';
 import './screens/mainScreen.dart';
 import './screens/loginScreen.dart';
 import './screens/CategoryResourceScreen.dart';
@@ -35,11 +39,8 @@ class MyApp extends StatelessWidget {
                   return MainScreen();
                 }
                 return LoginScreen();
-              }
-              // snapshot.connectionState == ConnectionState.waiting
-              //     ? Center(child: CircularProgressIndicator())
-              //     : LoginScreen(),
-              ),
+              },
+            ),
       routes: {
         LoginScreen.routeName: (ctx) => LoginScreen(),
         MainScreen.routeName: (ctx) => MainScreen(),
@@ -47,6 +48,8 @@ class MyApp extends StatelessWidget {
         ResourceDetailScreen.routeName: (ctx) => ResourceDetailScreen(),
         MyResourcesScreen.routeName: (ctx) => MyResourcesScreen(),
         SearchResourceScreen.routeName: (ctx) => SearchResourceScreen(),
+        BorrowScreen.routeName: (ctx) => BorrowScreen(),
+        InstanceTagsScreen.routeName: (ctx) => InstanceTagsScreen(),
       },
     );
   }

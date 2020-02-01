@@ -89,23 +89,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     ? snapshot.data
                         ? () async {
                             bool result = await _loginVM.tryLogin(context);
-                            result
-                                ? Navigator.of(ctx)
-                                    .pushReplacementNamed(MainScreen.routeName)
-                                : Scaffold.of(ctx).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Nepostojeći korisnik",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  );
+                            if (result)
+                              Navigator.of(ctx)
+                                  .pushReplacementNamed(MainScreen.routeName);
                           }
                         : null
                     : null,
               );
             },
           ),
+          StreamBuilder(
+              stream: _loginVM.currentlyLoggingIn,
+              builder: (ctx, snapshot) {
+                if(snapshot.hasError)
+                  return Center(child: Text("Nepostojeći korisnik"),);
+                return snapshot.hasData
+                    ? snapshot.data == true
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container()
+                    : Container();
+              })
         ],
       ),
     );

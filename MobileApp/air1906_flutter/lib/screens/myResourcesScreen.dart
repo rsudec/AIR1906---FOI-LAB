@@ -1,9 +1,7 @@
-import '../models/ResourceInstance.dart';
 
-import '../helpers/Auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
-import '../models/Resource.dart';
+import '../models/ResourceInstance.dart';
 import '../viewModel/MyResourceViewModel.dart';
 
 class MyResourcesScreen extends StatelessWidget {
