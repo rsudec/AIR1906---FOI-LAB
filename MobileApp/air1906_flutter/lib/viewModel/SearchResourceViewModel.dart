@@ -94,7 +94,7 @@ class SearchResourceViewModel {
     //   Category itemCategory;
     // String textSearch;
     // bool buttonAvaliable;
-    if (itemCategory != null && itemCategory != 'Sve') {
+    if (itemCategory != 'Sve') {
       getAllResourceByCategory(itemCategory);
       print('category');
       print(itemCategory);
@@ -109,7 +109,11 @@ class SearchResourceViewModel {
       filterButton();
     }
 
-    _resourceList.add(listResource);
+    if (listResource.length == 0) {
+      _resourceList.addError('Nema resursa');
+    } else {
+      _resourceList.add(listResource);
+    }
 
     final response = await resourceService.getAllResourceFromDatabase();
     listResource = response.data;

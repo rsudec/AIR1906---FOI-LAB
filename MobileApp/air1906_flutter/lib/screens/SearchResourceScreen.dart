@@ -168,6 +168,16 @@ class SearchResourceScreen extends StatelessWidget {
                                   stream: _categoriesViewModel
                                       .observableCategoryMap,
                                   builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Center(
+                                          child:
+                                              Text("Nema dostupnih resursa"));
+                                    }
                                     return new DropdownButton<String>(
                                       iconEnabledColor: Colors.black,
                                       hint: Text(
