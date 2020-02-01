@@ -101,11 +101,11 @@ $id=$_GET["id"];
 
                                 <div class="form-group">
                                     <label for="kolicina">Quantity: </label>
-                                    <input type="number" id="kolicina" name="kolicina" min="0" class="form-control">
+                                    <input type="number" id="kolicina" name="kolicina" min="0" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="posudba">Maximum loan period (days): </label>
-                                    <input type="number" id="posudba" name="posudba" min="0" class="form-control">
+                                    <input type="number" id="posudba" name="posudba" min="0" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Current picture: </label><br>

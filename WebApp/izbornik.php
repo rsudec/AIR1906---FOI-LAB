@@ -1,3 +1,24 @@
+<?php
+session_start();
+include_once 'sesija.php';
+
+if(dohvatiLogKorId()===null){
+    echo "<script> location.href='https://testapp1906.azurewebsites.net/prijava.php'; </script>";
+}
+$id=dohvatiLogKorId();
+$imePrezime="";
+$url = "https://air-api.azurewebsites.net/SviKorisnici";
+$data = file_get_contents($url);
+$korisnik = json_decode($data);
+
+foreach ($korisnik as $item){
+    if($item->id_korisnik===$id){
+        $imePrezime=$item->ime." ".$item->prezime;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,6 +126,13 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
+            <!-- Sidebar user (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                <div class="info">
+                    <a href="#" class="d-block" id="korisnik"><?php echo $imePrezime?></a>
+                </div>
+            </div>
 
             <!-- Sidebar Menu -->
             <nav class="mt-2">
