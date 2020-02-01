@@ -58,7 +58,7 @@ class LogController extends Controller
             join korisnik on log.fk_korisnik = korisnik.id_korisnik
             join instanca on log.fk_instanca = instanca.id_instanca
             join resurs on instanca.fk_resurs = resurs.id_resurs
-            where fk_tip_loga = 5 and procitano = 0 order by datum desc');
+            where (fk_tip_loga = 5 or fk_tip_loga = 6) and procitano = 0 order by datum desc');
         return $obavijest;
     }
 

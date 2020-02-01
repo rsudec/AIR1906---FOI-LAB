@@ -56,6 +56,42 @@ class KorisnikController extends Controller
         return $poslovnice;
     }
 
+    public function AzurirajKorisnika(Request $request){
+        $id = $request->get('id');
+        $ime = $request->get('ime');
+        $prezime = $request->get('prezime');
+        $telefon = $request->get('telefon');
+        $adresa = $request->get('adresa');
+        $email = $request->get('email');
+        $oib = $request->get('oib');
+        $korime = $request->get('korime');
+        $lozinka = $request->get('lozinka');
+        $uloga = $request->get('uloga');
+        $poslovnica = $request->get('poslovnica');
+        $azuriraj = DB::update("update korisnik set
+         ime = '$ime',
+         prezime = '$prezime',
+         telefon = '$telefon',
+         adresa  = '$adresa',
+         email = '$email',
+         oib = '$oib',
+         kor_ime = '$korime',
+         lozinka = '$lozinka',
+         fk_uloga = $uloga,
+         fk_poslovnica = $poslovnica
+         where id_korisnik = $id");
+         return $azuriraj . "";
+
+
+    }
+
+    public function ObrisiKorisnika(request $request){
+        $id = $request->get('id');
+        $brisi = DB::delete("delete from korisnik where id_korisnik =$id");
+        return $brisi . "";
+
+    }
+
 
 }
 

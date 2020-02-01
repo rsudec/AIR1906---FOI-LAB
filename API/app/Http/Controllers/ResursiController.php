@@ -19,8 +19,32 @@ class ResursiController extends Controller
 
     }
 
-    public function DodajResurs($naziv,$kolicina,$slika,$posudba,$tip){
-        DB::insert("insert into resurs values ('$naziv',$kolicina,'$slika',$posudba,$tip)");
+    public function TraziPoVrsti3($id){
+        $povrsti = DB::select("select resurs.slika, resurs.id_resurs,resurs.nazivr, tip_resursa.nazivtr, sum(P.kolicina) as zauzeto,resurs.kolicina, resurs.max_posudba from resurs
+                    left join instanca on resurs.id_resurs = instanca.fk_resurs
+                    left join tip_resursa on resurs.fk_tip_resursa = tip_resursa.id_tip_resursa
+                    left join posudba as P on instanca.id_instanca = P.fk_instanca
+                    where fk_tip_resursa = $id
+                    group by resurs.id_resurs,resurs.nazivr,tip_resursa.nazivtr,resurs.kolicina,resurs.max_posudba,resurs.slika "
+                );
+    for($x=0;$x < count($povrsti);$x++){
+        if($povrsti[$x]->{"zauzeto"} == null){
+            $povrsti[$x]->{"zauzeto"} = 0 ."";
+        }
+                }
+        return $povrsti;
+
+    }
+
+    public function DodajResurs(Request $request){
+
+        $naziv = $request["naziv"];
+        $kolicina = $request["kolicina"];
+        $slika = $request["slika"];
+        $posudba = $request["posudba"];
+        $tip = $request["tip"];
+        $novi = DB::insert("insert into resurs values ('$naziv',$kolicina,'$slika',$posudba,$tip)");
+        return $novi . "";
 
     }
 
@@ -40,13 +64,41 @@ class ResursiController extends Controller
     }
 
     public function SviResursi(){
-        $svi = DB::select("select resurs.slika, resurs.id_resurs,resurs.nazivr, tip_resursa.nazivtr, count(id_posudba) as zauzeto,resurs.kolicina, resurs.max_posudba from resurs
+        $svi = DB::select("select resurs.slika, resurs.id_resurs,resurs.nazivr, tip_resursa.nazivtr, sum(P.kolicina) as zauzeto,resurs.kolicina, resurs.max_posudba from resurs
                     left join instanca on resurs.id_resurs = instanca.fk_resurs
                     left join tip_resursa on resurs.fk_tip_resursa = tip_resursa.id_tip_resursa
-                    left join posudba on instanca.id_instanca = posudba.fk_instanca
+                    left join posudba as P on instanca.id_instanca = P.fk_instanca
                     group by resurs.id_resurs,resurs.nazivr,tip_resursa.nazivtr,resurs.kolicina,resurs.max_posudba,resurs.slika "
                 );
+    for($x=0;$x < count($svi);$x++){
+        if($svi[$x]->{"zauzeto"} == null){
+            $svi[$x]->{"zauzeto"} = 0 ."";
+        }
+                }
         return $svi;
     }
     
+    public function Azuriraj(Request $request){
+        $id = $request["id"];
+        $naziv = $request["naziv"];
+        $kolicina = $request["kolicina"];
+        $slika = $request["slika"];
+        $posudba = $request["posudba"];
+        $azuriraj = DB::update("update resurs set nazivr = '$naziv',kolicina = $kolicina, slika = '$slika',max_posudba = $posudba where id_resurs = $id");
+        return $azuriraj . "";
+
+    }
+
+    public function Skladista(){
+        $skladista=DB::select("select * from skladiste");
+        return $skladista;
+    }
+
+
+    public function SlobodniKontejneri(){
+        $slobodni = DB::select('select kontejner.id_kontejner, kontejner.naziv from 
+        kontejner where not exists (select fk_kontejner from instanca
+        where kontejner.id_kontejner = instanca.fk_kontejner) and kontejner.fk_kontejner is not null');
+        return $slobodni;
+    }
 }

@@ -12,7 +12,12 @@ class PosudbaController extends Controller
     {
         $idkor = $request['idkor'];
         $idins = $request['idins'];
-        $posudi = DB::insert("insert into posudba (fk_korisnik,fk_instanca) values ($idkor,$idins)") . "";
+        $kolins = $request['kolins'];
+        if($kolins == null){
+            $posudi = DB::insert("insert into posudba (fk_korisnik,fk_instanca) values ($idkor,$idins)") . "";
+        }else{
+        $posudi = DB::insert("insert into posudba (fk_korisnik,fk_instanca,kolicina) values ($idkor,$idins,$kolins)") . "";
+        }
         return $posudi;
     }
 
@@ -27,23 +32,16 @@ class PosudbaController extends Controller
     }
 
     public function MojePosudbe2($idkor){
-        $posudba = DB::select("select fk_instanca,datum from posudba where fk_korisnik = $idkor");
-        $rezultat= [];
+        $posudba = DB::select("select fk_instanca,datum,kolicina from posudba where fk_korisnik = $idkor");
         for($x=0;$x < count($posudba);$x++){
-            $idins = $posudba[$x]->{"fk_instanca"};
-            $datum = $posudba[$x]->{"datum"};
-            $ins = DB::select("select * from instanca where id_instanca = $idins");
+            $id = $posudba[$x]->{"fk_instanca"};
+            $ins = DB::select("select * from instanca where id_instanca = $id");
+            $posudba[$x]->{'fk_instanca'} = $ins; 
             $idres = $ins[0]->{"fk_resurs"};
             $resurs = DB::select("select * from resurs where id_resurs = $idres");
-            $ins[0]->{"fk_resurs"} = $resurs;
-            $ins[0]->{"datum"} = $datum;
-            array_push($rezultat,$ins);
-
+            $posudba[$x]->{'resurs'} = $resurs;
         }
-        return $rezultat;
-        
-        //return $posudba;
-
+        return $posudba;
 
     }
 
