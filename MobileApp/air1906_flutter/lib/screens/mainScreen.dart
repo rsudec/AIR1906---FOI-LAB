@@ -1,3 +1,4 @@
+import 'package:air1906_flutter/widgets/bezierContainer.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 
 import 'package:flutter/material.dart';
@@ -40,142 +41,190 @@ class _MainScreenState extends State<MainScreen> {
         scale: IDOffset.horizontal(0.9),
         leftChild: AppDrawerMenu(),
         scaffold: Scaffold(
-          backgroundColor: Colors.black,
-          body: ListView(
+          backgroundColor: Colors.white,
+          body: Stack(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Positioned(
+                top: -MediaQuery.of(context).size.height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer(),
+              ),
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
                   children: <Widget>[
-                    IconButton(
-                      color: Colors.white,
-                      icon: Icon(Icons.menu),
-                      onPressed: () {
-                        _toggle(InnerDrawerDirection.start);
-                      },
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                        child: IconButton(
+                          color: Colors.black,
+                          icon: Icon(Icons.menu),
+                          onPressed: () {
+                            _toggle(InnerDrawerDirection.start);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
                     ),
                     Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      height: MediaQuery.of(context).size.height - 125,
+                      child: SingleChildScrollView(
+                          child: Column(
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.search),
-                            color: Colors.white,
-                            onPressed: () {},
-                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: StreamBuilder(
+                              stream: widget._categoryVM.observableCategoryList,
+                              builder: (ctx, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                      child: Text("Nema dostupnih kategorija"));
+                                } else if (snapshot.hasData) {
+                                  print(snapshot.data);
+                                  return Container(
+                                    height: MediaQuery.of(context).size.height -
+                                        125,
+                                    child: ListView.builder(
+                                      itemCount:
+                                          (snapshot.data as List<Category>)
+                                              .length,
+                                      itemBuilder: (ctx, i) => Container(
+                                          margin: EdgeInsets.only(bottom: 15),
+                                          child:
+                                              CategoryItem(snapshot.data[i])),
+                                    ),
+                                  );
+                                  //buildCategories(snapshot.data)
+
+                                }
+                                return Center(
+                                  child: Text("Error"),
+                                );
+                              },
+                            ),
+                          )
                         ],
-                      ),
-                    ),
+                      )),
+                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'AIR',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0,
-                      ),
-                    ),
-                    Text(
-                      '1906',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontSize: 25.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Kategorije',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height - 220,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(
-                          35,
-                        ),
-                        topRight: Radius.circular(
-                          35,
-                        ),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15),
-                      child: StreamBuilder(
-                        stream: widget._categoryVM.observableCategoryList,
-                        builder: (ctx, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if(snapshot.hasError){
-                            return Center(child: Text("Nema dostupnih kategorija"));
-                          }else if (snapshot.hasData) {
-                            //print(snapshot.data);
-                            return GridView(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 1 / 1,
-                              ),
-                              children: <Widget>[
-                                ...buildCategories(snapshot.data)
-                              ],
-                              //buildCategories(snapshot.data)
-                            );
-                          }
-                          return Center(
-                            child: Text("Error"),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
+
+          //           Padding(
+          //             padding: EdgeInsets.only(left: 0.0),
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: <Widget>[
+          //                 Text(
+          //                   'AIR',
+          //                   style: TextStyle(
+          //                     fontFamily: 'Montserrat',
+          //                     color: Colors.white,
+          //                     fontWeight: FontWeight.bold,
+          //                     fontSize: 25.0,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   '1906',
+          //                   style: TextStyle(
+          //                     fontFamily: 'Montserrat',
+          //                     color: Colors.white,
+          //                     fontSize: 25.0,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           SizedBox(
+          //             height: 15,
+          //           ),
+          //           Padding(
+          //             padding: EdgeInsets.only(left: 0.0),
+          //             child: Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: <Widget>[
+          //                 Text(
+          //                   'Kategorije',
+          //                   style: TextStyle(
+          //                     fontFamily: 'Montserrat',
+          //                     color: Colors.white,
+          //                     fontWeight: FontWeight.bold,
+          //                     fontSize: 25.0,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           SizedBox(
+          //             height: 40,
+          //           ),
+          //           Stack(
+          //             children: <Widget>[
+          //               Container(
+          //                 color: Colors.white,
+          //               ),
+          //               Container(
+          //                 height: MediaQuery.of(context).size.height - 220,
+          //                 decoration: BoxDecoration(
+          //                   color: Colors.white,
+          //                   borderRadius: BorderRadius.only(
+          //                     topLeft: Radius.circular(
+          //                       35,
+          //                     ),
+          //                     topRight: Radius.circular(
+          //                       35,
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 child: Padding(
+          //                   padding: EdgeInsets.all(15),
+          //                   child: StreamBuilder(
+          //                     stream: widget._categoryVM.observableCategoryList,
+          //                     builder: (ctx, snapshot) {
+          //                       if (snapshot.connectionState ==
+          //                           ConnectionState.waiting) {
+          //                         return Center(
+          //                           child: CircularProgressIndicator(),
+          //                         );
+          //                       } else if(snapshot.hasError){
+          //                         return Center(child: Text("Nema dostupnih kategorija"));
+          //                       }else if (snapshot.hasData) {
+          //                         //print(snapshot.data);
+          //                         return GridView(
+          //                           gridDelegate:
+          //                               SliverGridDelegateWithFixedCrossAxisCount(
+          //                             crossAxisCount: 2,
+          //                             childAspectRatio: 1 / 1,
+          //                           ),
+          //                           children: <Widget>[
+          //                             ...buildCategories(snapshot.data)
+          //                           ],
+          //                           //buildCategories(snapshot.data)
+          //                         );
+          //                       }
+          //                       return Center(
+          //                         child: Text("Error"),
+          //                       );
+          //                     },
+          //                   ),
+          //                 ),
+          //               ),
+          //             ],
+          //           ),
+          //         ],
+          //       ),
         ),
       ),
     );
