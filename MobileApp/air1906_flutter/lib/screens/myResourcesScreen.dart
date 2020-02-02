@@ -1,4 +1,4 @@
-
+import 'package:air1906_flutter/widgets/bezierContainer.dart';
 import 'package:flutter/material.dart';
 import '../widgets/MyResourceItem.dart';
 import '../models/ResourceInstance.dart';
@@ -16,84 +16,98 @@ class MyResourcesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Popis mojih resursa',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  IconButton(
-                    color: Colors.black,
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: null,
-                  ),
-                ],
+          backgroundColor: Color.fromRGBO(233, 233, 235, 0.9),
+          body: Stack(
+            children: <Widget>[
+              Positioned(
+                bottom: -MediaQuery.of(context).size.height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer(),
               ),
-            ),
-            Stack(
-              children: <Widget>[
-                Container(color: Colors.white),
-                Container(
-                  height: MediaQuery.of(context).size.height - 85,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        35,
-                      ),
-                      topRight: Radius.circular(
-                        35,
-                      ),
-                    ),
-                  ),
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Align(
+                  alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: StreamBuilder(
-                      stream: _myResourceViewModel.observableResourceList,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text("Nema dostupnih resursa"));
-                        } else if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: (snapshot.data as List<ResourceInstance>)
-                                .length,
-                            itemBuilder: (ctx, i) => MyResourceItem(
-                                snapshot.data[i], _myResourceViewModel),
-                          );
-                        }
-                        return Center(
-                          child: Text("Error"),
-                        );
-                      },
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 25, horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 1.0),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: IconButton(
+                                    color: Colors.black,
+                                    icon: Icon(Icons.arrow_back),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'My resources list',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color: Colors.black,
+                                    letterSpacing: .5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                            height: MediaQuery.of(context).size.height - 153,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: StreamBuilder(
+                                stream:
+                                    _myResourceViewModel.observableResourceList,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Center(
+                                        child: Text("Nema dostupnih resursa"));
+                                  } else if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      itemCount: (snapshot.data
+                                              as List<ResourceInstance>)
+                                          .length,
+                                      itemBuilder: (ctx, i) => MyResourceItem(
+                                          snapshot.data[i],
+                                          _myResourceViewModel),
+                                    );
+                                  }
+                                  return Center(
+                                    child: Text("Error"),
+                                  );
+                                },
+                              ),
+                            )),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-      ),
+              )
+            ],
+          )),
     );
   }
 }
