@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../models/ResourceInstance.dart';
 import '../widgets/BezierContainer.dart';
 import 'package:easy_dialog/easy_dialog.dart';
@@ -22,7 +24,7 @@ class BorrowScreen extends StatelessWidget {
           children: <Widget>[
             Positioned(
               bottom: MediaQuery.of(context).size.height * .05,
-              left: MediaQuery.of(context).size.width * .14,
+              left: MediaQuery.of(context).size.width * .4,
               child: BezierContainer(),
             ),
             Column(
@@ -174,7 +176,7 @@ class ResourceLoaderItem extends StatelessWidget {
         if (id != null && id != "-1") {
           await borrowViewModel.checkResourceType(id);
           EasyDialog(
-              height: MediaQuery.of(context).size.height / 2,
+              height: MediaQuery.of(context).size.height / 1.5,
               cornerRadius: 15,
               cardColor: Colors.white,
               contentList: [
@@ -188,8 +190,8 @@ class ResourceLoaderItem extends StatelessWidget {
                         ResourceInstance instance = snapshot.data;
                         return Text(
                           type == ResourceLoaderType.borrowResource
-                              ? "Confirm borrowing of instance ${instance.resource.naziv} ?"
-                              : "Confirm returning of instance ${instance.resource.naziv} ?",
+                              ? "Confirm borrowing instance of ${instance.resource.naziv} ?"
+                              : "Confirm returning instance of ${instance.resource.naziv} ?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
@@ -209,19 +211,24 @@ class ResourceLoaderItem extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   Text(
-                                    "You've picked multiple resource. \nPlease specify your desired quantity (max ${snapshot.data['maxQ']})",
+                                    "You've picked resource 'by quantity'. \nPlease specify your desired quantity (max ${snapshot.data['maxQ']})",
                                     textAlign: TextAlign.center,
                                   ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Amount',
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: TextFormField(
+                                      decoration: InputDecoration(
+                                        labelText: 'Amount',
+                                      ),
+                                      onChanged: (val) {
+                                        borrowViewModel.wantedResourceQuantity =
+                                            val;
+                                        borrowViewModel.checkResourceQuantity();
+                                      },
+                                      
+                                      keyboardType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
+                                      textInputAction: TextInputAction.go,
                                     ),
-                                    onChanged: (val) {
-                                      borrowViewModel.wantedResourceQuantity =
-                                          val;
-                                      borrowViewModel.checkResourceQuantity();
-                                    },
-                                    keyboardType: TextInputType.number,
                                   ),
                                 ],
                               );

@@ -1,6 +1,5 @@
 // import 'dart:html';
 
-
 import 'package:air1906_flutter/models/MyContainer.dart';
 import 'package:air1906_flutter/service/ResourceService.dart';
 import 'package:air1906_flutter/viewModel/DetailScreenViewModel.dart';
@@ -18,7 +17,7 @@ class ResourceDetailScreen extends StatelessWidget {
     final loadedResource =
         ModalRoute.of(context).settings.arguments as Resource;
     _detailScreenViewModel.getResourceContainers(loadedResource.id);
-    
+
     return Scaffold(
       backgroundColor: Colors.orangeAccent,
       body: Container(
@@ -31,7 +30,8 @@ class ResourceDetailScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+              elevation: 10,
               leading: Container(
                 margin: EdgeInsets.all(5),
                 // decoration: BoxDecoration(
@@ -233,88 +233,6 @@ class ResourceDetailScreen extends StatelessWidget {
                 SizedBox(
                   height: 40,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   children: <Widget>[
-                //     Container(
-                //         padding: EdgeInsets.all(5),
-                //         height: 200,
-                //         width: 150,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(20),
-                //             color: Theme.of(context).primaryColorDark),
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //           children: <Widget>[
-                //             FittedBox(
-                //                 child: Text(
-                //               "Dostupno:",
-                //               style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: 30,
-                //                   fontWeight: FontWeight.w700),
-                //             )),
-                //             CircleAvatar(
-                //               backgroundColor: Colors.white,
-                //               child: Text(
-                //                 loadedResource.kolicina.toString(),
-                //                 style: TextStyle(
-                //                     fontSize: 34,
-                //                     color: Theme.of(context).primaryColorDark),
-                //               ),
-                //               radius: 40,
-                //             ),
-                //             FittedBox(
-                //                 child: Text(
-                //               "komada",
-                //               style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: 26,
-                //                   fontWeight: FontWeight.w700),
-                //             )),
-                //           ],
-                //         )),
-                //     Container(
-                //         padding: EdgeInsets.all(5),
-                //         height: 200,
-                //         width: 150,
-                //         decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(20),
-                //             color: Theme.of(context).primaryColorDark),
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //           children: <Widget>[
-                //             FittedBox(
-                //                 child: Text(
-                //               "Posudi na:",
-                //               style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: 30,
-                //                   fontWeight: FontWeight.w700),
-                //             )),
-                //             CircleAvatar(
-                //               backgroundColor: Colors.white,
-                //               child: Text(
-                //                 loadedResource.maxVrijemePosudbe.inDays
-                //                     .toString(),
-                //                 style: TextStyle(
-                //                     fontSize: 34,
-                //                     color: Theme.of(context).primaryColorDark),
-                //               ),
-                //               radius: 40,
-                //             ),
-                //             FittedBox(
-                //                 child: Text(
-                //               "dana",
-                //               style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: 26,
-                //                   fontWeight: FontWeight.w700),
-                //             )),
-                //           ],
-                //         )),
-                //   ],
-                // ),
                 SizedBox(
                   height: 40,
                 ),

@@ -1,5 +1,3 @@
-
-
 import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
 import './screens/SearchResourceScreen.dart';
 import 'package:air1906_flutter/screens/myResourcesScreen.dart';
