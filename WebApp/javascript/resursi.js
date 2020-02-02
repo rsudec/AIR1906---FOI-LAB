@@ -15,7 +15,7 @@ $(document).ready(function() {
             url: "https://air-api.azurewebsites.net/SviResursi",
             success: function (result) {
                 var output =
-                    "<table id='tablica'><thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Quantity</th><th>Borrowed</th>" +
+                    "<table id='tablica'><thead><tr><th>ID</th><th>Name</th><th>Category</th><th>Quantity</th><th>Borrowed</th>" +
                     "<th>Maximum loan <br> period (days)</th><th>Picture</th><th></th></thead><tbody>";
 
                 for (var i in result) {

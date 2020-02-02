@@ -30,7 +30,7 @@ $id=$_GET["id"];
                         document.getElementById("naziv").value = result[i].nazivr;
                         document.getElementById("kolicina").value=result[i].kolicina;
                         document.getElementById("posudba").value=result[i].max_posudba;
-                        document.getElementById("slika_c").src="https://testapp1906.azurewebsites.net/img/"+result[i].slika;
+                        document.getElementById("slika_c").src=result[i].slika;
                         document.getElementById("slika_hidden").value=result[i].slika;
                     }
 
@@ -158,7 +158,7 @@ if (isset($_POST['resurs_gumb'])) {
     $resurs=$_GET['id'];
     $alt_slika=$_POST["slika_hidden"];
 if ($userfile_name!=""){
-    $slika = $userfile_name;
+    $slika = 'https://testapp1906.azurewebsites.net/img/'.$userfile_name;;
 }
 else{
     $slika=$alt_slika;

@@ -66,7 +66,7 @@ include_once 'izbornik.php';
                                  </div>
                                  <div id="greska_prva"></div>
                                  <div class="form-group">
-                                    <label for="tip_resursa">Type:</label>
+                                    <label for="tip_resursa">Category:</label>
                                     <select name="tip_resursa" id="tip_resursa" class="form-control">
                                         <?php
                                         $url = "https://air-api.azurewebsites.net/VrsteResursa";
@@ -78,7 +78,8 @@ include_once 'izbornik.php';
                                         }
 
                                         ?>
-                                    </select>
+                                    </select><br>
+                                     <a class="btn btn-primary" style="width: 20%; margin-left: 80% "  id="gumb_tip" href="novi_tip.php" >Add</a>
                                  </div>
                                  <div class="form-group">
                                     <label for="trajanje">Maximum loan period: </label>
@@ -155,7 +156,7 @@ if (isset($_POST['resurs_gumb'])) {
     $tip=$_POST["tip_resursa"];
     $dostupan=$_POST["trajanje"];
     $kolicina=0;
-    $slika=$userfile_name;
+    $slika='https://testapp1906.azurewebsites.net/img/'.$userfile_name;
 
     $url = "https://air-api.azurewebsites.net/SviResursi";
     $data = file_get_contents($url);
