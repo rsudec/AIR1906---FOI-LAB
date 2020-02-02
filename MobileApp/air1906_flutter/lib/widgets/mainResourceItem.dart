@@ -44,11 +44,11 @@ class MainResourceItem extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(
-                    resource.naziv,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text(resource.naziv,
+                      style: TextStyle(
+                        fontSize: 30,
+                      )),
                 )
               ],
             ),

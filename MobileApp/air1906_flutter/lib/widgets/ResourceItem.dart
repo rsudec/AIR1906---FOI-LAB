@@ -17,6 +17,7 @@ class ResourceItem extends StatelessWidget {
       child: Hero(
           tag: resource.id,
           child: Card(
+            color: Color.fromRGBO(255, 255, 255, 0.8),
             child: ListTile(
               title: Text(resource.naziv),
               leading:

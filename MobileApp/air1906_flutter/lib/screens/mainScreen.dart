@@ -37,11 +37,13 @@ class _MainScreenState extends State<MainScreen> {
         key: _innerDrawerKey,
         swipe: true,
         onTapClose: true,
+        offset: IDOffset.only(bottom: 0.05, left: 0.2),
         borderRadius: 20,
         scale: IDOffset.horizontal(0.9),
         leftChild: AppDrawerMenu(),
+        backgroundColor: Color(0xfffbb448),
         scaffold: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color.fromRGBO(233, 233, 235, 0.9),
           body: Stack(
             children: <Widget>[
               Positioned(
@@ -68,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 10,
                     ),
                     Container(
                       height: MediaQuery.of(context).size.height - 125,
