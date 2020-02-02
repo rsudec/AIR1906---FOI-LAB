@@ -34,7 +34,6 @@ class InstanceTagsViewModel {
 
   Future<void> tryWritingTag(String message) async {
     idToWrite = message;
-    // bool res;
     NfcManager.instance.startTagSession(
       alertMessageIOS: '...',
       pollingOptions: {
@@ -47,10 +46,6 @@ class InstanceTagsViewModel {
         if (ndef == null) {
           return null;
         }
-        // NdefRecord data = ndef.cachedMessage.records.first;
-        // String resourceIdFromNFC = String.fromCharCodes(data.payload);
-        //print("dohvacno $resourceIdFromNFC");
-        // print(resourceIdFromNFC);
         NdefMessage messageToWrite = NdefMessage(
           [
             NdefRecord.createMime(
@@ -72,14 +67,6 @@ class InstanceTagsViewModel {
         }
       },
     );
-    // int i = 0;
-    // while(res == null){
-    //   await Future.delayed(Duration(milliseconds: 500));
-    //   i++;
-    //   if(i > 5)
-    //     break;
-    // }
-    // stopNFCSession();
     
   }
 }

@@ -19,34 +19,7 @@ import '../helpers/Auth.dart';
 import 'package:image/image.dart' as Img;
 
 class ResourceService {
-  // Future<Uint8List> removeWhiteBackground(Uint8List bytes) async {
-  //   Img.Image image = Img.decodeImage(bytes);
-  //   Img.Image transparentImage = await colorTransparent(image, 255, 255, 255);
-  //   var newPng = Img.encodePng(transparentImage);
-  //   return newPng;
-  // }
-  // Future<Img.Image> colorTransparent(Img.Image src, int red, int green, int blue) async {
-  // var pixels = src.getBytes();
-  // print(pixels);
-  // for (int i = 0, len = pixels.length; i < len; i += 4) {
-  //   if(pixels[i] == red
-  //       && pixels[i+1] == green
-  //       && pixels[i+2] == blue
-  //   ) {
-  //     print("bojanje");
-  //     pixels[i + 3] = 0;
-  //   }
-  // }
 
-  // return src;
-  // }
-
-  // Future<APIResponse<Uint8List>> processImage(String url) async {
-  //   var response = await http.get(url,headers: {'Content-Type': 'image/jpg'});
-  //   var bytes = response.bodyBytes;
-  //   var image = await removeWhiteBackground(bytes);
-  //   return APIResponse<Uint8List>(image);
-  // }
   Future<APIResponse<List<MyContainer>>> getResourceLocations(
       String resourceId) async {
     List<MyContainer> listContainers = [];
@@ -236,7 +209,6 @@ class ResourceService {
   Future<APIResponse<List<ResourceInstance>>> getInstancesWithoutTags() async {
     List<ResourceInstance> listResource = [];
     print("pozivam resurse");
-
     var url = "https://air-api.azurewebsites.net/NfcPriprava";
     var response = await http.get(url);
     var resourceApi = jsonDecode(response.body);

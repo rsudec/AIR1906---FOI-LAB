@@ -103,7 +103,6 @@ class InstanceTagsScreen extends StatelessWidget {
 class InstanceItem extends StatelessWidget {
   final ResourceInstance resourceInstance;
   final InstanceTagsViewModel _instanceTagsViewModel = InstanceTagsViewModel();
-  final Key dialogKey = Key("dialog");
   InstanceItem(this.resourceInstance);
   @override
   Widget build(BuildContext context) {

@@ -34,12 +34,15 @@ class BorrowScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      IconButton(
-                        color: Colors.black,
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                      CircleAvatar(
+                        backgroundColor: Color.fromRGBO(255, 255, 255, 0.8),
+                        child: IconButton(
+                          color: Colors.black,
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ),
                       Expanded(
                         child: Text(
@@ -225,8 +228,9 @@ class ResourceLoaderItem extends StatelessWidget {
                                             val;
                                         borrowViewModel.checkResourceQuantity();
                                       },
-                                      
-                                      keyboardType: Platform.isAndroid ? TextInputType.number : TextInputType.text,
+                                      keyboardType: Platform.isAndroid
+                                          ? TextInputType.number
+                                          : TextInputType.text,
                                       textInputAction: TextInputAction.go,
                                     ),
                                   ),
@@ -297,7 +301,7 @@ class ResourceLoaderItem extends StatelessWidget {
         }
       },
       child: Card(
-        color: Colors.white,
+        color: Color.fromRGBO(255, 255, 255, 0.8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),

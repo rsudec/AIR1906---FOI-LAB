@@ -178,7 +178,7 @@ class ResourceDetailScreen extends StatelessWidget {
                     if (snapshot.hasData) {
                       var data = snapshot.data as List<MyContainer>;
                       if (data.length == 0) {
-                        return Center(child: Text("Nema informacija"));
+                        return Center(child: Text("No information"));
                       }
                       return Container(
                         padding: EdgeInsets.symmetric(horizontal: 40),
