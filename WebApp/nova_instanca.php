@@ -168,7 +168,8 @@ if (isset($_POST['instanca_gumb'])) {
                                         }
 
                                         ?>
-                                    </select>
+                                    </select><br>
+                                    <a class="btn btn-primary" style="width: 20%; margin-left: 80% "  id="gumb_tip" href="novi_kontenjer.php" >Add</a>
                                 </div>
                             </div>
                             <div class="card-footer">
