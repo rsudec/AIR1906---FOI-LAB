@@ -12,13 +12,10 @@
  */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('/ShowUsers', 'DBController@ShowUsers');
 //Instance//
-Route::get('/SlobodneInstance', 'InstanceController@SlobodneInstance');
-Route::get('/ZauzeteInstance', 'InstanceController@ZauzeteInstance');
 Route::get('/TraziInstancu/{naziv}', 'InstanceController@TraziInstancu');
 Route::get('/InstancePoResursu/{id}','InstanceController@InstancePoResursu');
 Route::get('/Pozicija/{id}','InstanceController@Pozicija');
