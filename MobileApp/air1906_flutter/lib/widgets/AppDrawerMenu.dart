@@ -148,16 +148,6 @@ class AppDrawerMenu extends StatelessWidget {
                       Column(
                         children: <Widget>[
                           ListTile(
-                            leading:
-                                Icon(Icons.info, size: 35, color: Colors.white),
-                            title: Text(
-                              "O aplikaciji",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white),
-                            ),
-                          ),
-                          ListTile(
                             onTap: () {
                               loginService.logout();
                               Navigator.pushReplacementNamed(

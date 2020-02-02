@@ -87,6 +87,13 @@ class SearchResourceScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            Opacity(
+                              opacity: 0,
+                              child: IconButton(
+                                icon: Icon(Icons.dashboard),
+                                onPressed: null,
+                              ),
+                            )
                           ],
                         ),
                       ),
