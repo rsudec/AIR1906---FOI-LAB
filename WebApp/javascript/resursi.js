@@ -35,7 +35,7 @@ $(document).ready(function() {
                         "</td><td>" +
                         result[i].max_posudba +
                         "</td><td>" +
-                        '<img src="/img/'+slika+'"> '+
+                        '<img src="'+slika+'">'+
                         "</td><td>" +
                         '<button class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-default" id="' + tid + '" >Details</button>' +
                         '<button class="btn btn-block btn-warning btn-sm " id='+tid+'>Edit</button>'+
