@@ -53,12 +53,18 @@ class InstanceTagsScreen extends StatelessWidget {
                                   'Write NFC on resource',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 28,
+                                    fontSize: 24,
                                     color: Colors.black,
-                                    letterSpacing: .5,
                                   ),
                                 ),
                               ),
+                              Opacity(
+                                opacity: 0,
+                                child: IconButton(
+                                  icon: Icon(Icons.dashboard),
+                                  onPressed: null,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -169,22 +175,34 @@ class InstanceItem extends StatelessWidget {
       cornerRadius: 15,
       cardColor: Colors.white,
       contentList: [
-        Text(
-          "Zapiši u NFC Tag",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        FittedBox(
+          fit: BoxFit.contain,
+          child: Container(
+              child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "Scan for resource",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  child: Image(
+                    color: Colors.orange,
+                    colorBlendMode: BlendMode.color,
+                    image: AssetImage("assets/images/NFCImage.png"),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("Hold your phone near the NFC tag"),
+              ],
+            ),
+          )),
         ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          child: Image(
-            image: AssetImage("assets/images/NFCImage.png"),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Text("Prislonite uređaj na NFC oznaku"),
       ],
     ).show(context);
     print("after dialog");

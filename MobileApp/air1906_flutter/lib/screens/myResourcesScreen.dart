@@ -31,45 +31,53 @@ class MyResourcesScreen extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 25, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 1.0),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 25, horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 1.0),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: IconButton(
+                                      color: Colors.black,
+                                      icon: Icon(Icons.arrow_back),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'My resources list',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      letterSpacing: 0,
+                                    ),
+                                  ),
+                                ),
+                                Opacity(
+                                  opacity: 0,
                                   child: IconButton(
-                                    color: Colors.black,
-                                    icon: Icon(Icons.arrow_back),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                    icon: Icon(Icons.dashboard),
+                                    onPressed: null,
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'My resources list',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 28,
-                                    color: Colors.black,
-                                    letterSpacing: .5,
-                                  ),
-                                ),
-                              ),
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
                             height: MediaQuery.of(context).size.height - 153,
                             child: Padding(
                               padding: EdgeInsets.all(10),
@@ -100,8 +108,10 @@ class MyResourcesScreen extends StatelessWidget {
                                   );
                                 },
                               ),
-                            )),
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

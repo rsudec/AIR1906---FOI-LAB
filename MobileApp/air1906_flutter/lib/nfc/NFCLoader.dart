@@ -1,4 +1,3 @@
-
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import '../interface/IResourceLoader.dart';
@@ -10,7 +9,10 @@ class NFCLoader implements IResourceLoader {
   String title = "NFC";
   NfcTag tag;
   String id;
-  Icon icon = Icon(Icons.nfc, color: Colors.white,);
+  Icon icon = Icon(
+    Icons.nfc,
+    color: Colors.white,
+  );
 
   @override
   Future<String> loadResource() async {
@@ -22,7 +24,6 @@ class NFCLoader implements IResourceLoader {
     });
     NfcManager.instance.stopSession();
     return nfcResult;
-
   }
 
   Future<String> listenNFC() async {
@@ -47,13 +48,13 @@ class NFCLoader implements IResourceLoader {
           Navigator.of(context).pop();
         },
       );
-    } catch (e) {} 
-    while(res == null){
+    } catch (e) {}
+    while (res == null) {
       await Future.delayed(Duration(milliseconds: 500));
     }
     return res;
     // return await Future.delayed(Duration(seconds: 3)).then((x) {
-    // });    
+    // });
   }
 
   void showNFCDialog() {
@@ -62,24 +63,34 @@ class NFCLoader implements IResourceLoader {
         cornerRadius: 15,
         cardColor: Colors.white,
         contentList: [
-          Text(
-            "Scan for resource",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          FittedBox(
+            fit: BoxFit.contain,
+            child: Container(
+                child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "Scan for resource",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: Image(
+                      color: Colors.orange,
+                      colorBlendMode: BlendMode.color,
+                      image: AssetImage("assets/images/NFCImage.png"),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Hold your phone near the NFC tag"),
+                ],
+              ),
+            )),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: Image(
-              color: Colors.orange,
-              colorBlendMode: BlendMode.color,
-              image: AssetImage("assets/images/NFCImage.png"),
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text("Hold your phone near the NFC tag"),
         ]).show(context);
   }
 }

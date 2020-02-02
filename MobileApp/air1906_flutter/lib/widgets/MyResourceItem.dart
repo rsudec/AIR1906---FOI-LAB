@@ -15,12 +15,13 @@ class MyResourceItem extends StatelessWidget {
 
   void _prozorZaNovuNapomenu(BuildContext context) {
     EasyDialog(
+
         cornerRadius: 15.0,
         fogOpacity: 0.1,
         width: 280,
         height: 180,
         contentPadding: EdgeInsets.only(
-          top: 12.0,
+          top: 10.0
         ), // Needed for the button design
         contentList: [
           Expanded(
@@ -32,9 +33,10 @@ class MyResourceItem extends StatelessWidget {
                       myResourceViewModel.onChangeCommentText(text),
                   controller: _napomenaController,
                   maxLines: 5,
+                  
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Napomena",
+                    hintText: "Feedback",
                   ),
                 ),
               )),
@@ -58,7 +60,7 @@ class MyResourceItem extends StatelessWidget {
                         width: double.infinity,
                         child: snapshot.hasError
                             ? Text(
-                                'Poruka je prekratka.',
+                                'Message too short.',
                                 style: TextStyle(color: Colors.red),
                                 textAlign: TextAlign.center,
                               )
@@ -80,7 +82,7 @@ class MyResourceItem extends StatelessWidget {
                                 ConnectionState.waiting)
                             ? CircularProgressIndicator()
                             : Text(
-                                "Unesi",
+                                "Submit",
                                 style: TextStyle(color: Colors.white),
                                 textScaleFactor: 1.3,
                               ),

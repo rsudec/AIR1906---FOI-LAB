@@ -12,6 +12,7 @@ import '../helpers/Modules.dart';
 class BorrowScreen extends StatelessWidget {
   static const routeName = "/borrow";
   ResourceLoaderType type;
+
   final borrowViewModel = BorrowViewModel();
   //BorrowScreen();
   @override
@@ -183,120 +184,139 @@ class ResourceLoaderItem extends StatelessWidget {
               cornerRadius: 15,
               cardColor: Colors.white,
               contentList: [
-                SizedBox(
-                  height: 20,
-                ),
-                StreamBuilder(
-                    stream: borrowViewModel.instanceName,
-                    builder: (ctx, snapshot) {
-                      if (snapshot.hasData) {
-                        ResourceInstance instance = snapshot.data;
-                        return Text(
-                          type == ResourceLoaderType.borrowResource
-                              ? "Confirm borrowing instance of ${instance.resource.naziv} ?"
-                              : "Confirm returning instance of ${instance.resource.naziv} ?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    }),
-                Expanded(child: Container()),
-                type == ResourceLoaderType.borrowResource
-                    ? StreamBuilder(
-                        stream: borrowViewModel.obs,
-                        builder: (ctx, snapshot) {
-                          print(snapshot.data);
-                          if (snapshot.hasData) {
-                            if (snapshot.data["multiple"] as bool == true) {
-                              return Column(
-                                children: <Widget>[
-                                  Text(
-                                    "You've picked resource 'by quantity'. \nPlease specify your desired quantity (max ${snapshot.data['maxQ']})",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                        labelText: 'Amount',
-                                      ),
-                                      onChanged: (val) {
-                                        borrowViewModel.wantedResourceQuantity =
-                                            val;
-                                        borrowViewModel.checkResourceQuantity();
-                                      },
-                                      keyboardType: Platform.isAndroid
-                                          ? TextInputType.number
-                                          : TextInputType.text,
-                                      textInputAction: TextInputAction.go,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                            return Container();
-                          }
-                          return Container();
-                        },
-                      )
-                    : Container(),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    StreamBuilder(
-                        stream: borrowViewModel.enabledSubmit,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData &&
-                              type == ResourceLoaderType.borrowResource) {
-                            print(snapshot.data);
-                            return FlatButton(
-                              color: Colors.green,
-                              child: Text(
-                                "Yes",
+                Container(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 20,
+                        ),
+                        StreamBuilder(
+                          stream: borrowViewModel.instanceName,
+                          builder: (ctx, snapshot) {
+                            if (snapshot.hasData) {
+                              ResourceInstance instance = snapshot.data;
+                              return Text(
+                                type == ResourceLoaderType.borrowResource
+                                    ? "Confirm borrowing instance of ${instance.resource.naziv} ?"
+                                    : "Confirm returning instance of ${instance.resource.naziv} ?",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: snapshot.data as bool
-                                  ? () {
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        type == ResourceLoaderType.borrowResource
+                            ? StreamBuilder(
+                                stream: borrowViewModel.obs,
+                                builder: (ctx, snapshot) {
+                                  print(snapshot.data);
+                                  if (snapshot.hasData) {
+                                    if (snapshot.data["multiple"] as bool ==
+                                        true) {
+                                      return Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "You've picked resource 'by quantity'. \nPlease specify your desired quantity (max ${snapshot.data['maxQ']})",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: TextFormField(
+                                              decoration: InputDecoration(
+                                                labelText: 'Amount',
+                                              ),
+                                              onChanged: (val) {
+                                                borrowViewModel
+                                                        .wantedResourceQuantity =
+                                                    val;
+                                                borrowViewModel
+                                                    .checkResourceQuantity();
+                                              },
+                                              keyboardType: Platform.isAndroid
+                                                  ? TextInputType.number
+                                                  : TextInputType.text,
+                                              textInputAction:
+                                                  TextInputAction.go,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Container();
+                                  }
+                                  return Container();
+                                },
+                              )
+                            : Container(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            StreamBuilder(
+                                stream: borrowViewModel.enabledSubmit,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      type ==
+                                          ResourceLoaderType.borrowResource) {
+                                    print(snapshot.data);
+                                    return FlatButton(
+                                      color: Colors.green,
+                                      child: Text(
+                                        "Yes",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      onPressed: snapshot.data as bool
+                                          ? () {
+                                              Navigator.of(context).pop();
+                                              _takeAction(id);
+                                              print("ocuuu");
+                                            }
+                                          : null,
+                                    );
+                                  }
+                                  return FlatButton(
+                                    color: Colors.green,
+                                    child: Text(
+                                      "Yes",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    onPressed: () {
                                       Navigator.of(context).pop();
                                       _takeAction(id);
                                       print("ocuuu");
-                                    }
-                                  : null,
-                            );
-                          }
-                          return FlatButton(
-                            color: Colors.green,
-                            child: Text(
-                              "Yes",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              _takeAction(id);
-                              print("ocuuu");
-                            },
-                          );
-                        }),
-                    FlatButton(
-                      color: Colors.red,
-                      child: Text("No",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        print("nikako");
-                      },
-                    )
-                  ],
-                )
+                                    },
+                                  );
+                                }),
+                            FlatButton(
+                              color: Colors.red,
+                              child: Text("No",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("nikako");
+                              },
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ]).show(context);
         }
       },

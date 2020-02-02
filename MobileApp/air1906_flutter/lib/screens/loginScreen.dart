@@ -41,14 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
               stream: _loginVM.errorObservableUsername,
               builder: (ctx, snapshot) {
                 return TextField(
-                    onChanged: _loginVM.onChangeUsernameText,
-                    obscureText: isPassword,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        //errorText: snapshot.error,
-                        fillColor: Color(0xfff3f3f4),
-                        filled: true));
+                  onChanged: _loginVM.onChangeUsernameText,
+                  obscureText: isPassword,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      //errorText: snapshot.error,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true),
+                );
               })
         ],
       ),
@@ -72,14 +73,15 @@ class _LoginScreenState extends State<LoginScreen> {
               stream: _loginVM.errorObservablePass,
               builder: (ctx, snapshot) {
                 return TextField(
-                    obscureText: isPassword,
-                    onChanged: _loginVM.onChangePasswordText,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        //errorText: snapshot.error,
-                        border: InputBorder.none,
-                        fillColor: Color(0xfff3f3f4),
-                        filled: true));
+                  obscureText: isPassword,
+                  onChanged: _loginVM.onChangePasswordText,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                      //errorText: snapshot.error,
+                      border: InputBorder.none,
+                      fillColor: Color(0xfff3f3f4),
+                      filled: true),
+                );
               })
         ],
       ),
@@ -168,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     builder: (ctx, snapshot) {
                       if (snapshot.hasError)
                         return Center(
-                          child: Text("Nepostojeći korisnik"),
+                          child: Text("Unknown user"),
                         );
                       return snapshot.hasData
                           ? snapshot.data == true
