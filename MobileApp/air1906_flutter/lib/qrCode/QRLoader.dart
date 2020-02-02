@@ -8,7 +8,7 @@ class QRLoader implements IResourceLoader {
   @override
   ResourceLoaderType type;
   @override
-  Icon icon = Icon(Icons.code);
+  Icon icon = Icon(Icons.code, color: Colors.white, );
   @override
   String title = "QR Code";
 

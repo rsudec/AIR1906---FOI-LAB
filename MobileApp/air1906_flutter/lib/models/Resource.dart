@@ -10,6 +10,7 @@ class Resource {
   ResourceType tipResursa;
   int zauzeto;
 
+
   Resource(this.id, this.naziv, this.kolicina, this.imgUrl,
       this.maxVrijemePosudbe, this.tipResursa,
       [this.zauzeto, this.kategorija]);

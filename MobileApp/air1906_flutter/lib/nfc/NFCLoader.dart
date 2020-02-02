@@ -1,3 +1,4 @@
+
 import 'package:easy_dialog/easy_dialog.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import '../interface/IResourceLoader.dart';
@@ -9,10 +10,11 @@ class NFCLoader implements IResourceLoader {
   String title = "NFC";
   NfcTag tag;
   String id;
-  Icon icon = Icon(Icons.nfc);
+  Icon icon = Icon(Icons.nfc, color: Colors.white,);
 
   @override
   Future<String> loadResource() async {
+    
     String nfcResult;
     showNFCDialog();
     nfcResult = await listenNFC().then((x) {
@@ -61,7 +63,7 @@ class NFCLoader implements IResourceLoader {
         cardColor: Colors.white,
         contentList: [
           Text(
-            "Skeniraj resurs",
+            "Scan for resource",
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           SizedBox(
@@ -69,13 +71,15 @@ class NFCLoader implements IResourceLoader {
           ),
           Container(
             child: Image(
+              color: Colors.orange,
+              colorBlendMode: BlendMode.color,
               image: AssetImage("assets/images/NFCImage.png"),
             ),
           ),
           SizedBox(
             height: 20,
           ),
-          Text("Prislonite uređaj na NFC oznaku"),
+          Text("Hold your phone near the NFC tag"),
         ]).show(context);
   }
 }

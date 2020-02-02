@@ -1,3 +1,5 @@
+
+
 import 'package:air1906_flutter/screens/ResourceDetailScreen.dart';
 import './screens/SearchResourceScreen.dart';
 import 'package:air1906_flutter/screens/myResourcesScreen.dart';
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   final loginService = LoginService();
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -1,4 +1,5 @@
-import 'package:air1906_flutter/models/ResourceInstance.dart';
+import '../models/ResourceInstance.dart';
+import '../widgets/BezierContainer.dart';
 import 'package:easy_dialog/easy_dialog.dart';
 
 import '../interface/IResourceLoader.dart';
@@ -16,56 +17,52 @@ class BorrowScreen extends StatelessWidget {
     type = ModalRoute.of(context).settings.arguments as ResourceLoaderType;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.black,
-        body: ListView(
+        backgroundColor: Color.fromRGBO(233, 233, 235, 0.9),
+        body: Stack(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  Expanded(
-                    child: Text(
-                      type == ResourceLoaderType.borrowResource
-                          ? 'Posudi resurs'
-                          : 'Vrati resurs',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  IconButton(
-                    color: Colors.black,
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: null,
-                  ),
-                ],
-              ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * .05,
+              left: MediaQuery.of(context).size.width * .14,
+              child: BezierContainer(),
             ),
-            Stack(
+            Column(
               children: <Widget>[
-                Container(color: Colors.white),
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        35,
+                Padding(
+                  padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        color: Colors.black,
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
-                      topRight: Radius.circular(
-                        35,
+                      Expanded(
+                        child: Text(
+                          type == ResourceLoaderType.borrowResource
+                              ? 'Borrow resource'
+                              : 'Return resource',
+                          style: TextStyle(color: Colors.black, fontSize: 24),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
+                      Opacity(
+                        opacity: 0,
+                        child: IconButton(
+                          color: Colors.white,
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: null,
+                        ),
+                      ),
+                    ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 2,
                     child: Column(
                       children: <Widget>[
                         Expanded(
@@ -93,54 +90,60 @@ class BorrowScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 150,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 10,
-                    child: StreamBuilder(
-                      stream: borrowViewModel.observableBorrowMessage,
-                      builder: (context, snapshot) {
-                        return Align(
-                          alignment: Alignment.center,
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.white,
-                            child: Container(
-                              width: 300,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  snapshot.hasError
-                                      ? Flexible(
-                                          fit: FlexFit.loose,
-                                          child: Text(
-                                            " ${snapshot.error}",
-                                            textAlign: TextAlign.center,
+              ],
+            ),
+            StreamBuilder(
+              stream: borrowViewModel.observableBorrowMessage,
+              builder: (context, snapshot) {
+                if (snapshot.data == "" || snapshot.error == "")
+                  return Container();
+                else
+                  return Positioned(
+                    bottom: 150,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 10,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Card(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          color: Colors.white,
+                          child: Container(
+                            width: 300,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                snapshot.hasError
+                                    ? Flexible(
+                                        fit: FlexFit.loose,
+                                        child: Text(
+                                          " ${snapshot.error}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 26,
+                                              color: Colors.red[400]),
+                                        ),
+                                      )
+                                    : Container(),
+                                snapshot.hasData
+                                    ? Flexible(
+                                        fit: FlexFit.loose,
+                                        child: Text(snapshot.data,
                                             style: TextStyle(
                                                 fontSize: 26,
-                                                color: Colors.red[400]),
-                                          ),
-                                        )
-                                      : Container(),
-                                  snapshot.hasData
-                                      ? Flexible(
-                                          fit: FlexFit.loose,
-                                          child: Text(snapshot.data,
-                                              style: TextStyle(
-                                                  fontSize: 26,
-                                                  color: Colors.green[400])),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
+                                                color: Colors.green[400])),
+                                      )
+                                    : Container(),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                  );
+              },
             ),
           ],
         ),
@@ -185,14 +188,13 @@ class ResourceLoaderItem extends StatelessWidget {
                         ResourceInstance instance = snapshot.data;
                         return Text(
                           type == ResourceLoaderType.borrowResource
-                              ? "Potvrdi posudbu instance ${instance.resource.naziv } ?"
-                              : "Potvrdi vraćanje instance ${instance.resource.naziv} ?",
+                              ? "Confirm borrowing of instance ${instance.resource.naziv} ?"
+                              : "Confirm returning of instance ${instance.resource.naziv} ?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         );
-                      }
-                      else{
+                      } else {
                         return Center(child: CircularProgressIndicator());
                       }
                     }),
@@ -207,12 +209,12 @@ class ResourceLoaderItem extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   Text(
-                                    "Odabrali ste resurs koji se posuđuje na količinu. \nMolimo upišite željenu količinu (max ${snapshot.data['maxQ']})",
+                                    "You've picked multiple resource. \nPlease specify your desired quantity (max ${snapshot.data['maxQ']})",
                                     textAlign: TextAlign.center,
                                   ),
                                   TextFormField(
                                     decoration: InputDecoration(
-                                      labelText: 'Količina',
+                                      labelText: 'Amount',
                                     ),
                                     onChanged: (val) {
                                       borrowViewModel.wantedResourceQuantity =
@@ -245,7 +247,7 @@ class ResourceLoaderItem extends StatelessWidget {
                             return FlatButton(
                               color: Colors.green,
                               child: Text(
-                                "Da",
+                                "Yes",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -261,7 +263,7 @@ class ResourceLoaderItem extends StatelessWidget {
                           return FlatButton(
                             color: Colors.green,
                             child: Text(
-                              "Da",
+                              "Yes",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
@@ -274,7 +276,7 @@ class ResourceLoaderItem extends StatelessWidget {
                         }),
                     FlatButton(
                       color: Colors.red,
-                      child: Text("Ne",
+                      child: Text("No",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       onPressed: () {
@@ -288,6 +290,10 @@ class ResourceLoaderItem extends StatelessWidget {
         }
       },
       child: Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
         elevation: 5,
         margin: EdgeInsets.all(10),
         child: Padding(
@@ -301,6 +307,7 @@ class ResourceLoaderItem extends StatelessWidget {
               ),
               Expanded(child: Container()),
               CircleAvatar(
+                backgroundColor: Colors.orange,
                 child: item.icon,
                 radius: 50,
               ),
