@@ -1,0 +1,166 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+
+}
+
+li a:hover {
+    background-color: #E3EAF0;
+    color: #666;
+    text-decoration: none;
+}
+
+li.odjava {
+    float: left;
+}
+
+a.aodjava{
+    color: white;
+    border: #8090A7;
+    background-color: #8090A7;
+    border-radius: 5px;
+    text-align: center;
+    padding: 14px 16px;
+
+}
+
+h1{
+    color: #4E5766;
+    text-align: center;
+}
+
+body.prijavabgc{
+    background-color: #E5E9F2;
+}
+h2{
+    text-align: center;
+    color: #4E5766;
+}
+
+div.prijavafrm{
+
+    margin: auto;
+    width: 50%;
+    border: white;
+    background-color: white;
+    padding: 50px;
+    text-align: center;
+
+}
+form{
+    padding: 50px;
+
+}
+input.inputprijava{
+
+    margin: 0 auto;
+    width: 50%;
+    padding: 10px;
+    border: 2px solid #8090A7;
+    border-radius: 4px;
+
+}
+
+#gumbprijava{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    color: white;
+
+}
+
+::placeholder{
+    color: #8090A7;
+}
+
+.registracija{
+    text-align: center;
+    font-weight: bold;
+    margin-top: 0px;
+    padding: 10px;
+}
+.reg{
+    border: 1px solid black;
+    width: 30%;
+    margin-left: 35%;
+    background-color: #D3D1D4;
+    border: none;
+    border-radius: 4px;
+}
+#titleKorisnik{
+    text-align: center;
+    font-weight: bold;
+    color: #4E5766;
+    margin-bottom: 5px;
+}
+
+#gumbregistracija{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    color: white;
+    font-size: 18px;
+}
+#gumbregistracija:hover{
+    background-color: #A4A1A6;
+    color: black;
+}
+.noviKorisnik{
+    width: 80%;
+}
+.res{
+    border: 1px solid black;
+    width: 30%;
+    margin-left: 35%;
+    background-color: #D3D1D4;
+    border: none;
+    border-radius: 4px;
+}
+.blokovi{
+    border: 1px solid black;
+    background-color: #A8A7A8;
+    padding:10px;
+}
+#gumbresurs{
+    border: 2px solid #4E5766;
+    border-radius: 4px;
+    background-color: #4E5766;
+    margin-left: 42%;
+    color: white;
+    font-size: 18px;
+}
+#gumbresurs:hover{
+    background-color: #A4A1A6;
+    color: black;
+}
+#titleResurs{
+    text-align: center;
+    font-weight: bold;
+    color: #4E5766;
+    margin-bottom: 5px;
+}
+#dodaj_resurs{
+    padding: 25px;
+}
+#gumbQr{
+    margin-left: 40%;
+}
+.noviResurs{
+    width: 90%;
+    margin-left: 5%;
+}
