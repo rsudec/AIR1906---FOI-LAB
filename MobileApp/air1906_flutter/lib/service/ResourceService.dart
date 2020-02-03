@@ -20,18 +20,21 @@ import 'package:image/image.dart' as Img;
 
 class ResourceService {
 
-  Future<APIResponse<List<MyContainer>>> getResourceLocations(
+  Future<APIResponse<List<List<MyContainer>>>> getResourceLocations(
       String resourceId) async {
-    List<MyContainer> listContainers = [];
-
+    List<MyContainer> resourceLocation = [];
+    List<List<MyContainer>> multipleLocations = [];
     var url = "https://air-api.azurewebsites.net/Pozicija/$resourceId";
     var response = await http.get(url);
     var containerApi = jsonDecode(response.body);
     for (var item in containerApi) {
-      listContainers.add(MyContainer(item["polica"]));
-      listContainers.add(MyContainer(item["ormar"]));
+      resourceLocation.add(MyContainer(item["polica"]));
+      resourceLocation.add(MyContainer(item["ormar"]));
+
+      multipleLocations.add(resourceLocation);
+      resourceLocation = [];
     }
-    return APIResponse<List<MyContainer>>(listContainers.reversed.toList());
+    return APIResponse<List<List<MyContainer>>>(multipleLocations);
   }
 
   Future<APIResponse<List<Resource>>> getAllResourceFromDatabase() async {

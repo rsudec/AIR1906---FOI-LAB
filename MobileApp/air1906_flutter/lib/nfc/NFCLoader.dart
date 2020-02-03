@@ -7,6 +7,7 @@ class NFCLoader implements IResourceLoader {
   BuildContext context;
   ResourceLoaderType type;
   String title = "NFC";
+  bool availableIOS = false;
   NfcTag tag;
   String id;
   Icon icon = Icon(

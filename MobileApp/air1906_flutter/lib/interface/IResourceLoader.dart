@@ -9,6 +9,7 @@ abstract class IResourceLoader {
   Icon icon;
   ResourceLoaderType type;
   Future<String> loadResource();
+  bool availableIOS;
   //void showLoader();
 
 }

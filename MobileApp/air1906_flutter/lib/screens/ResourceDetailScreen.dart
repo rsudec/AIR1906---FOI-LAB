@@ -30,7 +30,10 @@ class ResourceDetailScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30))),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30))),
               elevation: 10,
               leading: Container(
                 margin: EdgeInsets.all(5),
@@ -176,46 +179,94 @@ class ResourceDetailScreen extends StatelessWidget {
                   stream: _detailScreenViewModel.observableContainerList,
                   builder: (ctx, snapshot) {
                     if (snapshot.hasData) {
-                      var data = snapshot.data as List<MyContainer>;
+                      var data = snapshot.data as List<List<MyContainer>>;
                       if (data.length == 0) {
                         return Center(child: Text("No information"));
                       }
-                      return Container(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        height: 300,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Timeline.builder(
-                            reverse: false,
-                            itemCount: data.length,
-                            position: TimelinePosition.Center,
-                            itemBuilder: (context, i) {
-                              return TimelineModel(
-                                Container(
-                                  height: 50,
-                                  margin: EdgeInsets.symmetric(vertical: 30),
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Card(
-                                      elevation: 5,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(7),
-                                        child: Text(
-                                          data[i].naziv,
-                                          style: TextStyle(),
+                      if (data.length > 1) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(horizontal: 40),
+                          height: 250,
+                          decoration: BoxDecoration(color: Color.fromRGBO(255, 255, 255, 0.2), ) ,
+                          width: MediaQuery.of(context).size.width - 50,
+                          child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.length,
+                              itemBuilder: (ctx, x) => Container(
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                    height: 300,
+                                    width: 250,
+                                    child: Timeline.builder(
+                                      reverse: false,
+                                      itemCount: data[x].length,
+                                      position: TimelinePosition.Left,
+                                      itemBuilder: (context, y) {
+                                        return TimelineModel(
+                                          Container(
+                                            height: 50,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 30),
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Card(
+                                                elevation: 5,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(7),
+                                                  child: Text(
+                                                    data[x][y].naziv,
+                                                    style: TextStyle(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          position: TimelineItemPosition.right,
+                                          iconBackground: Colors.redAccent,
+                                          icon: Icon(
+                                              Icons.check_box_outline_blank),
+                                        );
+                                      },
+                                    ),
+                                  )),
+                        );
+                      } else if (data.length == 1)
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: 40),
+                          height: 300,
+                          width: 500,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Timeline.builder(
+                              reverse: false,
+                              itemCount: data[0].length,
+                              position: TimelinePosition.Center,
+                              itemBuilder: (context, i) {
+                                return TimelineModel(
+                                  Container(
+                                    height: 50,
+                                    margin: EdgeInsets.symmetric(vertical: 30),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Card(
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(7),
+                                          child: Text(
+                                            data[0][i].naziv,
+                                            style: TextStyle(),
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                position: TimelineItemPosition.random,
-                                iconBackground: Colors.redAccent,
-                                icon: Icon(Icons.check_box_outline_blank),
-                              );
-                            },
+                                  position: TimelineItemPosition.random,
+                                  iconBackground: Colors.redAccent,
+                                  icon: Icon(Icons.check_box_outline_blank),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      );
+                        );
                     } else {
                       return Center(child: CircularProgressIndicator());
                     }

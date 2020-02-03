@@ -11,6 +11,8 @@ class QRLoader implements IResourceLoader {
   Icon icon = Icon(Icons.code, color: Colors.white, );
   @override
   String title = "QR Code";
+  @override
+  bool availableIOS = true;
 
   @override
   Future<String> loadResource() async {

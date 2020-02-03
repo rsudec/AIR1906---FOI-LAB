@@ -28,75 +28,77 @@ class BorrowScreen extends StatelessWidget {
               left: MediaQuery.of(context).size.width * .4,
               child: BezierContainer(),
             ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Color.fromRGBO(255, 255, 255, 0.8),
-                        child: IconButton(
-                          color: Colors.black,
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          type == ResourceLoaderType.borrowResource
-                              ? 'Borrow resource'
-                              : 'Return resource',
-                          style: TextStyle(color: Colors.black, fontSize: 24),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Opacity(
-                        opacity: 0,
-                        child: IconButton(
-                          color: Colors.white,
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: null,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Column(
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 15, left: 10, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Expanded(
-                          child: StreamBuilder(
-                            stream: borrowViewModel.observableLoaderList,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  itemCount: Modules.modules.length,
-                                  itemBuilder: (context, item) {
-                                    Modules.modules[item].context = context;
-                                    return ResourceLoaderItem(
-                                        Modules.modules[item],
-                                        borrowViewModel,
-                                        type);
-                                  },
-                                );
-                              } else {
-                                return Center(child: Text("Error"));
-                              }
+                        CircleAvatar(
+                          backgroundColor: Color.fromRGBO(255, 255, 255, 0.8),
+                          child: IconButton(
+                            color: Colors.black,
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: () {
+                              Navigator.of(context).pop();
                             },
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            type == ResourceLoaderType.borrowResource
+                                ? 'Borrow resource'
+                                : 'Return resource',
+                            style: TextStyle(color: Colors.black, fontSize: 24),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Opacity(
+                          opacity: 0,
+                          child: IconButton(
+                            color: Colors.white,
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: null,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: StreamBuilder(
+                              stream: borrowViewModel.observableLoaderList,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                    itemCount: Modules.modules.length,
+                                    itemBuilder: (context, item) {
+                                      Modules.modules[item].context = context;
+                                      return ResourceLoaderItem(
+                                          Modules.modules[item],
+                                          borrowViewModel,
+                                          type);
+                                    },
+                                  );
+                                } else {
+                                  return Center(child: Text("Error"));
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             StreamBuilder(
               stream: borrowViewModel.observableBorrowMessage,
@@ -173,7 +175,7 @@ class ResourceLoaderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
+      onTap: (Platform.isIOS && item.availableIOS == false) ? null : () async {
         String id = await item.loadResource().then((x) {
           return x;
         });

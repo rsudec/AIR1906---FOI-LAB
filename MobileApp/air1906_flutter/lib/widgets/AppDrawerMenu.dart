@@ -147,21 +147,6 @@ class AppDrawerMenu extends StatelessWidget {
                       ),
                       Column(
                         children: <Widget>[
-                          ListTile(
-                            onTap: () {
-                              loginService.logout();
-                              Navigator.pushReplacementNamed(
-                                  context, LoginScreen.routeName);
-                            },
-                            leading: Icon(Icons.arrow_back,
-                                size: 35, color: Colors.white),
-                            title: Text(
-                              "Odjava",
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.white),
-                            ),
-                          ),
                           Auth.currentUser != null
                               ? Auth.currentUser.isAdmin()
                                   ? ListTile(
@@ -180,6 +165,21 @@ class AppDrawerMenu extends StatelessWidget {
                                     )
                                   : Container()
                               : Container(),
+                          ListTile(
+                            onTap: () {
+                              loginService.logout();
+                              Navigator.pushReplacementNamed(
+                                  context, LoginScreen.routeName);
+                            },
+                            leading: Icon(Icons.arrow_back,
+                                size: 35, color: Colors.white),
+                            title: Text(
+                              "Odjava",
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.white),
+                            ),
+                          ),
                         ],
                       ),
                     ],
