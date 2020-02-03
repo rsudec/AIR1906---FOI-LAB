@@ -11,7 +11,7 @@ include_once 'izbornik.php';
 
     <html>
     <head>
-        <title>New place</title>
+        <title>New cupboard</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- SweetAlert2 -->
@@ -52,10 +52,10 @@ include_once 'izbornik.php';
                         <br>
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">New place</h3>
+                                <h3 class="card-title">New cupboard</h3>
                             </div>
 
-                            <form role="form" action="novi_kontenjer.php" enctype="multipart/form-data" method='POST' id='dodaj_kon'>
+                            <form role="form" action="novi_kontenjer_glavni.php" enctype="multipart/form-data" method='POST' id='dodaj_kon'>
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="naziv">Name: </label>
@@ -72,21 +72,6 @@ include_once 'izbornik.php';
 
                                             foreach ($podaci as $podatak){
                                                 echo "<option value=$podatak->id_skladiste>" .$podatak->lokacija . "</option>";
-                                            }
-
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="ormar">Cupboard:</label>
-                                        <select name="ormar" id="ormar" class="form-control">
-                                            <?php
-                                            $url = "https://air-api.azurewebsites.net/Ormari";
-                                            $data = file_get_contents($url);
-                                            $podaci = json_decode($data);
-
-                                            foreach ($podaci as $podatak){
-                                                echo "<option value=$podatak->id_kontejner>" .$podatak->naziv . "</option>";
                                             }
 
                                             ?>
@@ -125,17 +110,16 @@ if (isset($_POST['kon_gumb'])) {
 
     $naziv=$_POST["naziv"];
     $idskladista=$_POST["skladiste"];
-    $fk_kontenjer=$_POST["ormar"];
     $naziv=rawurlencode($naziv);
 
-    $url = "https://air-api.azurewebsites.net/DodajKontejner/$naziv/$idskladista/$fk_kontenjer";
+    $url = "https://air-api.azurewebsites.net/DodajKontejner/$naziv/$idskladista/null";
     $data= file_get_contents($url);
     $resurs = json_decode($data);
 
     if ($resurs===null){
-        echo'<script type="text/javascript"> toastr.error("Error with adding new place!")</script>';
+        echo'<script type="text/javascript"> toastr.error("Error with adding new cupboard!")</script>';
     }else{
-        echo'<script type="text/javascript">  toastr.success("New place successfully added!")</script>';
+        echo'<script type="text/javascript">  toastr.success("New cupboard successfully added!")</script>';
         echo '<script> setTimeout(function(){
             window.location.href = "https://testapp1906.azurewebsites.net/nova_instanca.php";
          }, 1000); </script>';

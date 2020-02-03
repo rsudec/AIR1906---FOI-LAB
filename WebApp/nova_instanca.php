@@ -8,7 +8,7 @@ if(dohvatiLogKorId()===null){
 include_once 'izbornik.php';
 
 include('libs/phpqrcode/qrlib.php');
-
+$id_ormara=0;
 if (isset($_POST['instanca_gumb'])) {
 
     $id_res=$_POST["resurs"];
@@ -101,7 +101,7 @@ if (isset($_POST['instanca_gumb'])) {
 
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-    <script src="javascript/resursi.js"></script>
+    <script src="javascript/nova_instanca.js"></script>
 
 
     <!-- DataTables -->
@@ -156,18 +156,25 @@ if (isset($_POST['instanca_gumb'])) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="pozicija">Place:</label>
-                                    <select name="pozicija" id="pozicija" class="form-control">
+                                    <label for="ormar">Cupboard:</label>
+                                    <select name="ormar" id="ormar" class="form-control">
+                                        <option value="Select">Select</option>
                                         <?php
-                                        $url = "https://air-api.azurewebsites.net/SlobodniKontejneri";
+                                        $url = "https://air-api.azurewebsites.net/Ormari";
                                         $data = file_get_contents($url);
                                         $podaci = json_decode($data);
 
-                                        foreach ($podaci as $podatak){
-                                            echo "<option value=$podatak->id_kontejner>" .$podatak->naziv . "</option>";
+                                        foreach ($podaci as $podatak) {
+                                            echo "<option value=$podatak->id_kontejner>" . $podatak->naziv . "</option>";
                                         }
-
                                         ?>
+                                    </select><br>
+                                    <a class="btn btn-primary" style="width: 20%; margin-left: 80% "  id="gumb_kon" href="novi_kontenjer_glavni.php" >Add</a>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pozicija">Place:</label>
+                                    <select name="pozicija" id="pozicija" class="form-control">
+                                        <option value="Select">Select</option>
                                     </select><br>
                                     <a class="btn btn-primary" style="width: 20%; margin-left: 80% "  id="gumb_tip" href="novi_kontenjer.php" >Add</a>
                                 </div>
