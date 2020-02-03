@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="da9ffefc-03a2-4662-9120-35dabf3247b3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/novi_korisnik.php" beforeDir="false" afterPath="$PROJECT_DIR$/novi_korisnik.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prijava.php" beforeDir="false" afterPath="$PROJECT_DIR$/prijava.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\FOI-BPBZ 1.god\Irena\AIR\Projekt\Web-app\WebApp\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1U40XmHXby3Qb6bGjIU4k3fojDX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/img" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\FOI-BPBZ 1.god\Irena\AIR\Projekt\Web-app\WebApp" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\FOI-BPBZ 1.god\Irena\I. semestar\Analiza i razvoj programa\Projekt\Web-app\WebApp\img" />
+      <recent name="D:\FOI-BPBZ 1.god\Irena\I. semestar\Analiza i razvoj programa\Projekt\Web-app\WebApp" />
+      <recent name="D:\FOI-BPBZ 1.god\Irena\I. semestar\Analiza i razvoj programa\Projekt\Web-app\WebApp\javascript" />
+    </key>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da9ffefc-03a2-4662-9120-35dabf3247b3" name="Default Changelist" comment="" />
+      <created>1574600601183</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574600601183</updated>
+      <workItem from="1574600602353" duration="159000" />
+      <workItem from="1574600853673" duration="10901000" />
+      <workItem from="1574692715421" duration="24000" />
+      <workItem from="1574711064625" duration="1618000" />
+      <workItem from="1574712892121" duration="729000" />
+      <workItem from="1575300153555" duration="1128000" />
+      <workItem from="1575301349461" duration="21000" />
+      <workItem from="1575301391314" duration="771000" />
+      <workItem from="1575394191877" duration="1927000" />
+      <workItem from="1575396334934" duration="3389000" />
+      <workItem from="1575404649151" duration="662000" />
+      <workItem from="1575488007953" duration="865000" />
+      <workItem from="1575489208963" duration="713000" />
+      <workItem from="1576142956958" duration="35000" />
+      <workItem from="1576143096890" duration="1224000" />
+      <workItem from="1578477175890" duration="13098000" />
+      <workItem from="1578591477469" duration="10966000" />
+      <workItem from="1578653409576" duration="3775000" />
+      <workItem from="1578659696957" duration="2920000" />
+      <workItem from="1578760400616" duration="18000" />
+      <workItem from="1578760480455" duration="6018000" />
+      <workItem from="1578836479339" duration="1642000" />
+      <workItem from="1578917682838" duration="1814000" />
+      <workItem from="1578944919763" duration="2252000" />
+      <workItem from="1579001302279" duration="11786000" />
+      <workItem from="1579075775218" duration="957000" />
+      <workItem from="1579095365491" duration="18762000" />
+      <workItem from="1579171267257" duration="6458000" />
+      <workItem from="1579189764696" duration="1249000" />
+      <workItem from="1579447004126" duration="2318000" />
+      <workItem from="1579689811220" duration="4506000" />
+      <workItem from="1579702644497" duration="1866000" />
+      <workItem from="1579706915715" duration="2570000" />
+      <workItem from="1579723899572" duration="3915000" />
+      <workItem from="1579810446834" duration="7128000" />
+      <workItem from="1579877488140" duration="665000" />
+      <workItem from="1579890482238" duration="1577000" />
+      <workItem from="1579954594587" duration="143000" />
+      <workItem from="1579954783981" duration="623000" />
+      <workItem from="1580386237732" duration="1928000" />
+      <workItem from="1580389192312" duration="45000" />
+      <workItem from="1580565015238" duration="1945000" />
+      <workItem from="1580668038296" duration="804000" />
+      <workItem from="1580675511646" duration="3704000" />
+      <workItem from="1580715073591" duration="81000" />
+      <workItem from="1580719821993" duration="1271000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="70" key="#Deployment" timestamp="1576160625720">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="70" key="#Deployment/0.0.1536.824@0.0.1536.824" timestamp="1576160625720" />
+    <state x="361" y="70" key="#SQL_Dialects" timestamp="1575396968403">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="70" key="#SQL_Dialects/0.0.1536.824@0.0.1536.824" timestamp="1575396968403" />
+    <state x="449" y="140" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1578760412859">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="140" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1578760412859" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1578492002761">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1578492002761" />
+    <state x="549" y="168" key="FileChooserDialogImpl" timestamp="1579095440106">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1579095440106" />
+    <state x="147" y="226" key="NewPhpClassDialog" timestamp="1575394495615">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="147" y="226" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1575394495615" />
+    <state x="220" y="335" key="NewPhpFileDialog" timestamp="1579816358264">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="220" y="335" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1579816358264" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1579124136350">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1579124136350" />
+  </component>
+</project>
