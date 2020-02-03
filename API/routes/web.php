@@ -11,6 +11,7 @@
 |
  */
 
+//Popis upita//
 Route::get('/', function () {
     return view('index');
 });
@@ -35,6 +36,11 @@ Route::get('/SviResursi','ResursiController@SviResursi');
 Route::post('/Azuriraj','ResursiController@Azuriraj');
 Route::get('/Skladista','ResursiController@Skladista');
 Route::get('/SlobodniKontejneri','ResursiController@SlobodniKontejneri');
+Route::post('/DodajTip','ResursiController@DodajTip');
+Route::get('/DodajKontejner/{naziv}/{skladiste}/{ormar?}','ResursiController@DodajKontejner');
+Route::get('/Police/{id}','ResursiController@Police');
+Route::get('/Police2/{id}','ResursiController@Police2');
+Route::get('/Ormari','ResursiController@Ormari');
 //Log//
 Route::get('/DodajLog/{id_kor}/{id_ins}/{id_vrsta}/{feedback?}', 'LogController@DodajLog');
 Route::get('/IspisLog/{id_kor?}', 'LogController@IspisLog');

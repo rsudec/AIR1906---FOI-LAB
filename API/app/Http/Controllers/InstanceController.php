@@ -36,10 +36,10 @@ class InstanceController extends Controller
     }
 
     public function Pozicija($id){
-        $pozicija = DB::select("select k1.naziv as polica,k2.naziv as ormar  from instanca
+        $pozicija = DB::select("select distinct k1.naziv as polica,k2.naziv as ormar  from instanca
         left join kontejner as k1 on instanca.fk_kontejner = k1.id_kontejner
         left join kontejner as k2 on k1.fk_kontejner = k2.id_kontejner 
-        where id_instanca = $id");
+        where fk_resurs = $id");
         return $pozicija;
 
     }

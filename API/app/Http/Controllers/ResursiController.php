@@ -101,4 +101,36 @@ class ResursiController extends Controller
         where kontejner.id_kontejner = instanca.fk_kontejner) and kontejner.fk_kontejner is not null');
         return $slobodni;
     }
+
+    public function DodajTip(Request $request){
+        $naziv = $request["naziv"];
+        $opis = $request["opis"];
+        $novitip = DB::insert("insert into tip_resursa (nazivtr,opis) values ('$naziv','$opis')");
+        return $novitip . "";
+
+    }
+
+    public function DodajKontejner($naziv,$skladiste,$ormar = null){
+        $kontejner =DB::insert("insert into kontejner (naziv,fk_skladiste,fk_kontejner) values ('$naziv',$skladiste,$ormar)");
+        return $kontejner . "";
+
+    }
+
+    public function Ormari(){
+        $ormari = DB::select("select * from kontejner where fk_kontejner is null");
+        return $ormari;
+    }
+
+    public function Police($id){
+        $police = DB::select("select * from kontejner where fk_kontejner = $id");
+        return $police;
+
+    }
+
+    public function Police2($id){
+        $police = DB::select("select * from kontejner where fk_kontejner = $id AND not exists(select * from instanca where fk_kontejner = id_kontejner)");
+        return $police;
+    }
+
+
 }
